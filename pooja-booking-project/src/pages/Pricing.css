@@ -1,0 +1,137 @@
+.pricing-section {
+  padding: 5rem 0;
+  background: var(--cream);
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.pricing-card {
+  background: #fff;
+  border: 2px solid var(--gold-light, #e8c66d);
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.pricing-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pricing-card.highlight {
+  border-color: var(--saffron, #e87722);
+  box-shadow: 0 8px 32px rgba(232, 119, 34, 0.18);
+  transform: scale(1.02) translateY(0);
+}
+
+.pricing-card.highlight.visible {
+  transform: scale(1.02) translateY(0);
+}
+
+.pricing-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--saffron, #e87722);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 16px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.pricing-badge.validity {
+  background: var(--maroon, #7b1f1f);
+  top: auto;
+  bottom: -14px;
+}
+
+.plan-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--maroon, #7b1f1f);
+  margin-bottom: 0.25rem;
+}
+
+.plan-name-en {
+  font-size: 0.9rem;
+  color: var(--text-muted, #777);
+  margin-bottom: 0.5rem;
+}
+
+.plan-note {
+  font-size: 0.8rem;
+  color: var(--text-muted, #777);
+  margin-bottom: 0.5rem;
+}
+
+.plan-price {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--saffron, #e87722);
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  text-align: left;
+}
+
+.plan-features li {
+  padding: 0.4rem 0;
+  font-size: 0.9rem;
+  color: var(--text, #333);
+  border-bottom: 1px solid #f0e9d8;
+  line-height: 1.5;
+}
+
+.plan-features li:last-child {
+  border-bottom: none;
+}
+
+.pricing-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  background: var(--gold-pale, #fff8ec);
+  border: 1px dashed var(--gold-light, #e8c66d);
+  border-radius: 12px;
+  padding: 1.25rem 2rem;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+  color: var(--maroon, #7b1f1f);
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.pricing-note.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  .pricing-card.highlight {
+    transform: scale(1) translateY(0);
+  }
+}
