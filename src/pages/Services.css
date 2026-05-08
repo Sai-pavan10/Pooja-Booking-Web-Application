@@ -1,0 +1,207 @@
+/* ── SERVICES SECTION ── */
+.services-section {
+  background: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+.services-section::before {
+  content: 'ॐ';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30rem;
+  color: rgba(123, 28, 46, 0.025);
+  font-family: 'Cinzel', serif;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Grid */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+/* Card */
+.service-card {
+  position: relative;
+  background: var(--cream);
+  border: 1px solid rgba(200, 150, 12, 0.2);
+  border-radius: 4px;
+  padding: 2.2rem 1.8rem;
+  transition: all 0.35s;
+  cursor: default;
+  overflow: hidden;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--gold), var(--maroon));
+  transform: scaleX(0);
+  transition: transform 0.35s;
+  transform-origin: left;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px var(--shadow);
+  border-color: rgba(200, 150, 12, 0.5);
+}
+
+.service-card:hover::before {
+  transform: scaleX(1);
+}
+
+.service-card.popular {
+  background: linear-gradient(160deg, #fdf8ee 0%, var(--cream) 100%);
+  border-color: var(--gold);
+  box-shadow: 0 4px 20px rgba(200, 150, 12, 0.15);
+}
+
+/* Popular Badge */
+.popular-badge {
+  position: absolute;
+  top: 16px;
+  right: -28px;
+  background: linear-gradient(135deg, var(--gold), #a8780a);
+  color: var(--maroon-dark);
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 4px 40px;
+  transform: rotate(40deg);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Icon */
+.service-icon-wrap {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--maroon-dark), var(--maroon));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 4px 16px var(--shadow);
+  transition: transform 0.3s;
+}
+
+.service-card:hover .service-icon-wrap {
+  transform: scale(1.1) rotate(-5deg);
+}
+
+.service-icon {
+  font-size: 1.8rem;
+}
+
+/* Text */
+.service-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--maroon-dark);
+  margin-bottom: 0.25rem;
+}
+
+.service-subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.9rem;
+}
+
+.service-desc {
+  font-size: 0.9rem;
+  color: var(--text-mid);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  min-height: 80px;
+}
+
+/* Meta */
+.service-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+  border-top: 1px solid rgba(200, 150, 12, 0.2);
+  border-bottom: 1px solid rgba(200, 150, 12, 0.2);
+  margin-bottom: 1.2rem;
+}
+
+.meta-item {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  color: var(--text-mid);
+  letter-spacing: 0.05em;
+}
+
+.meta-price {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.1rem;
+  color: var(--maroon);
+  font-weight: 700;
+}
+
+/* Button */
+.service-btn {
+  width: 100%;
+  background: transparent;
+  border: 1.5px solid var(--maroon);
+  color: var(--maroon);
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 0.7rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+
+.service-card:hover .service-btn,
+.service-card.popular .service-btn {
+  background: var(--maroon-dark);
+  color: var(--gold-light);
+  border-color: var(--maroon-dark);
+}
+
+/* Note */
+.services-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  background: linear-gradient(135deg, var(--maroon-dark), #6B1224);
+  color: var(--cream);
+  padding: 1.8rem 3rem;
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  flex-wrap: wrap;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .services-grid { grid-template-columns: 1fr; }
+  .services-note { flex-direction: column; text-align: center; gap: 1rem; }
+}
