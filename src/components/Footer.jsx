@@ -21,7 +21,7 @@ export default function Footer() {
       { label: nav.links[2], href: '/about' },
       { label: nav.links[3], href: '/pandits' },
       { label: nav.links[4], href: '/gallery' },
-      { label: nav.links[5], href: '/testimonials' },
+      { label: nav.links[5], href: '/reviews' },
       { label: nav.mobileBook, href: '/booking' },
       { label: nav.links[6], href: '/contact' },
     ],

@@ -1,5 +1,10 @@
+import { useEffect, useRef, useState } from 'react';
 import Hero from '../components/Hero';
 import { getServiceItems, useLanguage } from '../i18n';
+import { useAuth } from '../context/auth-context';
+import logo from '../assets/logo.PNG';
+import LoginModal from "../components/LoginModal";
+import { showToast } from '../components/toast-service';
 import './Home.css';
 
 const navigateTo = (href) => {
@@ -9,35 +14,99 @@ const navigateTo = (href) => {
 
 export default function Home() {
   const { language, content } = useLanguage();
+  const { user } = useAuth();
   const home = content.home;
-  const servicePreviews = getServiceItems(language).slice(0, 3);
+  const servicePreviews = getServiceItems(language).slice(0, 4);
+  const refs = useRef([]);
+  const [showLogin, setShowLogin] = useState(false);
+
+  // Show login popup after 5 seconds if not logged in
+  useEffect(() => {
+    if (user) return;
+    const timer = setTimeout(() => setShowLogin(true), 5000);
+    return () => clearTimeout(timer);
+  }, [user]);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (e.isIntersecting) e.target.classList.add('visible');
+        }),
+      { threshold: 0.1 }
+    );
+    refs.current.forEach((el) => el && obs.observe(el));
+    return () => obs.disconnect();
+  }, [language]);
+
+  // Use this before any booking action
+  function handleBookNow() {
+    if (!user) {
+      setShowLogin(true);
+      showToast('Please login to continue booking poojas.', 'info');
+      return;
+    }
+    navigateTo('/booking');
+  }
 
   return (
     <>
       <Hero />
 
+      {showLogin && (
+        <LoginModal onClose={() => setShowLogin(false)} />
+      )}
+
       <section className="home-services-preview">
         <div className="container">
-          <div className="section-header">
+          <div className="section-header reveal" ref={(el) => (refs.current[0] = el)}>
             <p className="section-tag">{home.servicesTag}</p>
             <h2 className="section-title">{home.servicesTitle}</h2>
-            <div className="divider">
-             
-            </div>
+            <div className="divider"></div>
             <p className="section-intro">{home.servicesIntro}</p>
           </div>
 
           <div className="home-service-grid">
-            {servicePreviews.map(([title, subtitle, text]) => (
-              <article className="home-service-card" key={title}>
-                <p className="home-card-kicker">{subtitle}</p>
-                <h3>{title}</h3>
-                <p>{text}</p>
+            {servicePreviews.map(([title, subtitle, text, image], i) => (
+              <article
+                className="home-service-card reveal"
+                key={title}
+                ref={(el) => (refs.current[i + 1] = el)}
+                style={{ transitionDelay: `${i * 0.12}s`, animationDelay: `${i * 0.12}s` }}
+              >
+                {/* ── Image Panel ── */}
+                <div className="svc-image-wrap">
+                  {image ? (
+                    <img
+                      src={image}
+                      alt={title}
+                      className="svc-image"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="svc-image-placeholder">
+                      <span className="svc-icon">✦</span>
+                    </div>
+                  )}
+                  {/* Animated gold overlay on image */}
+                  <div className="svc-image-overlay" />
+                  {/* Kicker badge sits at bottom of image */}
+                  <p className="home-card-kicker">{subtitle}</p>
+                </div>
+
+                {/* ── Content Panel ── */}
+                <div className="svc-body">
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                  <button className="btn-primary svc-btn" onClick={handleBookNow}>
+                    Book Now
+                  </button>
+                </div>
               </article>
             ))}
           </div>
 
-          <div className="home-preview-action">
+          <div className="home-preview-action reveal" ref={(el) => (refs.current[5] = el)}>
             <button className="btn-primary" onClick={() => navigateTo('/services')}>
               {home.viewServices}
             </button>
@@ -47,15 +116,19 @@ export default function Home() {
 
       <section className="home-about-preview">
         <div className="container home-about-grid">
-          <div className="home-about-panel">
-            
-            <div>
-              <strong>10+</strong>
-              <p>{home.years}</p>
-            </div>
+
+          {/* ── Floating Logo (no box) ── */}
+          <div className="home-about-logo-wrap reveal" ref={(el) => (refs.current[6] = el)}>
+            <img src={logo} alt="Dharma Sankalpam Logo" className="home-about-logo" />
+            <strong>10+</strong>
+            <p>{home.years}</p>
           </div>
 
-          <div className="home-about-copy">
+          <div
+            className="home-about-copy reveal"
+            ref={(el) => (refs.current[7] = el)}
+            style={{ transitionDelay: '0.1s' }}
+          >
             <p className="section-tag">{home.aboutTag}</p>
             <h2 className="section-title">{home.aboutTitle}</h2>
             <p>{home.aboutText}</p>
@@ -71,19 +144,19 @@ export default function Home() {
 
       <section className="home-reviews-preview">
         <div className="container">
-          <div className="section-header">
+          <div className="section-header reveal" ref={(el) => (refs.current[8] = el)}>
             <p className="section-tag">{home.reviewsTag}</p>
             <h2 className="section-title">{home.reviewsTitle}</h2>
-            <div className="divider">
-              <span className="divider-line" />
-              
-              <span className="divider-line right" />
-            </div>
+            {/* The gold line (divider) was removed as requested */}
           </div>
-
           <div className="home-review-grid">
-            {home.reviews.map(([name, city, text]) => (
-              <article className="home-review-card" key={name}>
+            {home.reviews.map(([name, city, text], i) => (
+              <article
+                className="home-review-card reveal"
+                key={name}
+                ref={(el) => (refs.current[i + 9] = el)}
+                style={{ transitionDelay: `${i * 0.1}s` }}
+              >
                 <div className="home-review-stars">★★★★★</div>
                 <p className="home-review-text">"{text}"</p>
                 <div>
@@ -94,8 +167,8 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="home-preview-action">
-            <button className="btn-primary" onClick={() => navigateTo('/testimonials')}>
+          <div className="home-preview-action reveal" ref={(el) => (refs.current[11] = el)}>
+            <button className="btn-primary" onClick={() => navigateTo('/reviews')}>
               {home.readReviews}
             </button>
           </div>

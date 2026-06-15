@@ -7,6 +7,7 @@
   --gold-pale: #F2C94C;
   --maroon: #7B1C2E;
   --maroon-dark: #4E0F1C;
+  --ds-maroon-dark: #4A0D1A;
   --maroon-light: #A33048;
   --cream: #FBF5E6;
   --cream-dark: #F0E4C4;
@@ -31,9 +32,13 @@ html {
 
 body {
   font-family: 'Poppins', sans-serif;
-  background: #ffb74d; /* Yellowish-orange color */
+  background: #FEF0E3; /* Lowish-orange color */
   color: var(--text-dark);
   overflow-x: hidden;
+}
+.spiritual-app {
+  min-height: 100vh;
+  background: #FEF0E3;
 }
 
 /* ── SHARED SECTION STYLES ── */
@@ -152,13 +157,18 @@ section {
 /* ── SCROLL REVEAL ── */
 .reveal {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s, transform 0.7s;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Staggered animation support */
+.reveal[style*="transitionDelay"] {
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s;
 }
 
 /* ── ANIMATIONS ── */

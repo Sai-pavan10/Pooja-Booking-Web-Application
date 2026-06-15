@@ -1,35 +1,43 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useContext, useMemo, useState, useEffect } from 'react';
+
+// Helper function for translation
+export const t = (val, lang) => {
+  if (!val) return val;
+  if (typeof val === 'string') return val;
+  if (Array.isArray(val)) return val;
+  if (typeof val === 'object') return val[lang] || val.en || val;
+  return val;
+};
+
+const houseopeningpoojaImg = new URL('./assets/houseopeningpooja.jpg', import.meta.url).href;
+const marraigeImg = new URL('./assets/marraige.jpg', import.meta.url).href;
+const narayanavrathamImg = new URL('./assets/narayanavratham.jpg', import.meta.url).href;
+const homamImg = new URL('./assets/homam.jpg', import.meta.url).href;
 
 const serviceItems = {
   en: [
-    ['Griha Pravesh', 'Home Blessing', 'A sacred ceremony for entering a new home, invoking blessings of prosperity, peace, and divine protection for your household.'],
-    ['Vivah Puja', 'Wedding Rituals', 'Complete Vedic wedding ceremonies performed with traditional rites by our experienced pandits.'],
-    ['Satyanarayan Katha', 'Vishnu Worship', 'A devotional katha and havan for gratitude, fulfillment of wishes, and family prosperity.'],
-    ['Navgraha Puja', 'Planetary Harmony', 'Appease the nine planetary deities to remove doshas and bring astrological balance to your life.'],
+    ['Griha Pravesh', 'Home Blessing', 'A sacred ceremony for entering a new home, invoking blessings of prosperity, peace, and divine protection for your household.', houseopeningpoojaImg],
+    ['Vivah Puja', 'Wedding Rituals', 'Complete Vedic wedding ceremonies performed with traditional rites by our experienced pandits.', marraigeImg],
+    ['Satyanarayan Katha', 'Vishnu Worship', 'A devotional katha and havan for gratitude, fulfillment of wishes, and family prosperity.', narayanavrathamImg],
+    ['Navagraha Homam', 'Planetary Harmony Homam', 'A powerful fire ritual to appease the nine planetary deities, remove doshas, and bring astrological balance to your life.', homamImg],
     ['Namkaran Sanskar', 'Naming Ceremony', 'An auspicious Hindu naming ceremony for your newborn, aligned with family tradition.'],
-    ['Diwali Lakshmi Puja', 'Wealth & Prosperity', 'Invoke Goddess Lakshmi with aarti and hymns for abundance, wealth, and good fortune.'],
-    ['Sri Satyanarayana Swami Vratham', 'Sri Satyanarayana Swamy Divine Blessings', 'Performing this vratham bestows royal employment, good health, growth in happiness and peace, prosperity, mental peace, and fulfilment of wishes.'],
     ['Sri Sudhrashana Homam', 'Divine Protection Homam', 'A powerful homam invoking Lord Sudarshana for protection from negative energies, removal of obstacles, and divine grace for the entire family.'],
   ],
   te: [
-    ['గృహ ప్రవేశం', 'ఇంటి ఆశీర్వాదం', 'కొత్త ఇంటిలోకి ప్రవేశించే సమయంలో శాంతి, శ్రేయస్సు, దైవ రక్షణ కోసం చేసే పవిత్ర పూజ.'],
-    ['వివాహ పూజ', 'వివాహ కర్మలు', 'అనుభవజ్ఞులైన పండితులతో సంప్రదాయ విధానంలో పూర్తి వేద వివాహ కర్మలు.'],
-    ['సత్యనారాయణ కథ', 'విష్ణు ఆరాధన', 'కృతజ్ఞత, కోరికల నెరవేర్పు, కుటుంబ శ్రేయస్సు కోసం భక్తితో చేసే కథ మరియు హవనం.'],
-    ['నవగ్రహ పూజ', 'గ్రహ శాంతి', 'దోషాల నివారణకు, జీవితంలో జ్యోతిష్య సమతుల్యతకు తొమ్మిది గ్రహ దేవతల ఆరాధన.'],
+    ['గృహ ప్రవేశం', 'ఇంటి ఆశీర్వాదం', 'కొత్త ఇంటిలోకి ప్రవేశించే సమయంలో శాంతి, శ్రేయస్సు, దైవ రక్షణ కోసం చేసే పవిత్ర పూజ.', houseopeningpoojaImg],
+    ['వివాహ పూజ', 'వివాహ కర్మలు', 'అనుభవజ్ఞులైన పండితులతో సంప్రదాయ విధానంలో పూర్తి వేద వివాహ కర్మలు.', marraigeImg],
+    ['సత్యనారాయణ కథ', 'విష్ణు ఆరాధన', 'కృతజ్ఞత, కోరికల నెరవేర్పు, కుటుంబ శ్రేయస్సు కోసం భక్తితో చేసే కథ మరియు హవనం.', narayanavrathamImg],
+    ['నవగ్రహ హోమం', 'గ్రహ శాంతి హోమం', 'నవ గ్రహ దేవతల ఆరాధన, దోషాల నివారణకు, జీవితంలో జ్యోతిష్య సమతుల్యతకు చేసే శక్తివంతమైన అగ్ని హవనం.', homamImg],
     ['నామకరణ సంస్కారం', 'పేరు పెట్టే వేడుక', 'శిశువుకు కుటుంబ సంప్రదాయం ప్రకారం శుభ నామకరణం చేసే పవిత్ర సంస్కారం.'],
-    ['దీపావళి లక్ష్మీ పూజ', 'సంపద మరియు శ్రేయస్సు', 'సంపద, అదృష్టం, ఐశ్వర్యం కోసం లక్ష్మీదేవిని ఆరాధించే పూజ.'],
-    ['శ్రీ సత్యనారాయణ స్వామి వ్రతం', 'సత్యనారాయణ స్వామి అనుగ్రహం', 'ప్రతం చేయడం వలన కలిగే ఫలితాలు: రాజసంపద లభిస్తుంది, శుభ ఆరోగ్యం కలుగుతుంది, సుఖ సంతోషాలు వృద్ధి చెందుతాయి, ఐశ్వర్యాభివృద్ధి కలుగుతుంది, మనసుకు ప్రశాంతత లభిస్తుంది, కోరికలు నెరవేరుతాయి.'],
     ['శ్రీ సుదర్శన హోమం', 'దివ్య రక్షణ హోమం', 'నకారాత్మక శక్తుల నుంచి రక్షణ, అడ్డంకుల నివారణ మరియు మొత్తం కుటుంబానికి దైవ అనుగ్రహం కోసం సుదర్శన స్వామిని ఆహ్వానించే శక్తివంతమైన హోమం.'],
   ],
   hi: [
-    ['गृह प्रवेश', 'घर का आशीर्वाद', 'नए घर में प्रवेश के लिए शांति, समृद्धि और दिव्य सुरक्षा की पवित्र पूजा।'],
-    ['विवाह पूजा', 'विवाह संस्कार', 'अनुभवी पंडितों द्वारा पारंपरिक विधि से पूर्ण वैदिक विवाह संस्कार।'],
-    ['सत्यनारायण कथा', 'विष्णु पूजा', 'कृतज्ञता, मनोकामना पूर्ति और परिवार की समृद्धि के लिए भक्तिपूर्ण कथा और हवन।'],
-    ['नवग्रह पूजा', 'ग्रह शांति', 'दोषों को कम करने और जीवन में ज्योतिषीय संतुलन लाने के लिए नवग्रह पूजा।'],
+    ['गृह प्रवेश', 'घर का आशीर्वाद', 'नए घर में प्रवेश के लिए शांति, समृद्धि और दिव्य सुरक्षा की पवित्र पूजा।', houseopeningpoojaImg],
+    ['विवाह पूजा', 'विवाह संस्कार', 'अनुभवी पंडितों द्वारा पारंपरिक विधि से पूर्ण वैदिक विवाह संस्कार।', marraigeImg],
+    ['सत्यनारायण कथा', 'विष्णु पूजा', 'कृतज्ञता, मनोकामना पूर्ति और परिवार की समृद्धि के लिए भक्तिपूर्ण कथा और हवन।', narayanavrathamImg],
+    ['नवग्रह होमम', 'ग्रह शांति होमम', 'नौ ग्रहों को शांत करने, दोषों को दूर करने और जीवन में ज्योतिषीय संतुलन लाने के लिए एक शक्तिशाली अग्नि अनुष्ठान।', homamImg],
     ['नामकरण संस्कार', 'नामकरण समारोह', 'परिवार की परंपरा के अनुसार शिशु के शुभ नामकरण का पवित्र संस्कार।'],
-    ['दीवाली लक्ष्मी पूजा', 'धन और समृद्धि', 'धन, सौभाग्य और समृद्धि के लिए माता लक्ष्मी की पूजा।'],
-    ['श्री सत्यनारायण स्वामी व्रतम', 'सत्यनारायण स्वामी का दिव्य आशीर्वाद', 'यह व्रत करने से राजसम्पद, उत्तम स्वास्थ्य, सुख-शांति की वृद्धि, ऐश्वर्य, मानसिक शांति और मनोकामना पूर्ति होती है।'],
     ['श्री सुदर्शन होमम', 'दिव्य सुरक्षा होमम', 'नकारात्मक शक्तियों से रक्षा, बाधाओं के निवारण और संपूर्ण परिवार पर दिव्य अनुग्रह के लिए भगवान सुदर्शन का आह्वान करने वाला शक्तिशाली होमम।'],
   ],
 };
@@ -39,16 +47,15 @@ const translations = {
     languageName: 'English',
     nav: {
       sub: 'Vedic Rituals & Services',
-      links: ['Home', 'Services', 'About', 'Pandits', 'Gallery', 'Testimonials', 'Contact'],
+      links: ['Home', 'Services', 'About', 'Pandits', 'Gallery', 'Reviews', 'Contact'],
       book: 'Book Now',
       mobileBook: 'Book a Pooja',
       language: 'Language',
     },
     hero: {
       tag: 'Sacred Rituals & Divine Services',
-      sub: 'Experience the',
-      main: 'Divine Blessings',
-      accent: 'of Sacred Poojas',
+      sub: 'Not just a website…',
+      main: 'A Dharmic Companion for your sacred pooja journey.',
       desc: 'Connect with learned Vedic pandits for authentic pooja ceremonies, havan rituals, and spiritual guidance. Performed with devotion following ancient scriptures.',
       performed: 'Poojas Performed',
       pandits: 'Expert Pandits',
@@ -57,7 +64,6 @@ const translations = {
       services: 'Explore Services',
     },
     home: {
-      servicesTag: 'A Glimpse of Our Offerings',
       servicesTitle: 'Popular Pooja Services',
       servicesIntro: 'Choose from traditional ceremonies for homes, families, weddings, festivals, and special milestones.',
       viewServices: 'View All Services',
@@ -92,6 +98,7 @@ const translations = {
       rating: 'Customer Rating',
       tag: 'Our Story',
       title: 'Rooted in Tradition, Serving with Love',
+      subtitle: 'The commitment to ensure every puja is performed according to Dharma, scriptural injunctions, and Vedic traditions — by priests who have truly earned the right to stand before the sacred fire.',
       p1: 'Dharma Sankalpam was founded with a single purpose: to make authentic Vedic rituals accessible to every household, performed with the same reverence as in the great temples of India.',
       p2: 'Our pandits are trained in traditional gurukuls with deep mastery of Sanskrit, Vedic phonetics, and ritual procedures. We bring this sacred expertise to your home, temple, or community hall.',
       values: [
@@ -100,6 +107,38 @@ const translations = {
         ['Punctual & Reliable', 'We honor the auspicious timing chosen by your jyotishi without fail.'],
         ['Pure Materials', 'Only satvik, unadulterated puja samagri sourced from trusted suppliers.'],
       ],
+      problemHeading: 'What You Must Understand',
+      problemP1: 'Today, many perform rituals without proper qualification. By wearing traditional attire and learning only basic information, some create fear about doshas, charge large sums, then hire qualified scholars for a fraction — often only ₹2,000–₹3,000 per ritual.',
+      problemP2: 'The effectiveness of a ritual depends entirely on the competence and spiritual qualification of the priest. When a learned Brahmin performs the ritual, the prescribed spiritual benefits are assured — this is not opinion, it is scriptural authority.',
+      dharmaValues: [
+        ['📜', 'Scripture-Aligned', 'Every ritual follows authentic Vedic injunctions — not convenience or commerce.'],
+        ['🪔', 'Qualified Priests Only', 'Rituals performed exclusively by Brahmins who have spent years mastering the Vedas.'],
+        ['🙏', 'Devotion Over Transaction', 'Puja is a sacred act, not a service package. We honour its sanctity at every step.'],
+        ['⚖️', 'Fair to Scholars', 'Honorarium reaches the Vedic scholars who deserve it — not middlemen.'],
+      ],
+      visionTitle: 'The Vision of Dharma Sankalpam',
+      visionIntro: 'Dharma Sankalpam is an effort to bring sacred traditions back into our lives. Here, every ritual is:',
+      visionPoints: [
+        'Performed according to the scriptures',
+        'Rooted in authentic tradition',
+        'Filled with devotion',
+        'Conducted with sincerity and purity',
+      ],
+      visionClosing: 'This is not merely a service.',
+      visionClosingBold: 'It is the restoration of truth. It is the path of Dharma.',
+      vedicAuthenticity: 'Vedic Authenticity',
+      founderName: 'Daruri Vishnuvardhana Charyulu',
+      founderRole: 'Agama Shastra Scholar · Founder',
+      founderSalutation: 'Jai Srimannarayana 🙏',
+      shlokaDevanagari: 'श्लोकः',
+      shlokaVerse: 'दैवादीनां जगत्सर्वं मन्त्राधीनं तु दैवतम् ।\nतन्मन्त्रं ब्राह्मणाधीनं ब्राह्मणो मम दैवतम् ॥',
+      shlokaMeaningLines: [
+        'The entire universe is under the control of the Divine.',
+        'The Divine is governed through sacred mantras.',
+        'The mantras themselves rest in the mastery of the Brahmin.',
+        'Therefore, the learned Brahmin is a visible manifestation of the Divine.',
+      ],
+      dharmicCommitment: 'Dharmic Commitment',
     },
     gallery: {
       tag: 'Sacred Moments',
@@ -177,10 +216,23 @@ translations.te = {
   ...translations.en,
   languageName: 'తెలుగు',
   nav: { sub: 'వేద కర్మలు మరియు సేవలు', links: ['హోమ్', 'సేవలు', 'మా గురించి', 'పండితులు', 'గ్యాలరీ', 'సమీక్షలు', 'సంప్రదించండి'], book: 'బుక్ చేయండి', mobileBook: 'పూజ బుక్ చేయండి', language: 'భాష' },
-  hero: { tag: 'పవిత్ర కర్మలు మరియు దైవ సేవలు', sub: 'అనుభవించండి', main: 'దైవ ఆశీర్వాదాలు', accent: 'పవిత్ర పూజల ద్వారా', desc: 'అసలైన పూజలు, హవనాలు, ఆధ్యాత్మిక మార్గదర్శనం కోసం అనుభవజ్ఞులైన వేద పండితులతో కలవండి.', performed: 'చేసిన పూజలు', pandits: 'నిపుణ పండితులు', types: 'పూజ రకాలు', book: 'పూజ బుక్ చేయండి', services: 'సేవలు చూడండి' },
+  hero: { tag: 'పవిత్ర కర్మలు మరియు దైవ సేవలు', sub: 'ఇది వెబ్సైట్ కాదు...', main: 'మీ పూజ సంకల్పానికి ధర్మబద్ధమైన ఆయుధం', accent: '', desc: 'అసలైన పూజలు, హవనాలు, ఆధ్యాత్మిక మార్గదర్శనం కోసం అనుభవజ్ఞులైన వేద పండితులతో కలవండి.', performed: 'చేసిన పూజలు', pandits: 'నిపుణ పండితులు', types: 'పూజ రకాలు', book: 'పూజ బుక్ చేయండి', services: 'సేవలు చూడండి' },
   home: { ...translations.en.home, servicesTag: 'మా సేవల పరిచయం', servicesTitle: 'ప్రసిద్ధ పూజ సేవలు', servicesIntro: 'ఇంటి, కుటుంబ, వివాహ, పండుగ, ప్రత్యేక సందర్భాల కోసం సంప్రదాయ పూజలను ఎంచుకోండి.', viewServices: 'అన్ని సేవలు చూడండి', aboutTag: 'ధర్మ సంకల్పం గురించి', aboutTitle: 'సంప్రదాయంలో వేళ్ళూని, ప్రేమతో సేవ', aboutText: 'మా పండితులు సంస్కృత మంత్రోచ్చారణ, వేద విధానాలు, ప్రాంతీయ సంప్రదాయాల్లో శిక్షణ పొందారు.', years: 'అసలైన వేద కర్మలతో కుటుంబాలకు సేవ చేసిన సంవత్సరాలు', points: ['వేద ప్రామాణికత', 'శుద్ధ పూజా సామగ్రి', 'సమయపాలన'], learn: 'మా గురించి తెలుసుకోండి', reviewsTag: 'ఆశీర్వాదాలు మరియు సమీక్షలు', reviewsTitle: 'కుటుంబాలు చెప్పిన మాటలు', readReviews: 'మరిన్ని సమీక్షలు చదవండి', reviews: [['ప్రియా వెంకటరామన్', 'హైదరాబాద్', 'పూజ భక్తి మరియు ఖచ్చితత్వంతో జరిగింది. మా కొత్త ఇల్లు ప్రశాంతంగా అనిపించింది.'], ['రాజేష్ & సునీత మెహతా', 'ముంబై', 'ప్రతి కర్మను అందంగా వివరించారు. మా వివాహం ప్రారంభం నుంచి ముగింపు వరకు పవిత్రంగా అనిపించింది.']] },
   services: { ...translations.en.services, tag: 'మా సేవలు', title: 'పవిత్ర పూజ సేవలు', intro: 'శాస్త్రోక్తంగా సరైన ఉచ్చారణ, సామగ్రి, భక్తితో అనుభవజ్ఞులైన పండితులు చేసే వేద కర్మలు.', popular: 'అత్యంత ప్రసిద్ధం', book: 'బుక్ చేయండి', note: 'మీ పూజ కనిపించలేదా? మేము 20+ రకాల కర్మలు చేస్తాము.', custom: 'కస్టమ్ పూజ కోరండి' },
-  about: { ...translations.en.about, quote: '"పూజ అనేది దైవానికి సమర్పించే ప్రేమ భాష."', tradition: 'వేద సంప్రదాయం', years: 'సేవా సంవత్సరాలు', rating: 'గ్రాహక రేటింగ్', tag: 'మా కథ', title: 'సంప్రదాయంలో వేళ్ళూని, ప్రేమతో సేవ', p1: 'అసలైన వేద కర్మలను ప్రతి ఇంటికి చేరువ చేయాలనే లక్ష్యంతో ధర్మ సంకల్పం స్థాపించబడింది.', p2: 'మా పండితులు సంప్రదాయ గురుకులాల్లో సంస్కృతం, వేద ఉచ్చారణ, కర్మ విధానాల్లో లోతైన శిక్షణ పొందారు.', values: [['వేద ప్రామాణికత', 'అన్ని కర్మలు వేద శాస్త్రాల ప్రకారం సరైన సంస్కృత మంత్రాలతో జరుగుతాయి.'], ['ముందుగా భక్తి', 'ప్రతి పూజ నిజమైన భక్తితో నిర్వహించబడుతుంది.'], ['సమయపాలన', 'శుభ ముహూర్తాన్ని గౌరవిస్తూ సమయానికి సేవ అందిస్తాము.'], ['శుద్ధ సామగ్రి', 'నమ్మకమైన సరఫరాదారుల నుంచి శుద్ధ సాత్విక పూజా సామగ్రి.']] },
+  about: { ...translations.en.about, quote: '"పూజ అనేది దైవానికి సమర్పించే ప్రేమ భాష."', tradition: 'వేద సంప్రదాయం', years: 'సేవా సంవత్సరాలు', rating: 'గ్రాహక రేటింగ్', tag: 'మా కథ', title: 'సంప్రదాయంలో వేళ్ళూని, ప్రేమతో సేవ', subtitle: 'ప్రతి పూజ ధర్మం, శాస్త్ర ఆదేశాలు మరియు వేద సంప్రదాయాల ప్రకారం జరిగేలా చేయడానికి మా సంకల్పం — సంపూర్ణ నిపుణత సంపన్న ప్రజలచే శాస్త్ర దీక్షను పొందిన ప్రజలు.', p1: 'అసలైన వేద కర్మలను ప్రతి ఇంటికి చేరువ చేయాలనే లక్ష్యంతో ధర్మ సంకల్పం స్థాపించబడింది.', p2: 'మా పండితులు సంప్రదాయ గురుకులాల్లో సంస్కృతం, వేద ఉచ్చారణ, కర్మ విధానాల్లో లోతైన శిక్షణ పొందారు.', values: [['వేద ప్రామాణికత', 'అన్ని కర్మలు వేద శాస్త్రాల ప్రకారం సరైన సంస్కృత మంత్రాలతో జరుగుతాయి.'], ['ముందుగా భక్తి', 'ప్రతి పూజ నిజమైన భక్తితో నిర్వహించబడుతుంది.'], ['సమయపాలన', 'శుభ ముహూర్తాన్ని గౌరవిస్తూ సమయానికి సేవ అందిస్తాము.'], ['శుద్ధ సామగ్రి', 'నమ్మకమైన సరఫరాదారుల నుంచి శుద్ధ సాత్విక పూజా సామగ్రి.']], problemHeading: 'మీరు అర్థం చేసుకోవలసిన విషయాలు', problemP1: 'నేడా చాలా మంది సరైన యోగ్యత లేకుండా కర్మలు చేస్తున్నారు. సంప్రదాయ దుస్తులు ధరించి, కొంచెం సమాచారం నేర్చుకుని, కొందరు దోష భయం కలిగించి, పెద్ద సొమ్ము తీసుకుని, అర్హమైన విద్వాంసులకు కేవలం ₹2,000-₹3,000లకు కర్మ చేయించాయి.', problemP2: 'కర్మ యొక్క ఫలితం పూర్తిగా పండితి యొక్క యోగ్యత మరియు ఆధ్యాత్మిక అర్హతపై ఆధారపడి ఉంటుంది. నిపుణ బ్రాహ్మణ కర్మ చేసినప్పుడు, నిర్దిష్ట ఆధ్యాత్మిక ఫలితాలు నిశ్చితం - ఇది అభిప్రాయం కాదు, ఇది శాస్త్ర ప్రామాణికత.', dharmaValues: [['📜', 'శాస్త్రానికి సమానమైనవి', 'ప్రతి కర్మ సరైన వేద ఆదేశాలను అనుసరిస్తుంది - సౌలభ్యం లేదా వాణిజ్యం కాదు.'], ['🪔', 'అర్హమైన పండితులు మాత్రమే', 'వేదాలను సాధించడానికి సంవత్సరాలు గడిపిన బ్రాహ్మణులు మాత్రమే కర్మలు చేస్తారు.'], ['🙏', 'లావణ్యానికి భక్తి', 'పూజ పవిత్ర చర్య, సేవ కాదు. మేము ప్రతిస్థానంలో దానిని గౌరవిస్తాము.'], ['⚖️', 'విద్వాంసులకు న్యాయమైనది', 'గౌరవం వాసుల వారికి చేరుకుంటుంది - మధ్యవర్తులకు కాదు.']], visionTitle: 'ధర్మ సంకల్పం యొక్క దృష్టిభంగం', visionIntro: 'ధర్మ సంకల్పం పవిత్ర సంప్రదాయాలను మన జీవితలకు తిరిగి తీసుకురావటానికి ప్రయత్నం. ఇక్కడ, ప్రతి కర్మ:', visionPoints: ['శాస్త్రాల ప్రకారం నిర్వహించబడుతుంది', 'సరైన సంప్రదాయంలో రూపొందించబడుతుంది', 'భక్తితో నిండిఉంటుంది', 'నిష్ఠ మరియు శుద్ధతతో నిర్వహించబడుతుంది'], visionClosing: 'ఇది కేవలం సేవ కాదు.', visionClosingBold: 'ఇది సత్యం యొక్క పునరుద్ధారణ. ఇది ధర్మ మార్గం.', vedicAuthenticity: 'వేద ప్రామాణికత',
+    founderName: 'దారూరి విష్ణువర్ధన చార్యులు',
+    founderRole: 'ఆగమ శాస్త్ర పండితులు · వ్యవస్థాపకులు',
+    founderSalutation: 'జై శ్రీమన్నారాయణ 🙏',
+    shlokaDevanagari: 'శ్లోకః',
+    shlokaVerse: 'దైవాదీనాం జగత్సర్వం మంత్రాధీనం తు దైవతమ్ ।\nతన్మంత్రం బ్రాహ్మణాధీనం బ్రాహ్మణో మమ దైవతమ్ ॥',
+    shlokaMeaningLines: [
+      'సమస్త విశ్వం దైవం ఆధీనంలో ఉంది.',
+      'దైవం పవిత్ర మంత్రాల ద్వారా నియంత్రించబడుతుంది.',
+      'మంత్రాలు బ్రాహ్మణుల పాండిత్యంలో ఉన్నాయి.',
+      'అందువల్ల, విద్వాంసుడైన బ్రాహ్మణుడు దైవం యొక్క ప్రత్యక్ష రూపం.',
+    ],
+    dharmicCommitment: 'ధార్మిక సంకల్పం'
+  },
   gallery: { ...translations.en.gallery, tag: 'పవిత్ర క్షణాలు', title: 'పూజ గ్యాలరీ', intro: 'భారతదేశంలోని కుటుంబాల కోసం చేసిన పవిత్ర కర్మల కొన్ని దృశ్యాలు.', items: [['గృహ ప్రవేశం', 'ఇంటి ఆశీర్వాద వేడుక'], ['హవన కుండం', 'పవిత్ర అగ్ని కర్మ'], ['పూలమాల', 'పుష్ప సమర్పణలు'], ['దీపం', 'దీపారాధన'], ['వివాహ కర్మ', 'పవిత్ర వివాహ ప్రమాణాలు'], ['ఆరతి', 'సాయంత్ర ప్రార్థన'], ['వేద మంత్రోచ్చారణ', 'సంస్కృత మంత్రాలు'], ['ప్రసాదం', 'దైవ ఆశీర్వాదం']] },
   pandits: { ...translations.en.pandits, tag: 'మా పండితులు', title: 'మా పండితులను కలవండి', intro: 'మా పండితులు వేద కర్మలు, సంస్కృత పఠనం, ప్రాంతీయ సంప్రదాయాల్లో అనుభవం కలవారు.', specialty: 'ప్రత్యేకత', experience: 'అనుభవం', languages: 'భాషలు', reviews: 'సమీక్షలు', bookWith: 'బుక్ చేయండి' },
   testimonials: { tag: 'కుటుంబాలు చెప్పిన మాటలు', title: 'ఆశీర్వాదాలు మరియు సమీక్షలు' },
@@ -193,10 +245,23 @@ translations.hi = {
   ...translations.en,
   languageName: 'हिन्दी',
   nav: { sub: 'वैदिक अनुष्ठान और सेवाएं', links: ['होम', 'सेवाएं', 'हमारे बारे में', 'पंडित', 'गैलरी', 'समीक्षाएं', 'संपर्क'], book: 'बुक करें', mobileBook: 'पूजा बुक करें', language: 'भाषा' },
-  hero: { tag: 'पवित्र अनुष्ठान और दिव्य सेवाएं', sub: 'अनुभव करें', main: 'दिव्य आशीर्वाद', accent: 'पवित्र पूजाओं के साथ', desc: 'प्रामाणिक पूजा, हवन और आध्यात्मिक मार्गदर्शन के लिए अनुभवी वैदिक पंडितों से जुड़ें।', performed: 'पूजाएं संपन्न', pandits: 'विशेषज्ञ पंडित', types: 'अनुष्ठान प्रकार', book: 'पूजा बुक करें', services: 'सेवाएं देखें' },
+  hero: { tag: 'पवित्र अनुष्ठान और दिव्य सेवाएं', sub: 'केवल एक वेबसाइट नहीं…', main: 'एक धार्मिक साथी', accent: 'आपकी पवित्र पूजा यात्रा के लिए।', desc: 'प्रामाणिक पूजा, हवन और आध्यात्मिक मार्गदर्शन के लिए अनुभवी वैदिक पंडितों से जुड़ें।', performed: 'पूजाएं संपन्न', pandits: 'विशेषज्ञ पंडित', types: 'अनुष्ठान प्रकार', book: 'पूजा बुक करें', services: 'सेवाएं देखें' },
   home: { ...translations.en.home, servicesTag: 'हमारी सेवाओं की झलक', servicesTitle: 'लोकप्रिय पूजा सेवाएं', servicesIntro: 'घर, परिवार, विवाह, त्योहार और विशेष अवसरों के लिए पारंपरिक अनुष्ठान चुनें।', viewServices: 'सभी सेवाएं देखें', aboutTag: 'धर्म संकल्पम के बारे में', aboutTitle: 'परंपरा से जुड़े, प्रेम से सेवा', aboutText: 'हमारे पंडित संस्कृत मंत्रोच्चार, वैदिक विधि और क्षेत्रीय परंपराओं में प्रशिक्षित हैं।', years: 'प्रामाणिक वैदिक अनुष्ठानों से परिवारों की सेवा के वर्ष', points: ['वैदिक प्रामाणिकता', 'शुद्ध पूजा सामग्री', 'समय पर सेवा'], learn: 'हमारे बारे में जानें', reviewsTag: 'आशीर्वाद और समीक्षाएं', reviewsTitle: 'परिवार क्या कहते हैं', readReviews: 'और समीक्षाएं पढ़ें', reviews: [['प्रिया वेंकटरमन', 'हैदराबाद', 'पूजा भक्ति और सटीकता से हुई। हमारा नया घर शांत और आशीर्वादित लगा।'], ['राजेश और सुनीता मेहता', 'मुंबई', 'हर विधि सुंदर ढंग से समझाई गई और हमारा विवाह शुरू से अंत तक पवित्र लगा।']] },
   services: { ...translations.en.services, tag: 'हमारी सेवाएं', title: 'पवित्र पूजा सेवाएं', intro: 'शास्त्रों के अनुसार सही उच्चारण, सामग्री और भक्ति से अनुभवी पंडितों द्वारा वैदिक अनुष्ठान।', popular: 'सबसे लोकप्रिय', book: 'बुक करें', note: 'आपकी पूजा नहीं दिख रही? हम 20+ प्रकार के अनुष्ठान करते हैं।', custom: 'कस्टम पूजा अनुरोध करें' },
-  about: { ...translations.en.about, quote: '"पूजा दिव्य को अर्पित प्रेम की भाषा है."', tradition: 'वैदिक परंपरा', years: 'सेवा के वर्ष', rating: 'ग्राहक रेटिंग', tag: 'हमारी कहानी', title: 'परंपरा से जुड़े, प्रेम से सेवा', p1: 'धर्म संकल्पम का उद्देश्य प्रामाणिक वैदिक अनुष्ठानों को हर घर तक पहुंचाना है।', p2: 'हमारे पंडित पारंपरिक गुरुकुलों में संस्कृत, वैदिक उच्चारण और अनुष्ठान विधियों में प्रशिक्षित हैं।', values: [['वैदिक प्रामाणिकता', 'सभी अनुष्ठान वैदिक शास्त्रों के अनुसार सही संस्कृत मंत्रों से किए जाते हैं।'], ['भक्ति पहले', 'हर पूजा सच्ची श्रद्धा से की जाती है।'], ['समय पर और विश्वसनीय', 'हम चुने हुए शुभ मुहूर्त का सम्मान গোলা करते हैं।'], ['शुद्ध सामग्री', 'विश्वसनीय स्रोतों से शुद्ध सात्विक पूजा सामग्री।']] },
+  about: { ...translations.en.about, quote: '"पूजा दिव्य को अर्पित प्रेम की भाषा है."', tradition: 'वैदिक परंपरा', years: 'सेवा के वर्ष', rating: 'ग्राहक रेटिंग', tag: 'हमारी कहानी', title: 'परंपरा से जुड़े, प्रेम से सेवा', subtitle: 'यह सुनिश्चित करने की हमारी प्रतिबद्धता है कि हर पूजा धर्म, शास्त्रीय आदेशों और वैदिक परंपराओं के अनुसार की जाए — उन पुजारियों द्वारा जिन्होंने वास्तव में पवित्र अग्नि के सामने खड़े होने का अधिकार अर्जित किया है।', p1: 'धर्म संकल्पम का उद्देश्य प्रामाणिक वैदिक अनुष्ठानों को हर घर तक पहुंचाना है।', p2: 'हमारे पंडित पारंपरिक गुरुकुलों में संस्कृत, वैदिक उच्चारण और अनुष्ठान विधियों में प्रशिक्षित हैं।', values: [['वैदिक प्रामाणिकता', 'सभी अनुष्ठान वैदिक शास्त्रों के अनुसार सही संस्कृत मंत्रों से किए जाते हैं।'], ['भक्ति पहले', 'हर पूजा सच्ची श्रद्धा से की जाती है।'], ['समय पर और विश्वसनीय', 'हम चुने हुए शुभ मुहूर्त का सम्मान करते हैं।'], ['शुद्ध सामग्री', 'विश्वसनीय स्रोतों से शुद्ध सात्विक पूजा सामग्री।']], problemHeading: 'आप क्या समझें', problemP1: 'आज, कई लोग सही योग्यता के बिना अनुष्ठान करते हैं। परंपरागत पोशाक पहनकर और केवल बुनियादी जानकारी सीखकर, कुछ लोग दोषों का डर पैदा करते हैं, बड़ी रकम लेते हैं, फिर योग्य विद्वानों को केवल ₹2,000-₹3,000 में काम कराते हैं।', problemP2: 'अनुष्ठान की प्रभावशीलता पूरी तरह पंडित की योग्यता और आध्यात्मिक योग्यता पर निर्भर करती है। जब एक विद्वान ब्राह्मण अनुष्ठान करता है, तो निर्धारित आध्यात्मिक लाभ सुनिश्चित हैं - यह राय नहीं है, यह शास्त्रीय प्राधिकार है।', dharmaValues: [['📜', 'शास्त्र के अनुसार', 'हर अनुष्ठान सही वैदिक निर्देशों का पालन करता है - सुविधा या वाणिज्य नहीं।'], ['🪔', 'केवल योग्य पंडित', 'वेदों में वर्षों की महारत रखने वाले ब्राह्मणों द्वारा ही अनुष्ठान किए जाते हैं।'], ['🙏', 'भक्ति लेनदेन से पहले', 'पूजा एक पवित्र कार्य है, सेवा नहीं। हम हर कदम पर इसकी पवित्रता का सम्मान करते हैं।'], ['⚖️', 'विद्वानों के लिए न्याय', 'सम्मान विद्वानों तक पहुंचता है जो इसके योग्य हैं - बिचौलियों को नहीं।']], visionTitle: 'धर्म संकल्पम की दृष्टि', visionIntro: 'धर्म संकल्पम हमारे जीवन में पवित्र परंपराओं को वापस लाने का प्रयास है। यहां, हर अनुष्ठान:', visionPoints: ['शास्त्रों के अनुसार किया जाता है', 'प्रामाणिक परंपरा में निहित है', 'भक्ति से भरा है', 'ईमानदारी और शुद्धता के साथ किया जाता है'], visionClosing: 'यह केवल एक सेवा नहीं है।', visionClosingBold: 'यह सत्य की बहाली है। यह धर्म का मार्ग है।', vedicAuthenticity: 'वैदिक प्रामाणिकता',
+    founderName: 'दारुरी विष्णुवर्धन चार्युलु',
+    founderRole: 'आगम शास्त्र विद्वान · संस्थापक',
+    founderSalutation: 'जय श्रीमन्नारायण 🙏',
+    shlokaDevanagari: 'श्लोकः',
+    shlokaVerse: 'दैवादीनां जगत्सर्वं मन्त्राधीनं तु दैवतम् ।\nतन्मन्त्रं ब्राह्मणाधीनं ब्राह्मणो मम दैवतम् ॥',
+    shlokaMeaningLines: [
+      'संपूर्ण ब्रह्मांड ईश्वर के नियंत्रण में है।',
+      'ईश्वर पवित्र मंत्रों द्वारा शासित होता है।',
+      'मंत्र स्वयं ब्राह्मण के अधिकार में हैं।',
+      'इसलिए, विद्वान ब्राह्मण ईश्वर का एक दृश्यमान रूप है।',
+    ],
+    dharmicCommitment: 'धार्मिक प्रतिबद्धता'
+  },
   gallery: { ...translations.en.gallery, tag: 'पवित्र क्षण', title: 'पूजा गैलरी', intro: 'भारत भर के परिवारों के लिए किए गए पवित्र अनुष्ठानों की झलकियां।', items: [['गृह प्रवेश', 'घर का आशीर्वाद समारोह'], ['हवन कुंड', 'पवित्र अग्नि अनुष्ठान'], ['फूल माला', 'पुष्प अर्पण'], ['दीपम', 'दीप प्रज्ज्वलन'], ['विवाह संस्कार', 'पवित्र विवाह वचन'], ['आरती', 'संध्या प्रार्थना'], ['वैदिक मंत्रोच्चार', 'संस्कृत मंत्र'], ['प्रसाद', 'दिव्य आशीर्वाद']] },
   pandits: { ...translations.en.pandits, tag: 'हमारे विद्वान पंडित', title: 'हमारे पंडितों से मिलें', intro: 'हमारे पंडित वैदिक अनुष्ठान, संस्कृत पाठ और क्षेत्रीय परंपराओं में अनुभवी हैं।', specialty: 'विशेषता', experience: 'अनुभव', languages: 'भाषाएं', reviews: 'समीक्षाएं', bookWith: 'बुक करें' },
   testimonials: { tag: 'परिवार क्या कहते हैं', title: 'आशीर्वाद और समीक्षाएं' },
@@ -215,6 +280,10 @@ const LanguageContext = createContext(null);
 
 export function LanguageProvider({ children }) {
   const [language, setLanguage] = useState(() => localStorage.getItem('site-language') || 'en');
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
 
   const value = useMemo(() => {
     const setSiteLanguage = (nextLanguage) => {

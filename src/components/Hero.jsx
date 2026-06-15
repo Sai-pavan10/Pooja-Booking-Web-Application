@@ -1,116 +1,91 @@
+import { useState } from 'react';
 import './Hero.css';
 import { useLanguage } from '../i18n';
-import homamImg from '../assets/homam.jpg';
-import srinivasaImg from '../assets/srinivasa pooja image.jpg';
+import heroImg from '../assets/heroimg.png';
+import heroVideo from '../assets/herovdo.mp4';
+
+const HERO_COPY = {
+  en: {
+    script: '{ Vedic Dharma }',
+    quote: '"Your pooja sankalpam is our responsibility"',
+    search: 'Search......Pooja/ Vratham/ Homam',
+    eyebrow: 'Not just a website...',
+    headline: 'A dharmic companion for your sacred pooja journey!',
+    categories: ["All pooja's", "All Vratham's", "All Homama's", 'Pitru Karyam'],
+  },
+  te: {
+    script: '{ వేదోక్త ధర్మమూలం }',
+    quote: '"మీ పూజ సంకల్పం - మా యొక్క బాధ్యత"',
+    search: 'Search......Pooja/ Vratham/ Homam',
+    eyebrow: 'ఇది వెబ్సైట్ కాదు...',
+    headline: 'మీ పూజ సంకల్పానికి ధర్మబద్ధమైన ఆయుధం!',
+    categories: ["All pooja's", "All Vratham's", "All Homama's", 'Pitru Karyam'],
+  },
+  hi: {
+    script: '{ वैदिक धर्म }',
+    quote: '"आपकी पूजा का संकल्प हमारी जिम्मेदारी"',
+    search: 'Search......Pooja/ Vratham/ Homam',
+    eyebrow: 'यह सिर्फ वेबसाइट नहीं...',
+    headline: 'आपकी पूजा यात्रा के लिए एक धार्मिक साथी!',
+    categories: ["All pooja's", "All Vratham's", "All Homama's", 'Pitru Karyam'],
+  },
+};
 
 export default function Hero() {
-  const { content } = useLanguage();
-  const hero = content.hero;
+  const { language, setLanguage } = useLanguage();
+  const copy = HERO_COPY[language] || HERO_COPY.en;
+  const [searchQuery, setSearchQuery] = useState('');
+
   const handleNavigate = (href) => {
     window.history.pushState({}, '', href);
     window.dispatchEvent(new Event('app:navigate'));
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const query = searchQuery.trim();
+    if (!query) return;
+    handleNavigate(`/services?search=${encodeURIComponent(query)}`);
+  };
+
   return (
-    <section id="hero" className="hero-section" style={{ position: 'relative', overflow: 'hidden' }}>
-      <style>
-        {`
-          @keyframes hero-bg-scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          .hero-bg-slider {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-          }
-          .hero-image-track {
-            display: flex;
-            width: 400vw;
-            height: 100%;
-            animation: hero-bg-scroll 40s linear infinite;
-          }
-          .hero-image-track img {
-            width: 100vw;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.3;
-          }
-          .hero-bg-mandala, .hero-particles, .hero-content {
-            position: relative;
-            z-index: 1;
-          }
-        `}
-      </style>
-      <div className="hero-bg-slider" aria-hidden="true">
-        <div className="hero-image-track">
-          <img src={homamImg} alt="" />
-          <img src={srinivasaImg} alt="" />
-          <img src={homamImg} alt="" />
-          <img src={srinivasaImg} alt="" />
+    <section id="hero" className="hero-section hero-home-theme">
+      <div className="hero-language-tabs" aria-label="Select language">
+        <button className={language === 'en' ? 'active' : ''} onClick={() => setLanguage('en')}>EN</button>
+        <button className={language === 'te' ? 'active' : ''} onClick={() => setLanguage('te')}>TL</button>
+      </div>
+
+      {/* ✅ autoComplete="off" blocks browser autofill dark overlay */}
+      <form className="hero-search-bar-top" onSubmit={handleSearch} autoComplete="off">
+        <span aria-hidden="true">⌕</span>
+        {/* ✅ type="text" instead of type="search" — avoids browser search-input dark styles */}
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder={copy.search}
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck="false"
+        />
+      </form>
+
+      <div className="hero-poster">
+        <p className="hero-script-line">{copy.script}</p>
+        <h1 className="hero-sankalpam-line">{copy.quote}</h1>
+
+        <img className="hero-deity-image" src={heroImg} alt="Pooja deities and acharyas" />
+
+        <div className="hero-bottom-copy">
+          <p>{copy.eyebrow}</p>
+          <strong>{copy.headline}</strong>
         </div>
       </div>
 
-      <div className="hero-bg-mandala" aria-hidden="true">
-        <div className="mandala-ring ring-1" />
-        <div className="mandala-ring ring-2" />
-        <div className="mandala-ring ring-3" />
+      <div className="hero-video-frame">
+        <video src={heroVideo} autoPlay muted loop playsInline />
       </div>
-
-      <div className="hero-particles" aria-hidden="true">
-        {[...Array(12)].map((_, i) => (
-          <span key={i} className={`particle p-${i + 1}`}>*</span>
-        ))}
-      </div>
-
-      <div className="hero-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', margin: '0 auto' }}>
-        <p className="hero-tag">{hero.tag}</p>
-
-        <h1 className="hero-title">
-          <span className="hero-title-sub">{hero.sub}</span>
-          <span className="hero-title-main">{hero.main}</span>
-          <span className="hero-title-accent">{hero.accent}</span>
-        </h1>
-
-        <div className="hero-divider">
-          
-        </div>
-
-        <p className="hero-description">
-          {hero.desc}
-        </p>
-
-        <div className="hero-stats">
-          <div className="hero-stat">
-            <span className="stat-num">500+</span>
-            <span className="stat-label">{hero.performed}</span>
-          </div>
-          <div className="hero-stat-divider">|</div>
-          <div className="hero-stat">
-            <span className="stat-num">50+</span>
-            <span className="stat-label">{hero.pandits}</span>
-          </div>
-          <div className="hero-stat-divider">|</div>
-          <div className="hero-stat">
-            <span className="stat-num">20+</span>
-            <span className="stat-label">{hero.types}</span>
-          </div>
-        </div>
-
-        <div className="hero-actions">
-          <button className="btn-primary" onClick={() => handleNavigate('/booking')}>
-            {hero.book}
-          </button>
-          <button className="btn-secondary" onClick={() => handleNavigate('/services')}>
-            {hero.services}
-          </button>
-        </div>
-      </div>
-
     </section>
   );
 }

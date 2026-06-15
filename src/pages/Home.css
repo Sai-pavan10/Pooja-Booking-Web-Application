@@ -1,77 +1,315 @@
+/* ════════════════════════════════════════════
+   SERVICES PREVIEW  –  image-top / content-below
+   2-column grid with gold UX animations
+════════════════════════════════════════════ */
+
 .home-services-preview {
-  background: var(--white);
+  background: #FF9933;
   position: relative;
   overflow: hidden;
+  padding: 0;
 }
 
+/* Slow diagonal gold shimmer across the whole section */
 .home-services-preview::before {
-  content: 'Om';
+  content: '';
   position: absolute;
-  right: 4%;
-  top: 1rem;
-  font-family: 'Cinzel Decorative', serif;
-  font-size: clamp(5rem, 14vw, 12rem);
-  color: rgba(123, 28, 46, 0.035);
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 20%,
+    rgba(255, 220, 80, 0.08) 50%,
+    transparent 80%
+  );
+  background-size: 300% 300%;
+  animation: sectionGoldShimmer 9s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.home-services-preview > .container {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes sectionGoldShimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── 2-column grid ── */
+.home-service-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+/* ══════════════════════════════════════
+   SERVICE CARD  (image top + content below)
+══════════════════════════════════════ */
+.home-service-card {
+  background: linear-gradient(180deg, #FF9933 0%, #FFEAB0 55%, #FFF3D4 100%);
+  border: 1px solid rgba(200, 150, 12, 0.22);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.09);
+
+  /* spring lift on hover */
+  transition:
+    transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.42s ease,
+    border-color 0.3s ease;
+}
+
+/* Animated gold top border line */
+.home-service-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 0;
+  background: linear-gradient(90deg,
+    var(--gold, #C8960C) 0%,
+    #FFD700 35%,
+    #ffe066 55%,
+    #C8960C 100%
+  );
+  background-size: 200% 100%;
+  border-radius: 10px 10px 0 0;
+  z-index: 10;
+  transition: height 0.32s ease;
+  animation: goldBarSlide 2.8s linear infinite paused;
+}
+
+@keyframes goldBarSlide {
+  0%   { background-position: 0% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.home-service-card:hover {
+  transform: translateY(-10px) scale(1.012);
+  border-color: rgba(200, 150, 12, 0.55);
+  box-shadow:
+    0 24px 52px rgba(0, 0, 0, 0.14),
+    0 0 0 1px rgba(200, 150, 12, 0.18),
+    0 0 32px rgba(255, 210, 60, 0.13);
+  animation: cardGoldPulse 2.6s ease-in-out infinite;
+}
+
+.home-service-card:hover::before {
+  height: 4px;
+  animation-play-state: running;
+}
+
+@keyframes cardGoldPulse {
+  0%, 100% {
+    box-shadow: 0 24px 52px rgba(0,0,0,0.14), 0 0 22px rgba(255,210,60,0.10);
+  }
+  50% {
+    box-shadow: 0 24px 52px rgba(0,0,0,0.14), 0 0 40px rgba(255,210,60,0.22);
+  }
+}
+
+/* ─── IMAGE WRAP ─── */
+.svc-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: linear-gradient(135deg, #3a0a10 0%, #6B1224 100%);
+  flex-shrink: 0;
+}
+
+.svc-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              filter 0.45s ease;
+  will-change: transform;
+}
+
+.home-service-card:hover .svc-image {
+  transform: scale(1.07);
+  filter: brightness(1.05) saturate(1.1);
+}
+
+/* Placeholder when no image provided */
+.svc-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #5a1020, #8B1A2B);
+}
+
+.svc-icon {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  color: rgba(255, 210, 80, 0.55);
+  transition: transform 0.4s ease, color 0.3s ease;
+}
+
+.home-service-card:hover .svc-icon {
+  transform: rotate(45deg) scale(1.15);
+  color: rgba(255, 210, 80, 0.85);
+}
+
+/* Gold shimmer sweep across image on hover */
+.svc-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    transparent 28%,
+    rgba(255, 215, 80, 0.18) 50%,
+    transparent 72%,
+    transparent 100%
+  );
+  background-size: 250% 100%;
+  background-position: 160% 0;
+  transition: background-position 0.7s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.home-service-card:hover .svc-image-overlay {
+  background-position: -60% 0;
+}
+
+/* Dark gradient at image bottom so kicker badge is readable */
+.svc-image-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 55%;
+  background: linear-gradient(to top, rgba(30, 5, 10, 0.72) 0%, transparent 100%);
+  z-index: 1;
   pointer-events: none;
 }
 
-.home-service-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-
-.home-service-card,
-.home-review-card {
-  background: var(--cream);
-  border: 1px solid rgba(200, 150, 12, 0.24);
-  border-radius: 6px;
-  padding: 2rem;
-  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-}
-
-.home-service-card:hover,
-.home-review-card:hover {
-  transform: translateY(-5px);
-  border-color: var(--gold);
-  box-shadow: 0 14px 34px var(--shadow);
-}
-
+/* Kicker badge: sits on top of image (bottom-left) */
 .home-card-kicker {
+  position: absolute;
+  bottom: 0.9rem;
+  left: 0.9rem;
+  z-index: 3;
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
+  font-size: clamp(0.58rem, 1.1vw, 0.68rem);
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 0.8rem;
+  font-weight: 700;
+  color: #fff8e1;
+  background: linear-gradient(
+    90deg,
+    rgba(160, 100, 0, 0.88),
+    rgba(200, 150, 12, 0.92),
+    rgba(230, 175, 30, 0.88)
+  );
+  background-size: 200% 100%;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 215, 80, 0.4);
+  backdrop-filter: blur(4px);
+  margin: 0;
+  width: fit-content;
+  transition: background-position 0.5s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
 
-.home-service-card h3,
-.home-review-card h3 {
+.home-service-card:hover .home-card-kicker {
+  background-position: 100% 0;
+  box-shadow: 0 3px 14px rgba(200, 150, 12, 0.45);
+  transform: translateY(-2px);
+}
+
+/* ─── CONTENT BODY ─── */
+.svc-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.6rem 1.8rem 1.8rem;
+  position: relative;
+  transition: background 0.4s ease;
+}
+
+.home-service-card:hover .svc-body {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 215, 80, 0.045) 0%,
+    transparent 40%
+  );
+}
+
+/* Heading */
+.home-service-card h3 {
   font-family: 'Cinzel', serif;
-  color: var(--maroon-dark);
-  font-size: 1rem;
-  margin-bottom: 0.65rem;
+  color: var(--maroon-dark, #5a0f1e);
+  font-size: clamp(0.95rem, 1.55vw, 1.15rem);
+  margin: 0 0 0.75rem 0;
+  font-weight: 600;
+  line-height: 1.35;
+  transition: color 0.25s ease;
 }
 
-.home-service-card p:last-child,
-.home-about-copy p,
-.home-review-text {
-  color: var(--text-mid);
+.home-service-card:hover h3 {
+  color: var(--maroon-dark, #8B1A2B);
+}
+
+/* Body text */
+.home-service-card p {
+  color: var(--text-mid, #555);
   line-height: 1.8;
-  font-size: 0.92rem;
+  font-size: clamp(0.82rem, 1.25vw, 0.93rem);
+  flex-grow: 1;
+  margin: 0 0 1.4rem 0;
 }
 
+/* Book Now button */
+.svc-btn {
+  align-self: flex-start;
+  font-size: clamp(0.68rem, 1.1vw, 0.75rem);
+  padding: 0.55rem 1.4rem;
+  letter-spacing: 0.06em;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.svc-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+}
+
+/* ── View All button row ── */
 .home-preview-action {
   display: flex;
   justify-content: center;
-  margin-top: 2.5rem;
+  align-items: center;
+  margin-top: 3rem;
+  padding: 2.5rem 0;
+  width: 100%;
 }
 
+.home-preview-action button {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+  padding: 0.9rem 2.2rem;
+  font-size: 0.8rem;
+}
+
+.home-preview-action button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+}
+
+/* ════════════════════════════════════════
+   ABOUT PREVIEW
+════════════════════════════════════════ */
 .home-about-preview {
-  background:
-    radial-gradient(circle at 8% 20%, rgba(200, 150, 12, 0.09), transparent 30%),
-    linear-gradient(160deg, var(--cream) 0%, #fff8e8 100%);
+  background: linear-gradient(180deg, #FF9933 0%, #FFEAB0 60%, #FFF3D4 100%);
 }
 
 .home-about-grid {
@@ -81,49 +319,46 @@
   align-items: center;
 }
 
-.home-about-panel {
-  min-height: 330px;
-  background: linear-gradient(160deg, var(--maroon-dark), #6B1224);
-  border-radius: 8px;
-  border: 1px solid rgba(200, 150, 12, 0.35);
-  color: var(--cream);
+/* ── Floating Logo Wrap (replaces old .home-about-panel box) ── */
+.home-about-logo-wrap {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 2.5rem;
-  box-shadow: 0 16px 42px var(--shadow);
+  gap: 1rem;
 }
 
-.home-about-symbol {
-  font-family: 'Cinzel Decorative', serif;
-  font-size: 4rem;
-  color: var(--gold-light);
-  margin-bottom: 1.5rem;
+.home-about-logo {
+  width: clamp(160px, 22vw, 240px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 10px 28px rgba(90, 15, 30, 0.28));
+  animation: floatLogo 3.6s ease-in-out infinite;
 }
 
-.home-about-panel strong {
+@keyframes floatLogo {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-16px); }
+}
+
+.home-about-logo-wrap strong {
   display: block;
   font-family: 'Cinzel Decorative', serif;
   font-size: 3rem;
-  color: var(--gold-light);
+  color: var(--maroon-dark, #5a0f1e);
   line-height: 1;
-  margin-bottom: 0.7rem;
 }
 
-.home-about-panel p {
-  color: var(--cream-dark);
+.home-about-logo-wrap p {
+  color: var(--maroon-dark, #5a0f1e);
   line-height: 1.8;
+  font-size: 0.95rem;
+  margin: 0;
 }
 
-.home-about-copy .section-title {
-  margin-bottom: 1rem;
-}
-
-.home-about-copy > p {
-  margin-bottom: 1.5rem;
-}
+.home-about-copy .section-title { margin-bottom: 1rem; }
+.home-about-copy > p            { margin-bottom: 1.5rem; }
 
 .home-about-points {
   display: flex;
@@ -137,15 +372,18 @@
   font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--maroon-dark);
-  background: var(--white);
+  color: var(--maroon-dark, #5a0f1e);
+  background: var(--white, #fff);
   border: 1px solid rgba(200, 150, 12, 0.3);
   border-radius: 4px;
   padding: 0.65rem 0.8rem;
 }
 
+/* ════════════════════════════════════════
+   REVIEWS PREVIEW
+════════════════════════════════════════ */
 .home-reviews-preview {
-  background: var(--cream);
+  background: linear-gradient(180deg, #FF9933 0%, #FFEAB0 60%, #FFF3D4 100%);
   position: relative;
 }
 
@@ -158,11 +396,28 @@
 }
 
 .home-review-card {
-  background: var(--white);
+  background: linear-gradient(180deg, #FF9933 0%, #FFEAB0 55%, #FFF3D4 100%);
+  border: 1px solid rgba(200, 150, 12, 0.24);
+  border-left: 4px solid var(--maroon-dark, #5a0f1e);
+  border-radius: 6px;
+  padding: 2rem;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.35s ease;
+  background: #ffffff;
 }
 
+.home-review-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 38px rgba(0,0,0,0.13);
+}
+
+.home-review-card h3 { color: #1a1a1a; }
+
 .home-review-stars {
-  color: var(--gold);
+  color: var(--gold, #C8960C);
   letter-spacing: 0.14em;
   margin-bottom: 1rem;
   font-size: 0.8rem;
@@ -171,13 +426,47 @@
 .home-review-text {
   font-style: italic;
   margin-bottom: 1.5rem;
+  color: #333;
+  line-height: 1.8;
+  font-size: 0.92rem;
 }
 
 .home-review-card span {
-  color: var(--text-mid);
+  color: #666;
   font-size: 0.8rem;
 }
 
+.home-review-card h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.home-about-copy p,
+.home-review-text {
+  color: var(--text-mid, #555);
+  line-height: 1.8;
+  font-size: 0.92rem;
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════ */
+
+/* Tablet landscape */
+@media (max-width: 1100px) {
+  .home-service-grid { gap: 1.5rem; }
+
+  .home-service-card h3 {
+    font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  }
+  .home-service-card p {
+    font-size: clamp(0.8rem, 1.4vw, 0.9rem);
+  }
+}
+
+/* Tablet portrait / small tablet: single column */
 @media (max-width: 900px) {
   .home-service-grid,
   .home-about-grid,
@@ -185,15 +474,138 @@
     grid-template-columns: 1fr;
   }
 
-  .home-about-grid {
-    gap: 2.5rem;
+  .home-about-grid { gap: 2.5rem; }
+
+  .home-service-grid { gap: 1.4rem; }
+
+  .home-service-card h3  { font-size: 1.02rem; }
+  .home-card-kicker      { font-size: 0.63rem; }
+  .home-service-card p   { font-size: 0.88rem; }
+
+  .home-about-logo {
+    width: clamp(130px, 40vw, 200px);
+  }
+
+  .home-about-logo-wrap strong {
+    font-size: 2.4rem;
   }
 }
 
+/* Mobile */
 @media (max-width: 560px) {
-  .home-service-card,
-  .home-review-card,
-  .home-about-panel {
-    padding: 1.5rem;
+  .home-service-grid { gap: 1.1rem; }
+
+  .svc-body { padding: 1.2rem 1.3rem 1.4rem; }
+
+  .home-service-card h3  { font-size: 0.97rem; }
+  .home-card-kicker      { font-size: 0.6rem; letter-spacing: 0.14em; }
+  .home-service-card p   { font-size: 0.85rem; line-height: 1.72; }
+
+  .home-review-card { padding: 1.4rem; }
+
+  .home-about-logo {
+    width: clamp(110px, 38vw, 170px);
+  }
+
+  .home-about-logo-wrap strong {
+    font-size: 2rem;
   }
 }
+
+@media (max-width: 380px) {
+  .svc-body { padding: 1rem 1rem 1.2rem; }
+  .home-service-card h3 { font-size: 0.93rem; }
+  .home-service-card p  { font-size: 0.82rem; }
+}
+
+/* Respect reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .home-services-preview::before,
+  .home-service-card::before,
+  .svc-image-overlay,
+  .home-card-kicker,
+  .home-about-logo {
+    animation: none !important;
+    transition: none !important;
+  }
+  .home-service-card:hover {
+    transform: none;
+    animation: none;
+  }
+  .home-service-card:hover .svc-image {
+    transform: none;
+  }
+}
+
+
+/* ══════════════════════════════════════════════════════════
+   HERO GRADIENT  — solid maroon
+══════════════════════════════════════════════════════════ */
+.home-hero,
+.l1-hero,
+.l2-hero,
+.l3-hero,
+[class*="-hero"] {
+  background: var(--maroon-dark)ortant;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SECTION-TO-SECTION FADE CONNECTORS
+   Pseudo-elements create invisible gradient bridges so
+   adjacent sections blend seamlessly with no hard edge.
+══════════════════════════════════════════════════════════ */
+
+/* Services section: fades out at bottom into the next section */
+.home-services-preview {
+  position: relative;
+}
+/* About section: top fade from saffron, bottom fade to next */
+.home-about-preview {
+  position: relative;
+}
+.home-about-preview::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, #FF9933, transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+.home-about-preview::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent, #FFF3D4);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Reviews section: top fade in */
+.home-reviews-preview::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, #FF9933, transparent);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Card hover: keep text readable over gradient bg */
+.home-service-card:hover .svc-body {
+  background: linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.06) 100%);
+}
+
+/* Svc body text contrast on saffron gradient cards */
+.home-service-card h3 {
+  color: #3a0a00 !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+.home-service-card p {
+  color: #4a1a00 !important;
+}
+.home-review-card h3 { color: #3a0a00; }
+.home-review-text    { color: #4a1a00 !important; }
+.home-review-card span { color: #7a3800; }

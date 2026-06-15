@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: var(--nav-height);
+  height: 70px;
   transition: box-shadow 0.3s, background 0.3s;
 }
 
@@ -108,36 +108,6 @@
   right: 10%;
 }
 
-/* Search Form */
-.nav-search-form {
-  display: flex;
-  align-items: center;
-  margin: 0 0.5rem;
-}
-
-.nav-search-input {
-  padding: 0.45rem 1rem;
-  border-radius: 20px;
-  border: 1px solid rgba(242, 201, 76, 0.45);
-  outline: none;
-  font-family: 'Cinzel', serif;
-  font-size: 0.9rem;
-  width: 100%;
-  max-width: 180px;
-  background: rgba(255, 253, 247, 0.08);
-  color: var(--cream);
-  transition: all 0.3s;
-}
-
-.nav-search-input::placeholder {
-  color: rgba(255, 253, 247, 0.6);
-}
-
-.nav-search-input:focus {
-  border-color: var(--gold-light);
-  background: rgba(255, 253, 247, 0.15);
-}
-
 /* Book button */
 .nav-book-btn {
   font-family: 'Cinzel', serif;
@@ -224,7 +194,7 @@
 .mobile-nav {
   display: none;
   position: fixed;
-  top: var(--nav-height);
+  top: 70px;
   left: 0;
   right: 0;
   background: var(--maroon-dark);
@@ -235,6 +205,8 @@
   opacity: 0;
   transition: opacity 0.25s, transform 0.25s;
   pointer-events: none;
+  max-height: calc(100vh - 70px - 70px);
+  overflow-y: auto;
 }
 
 .mobile-nav.open {
@@ -284,29 +256,410 @@
   border-bottom: 1px solid rgba(200, 150, 12, 0.2);
 }
 
-@media (max-width: 900px) {
+/* ════════════════════════════════════════════════════════════════ */
+/* MOBILE PHONES: 320px - 480px */
+/* ════════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 0.75rem;
+    height: 65px;
+  }
+  
+  .nav-logo {
+    gap: 8px;
+  }
+  
+  .nav-logo-icon {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .nav-logo-text {
+    font-size: 1rem;
+  }
+  
+  .nav-logo-sub {
+    font-size: 0.55rem;
+  }
+  
   .nav-links {
     display: none;
   }
+  
   .nav-book-btn {
     display: none;
   }
+  
   .language-select-wrap {
     display: none;
   }
-  .nav-search-form {
-    display: none;
-  }
+  
   .hamburger {
     display: flex;
+    gap: 3px;
   }
+  
+  .hamburger span {
+    width: 20px;
+    height: 1.5px;
+  }
+  
   .mobile-nav {
-    display: block;
+    top: 65px;
+    max-height: calc(100vh - 65px - 68px);
+    padding: 0.6rem 0.8rem;
   }
-  .mobile-nav:not(.open) {
+  
+  .mobile-nav a {
+    padding: 0.6rem 0.4rem;
+    font-size: 0.95rem;
+  }
+  
+  .mobile-book-btn {
+    margin-top: 0.8rem;
+    font-size: 0.9rem !important;
+  }
+  
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #4A0D1A;
+    border-top: 1.5px solid rgba(200, 134, 12, 0.4);
+    z-index: 2000;
+    height: 68px;
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.4);
+  }
+  
+  .mobile-bottom-nav a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.58rem;
+    transition: all 0.3s;
+    text-align: center;
+    line-height: 1.1;
+  }
+  
+  .mobile-bottom-nav a.active {
+    color: #F0C040;
+  }
+  
+  .mobile-bottom-nav .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3px;
+    transition: transform 0.3s;
+    width: 18px;
+    height: 18px;
+  }
+  
+  .mobile-bottom-nav a.active .icon {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 0 4px rgba(240, 192, 64, 0.5));
+  }
+  
+  body {
+    padding-bottom: 68px;
+  }
+  
+  .chatbot-fab,
+  .scroll-top-btn {
+    margin-bottom: 75px !important;
+  }
+  
+  .nav-profile-name {
     display: none;
   }
+  
+  .nav-profile-btn {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+  }
+  
+  .nav-avatar {
+    width: 22px;
+    height: 22px;
+    font-size: 0.58rem;
+  }
+  
+  .nav-chevron {
+    font-size: 0.5rem;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════ */
+/* TABLETS: 481px - 1024px */
+/* ════════════════════════════════════════════════════════════════ */
+@media (min-width: 481px) and (max-width: 1024px) {
   .navbar {
-    padding: 0 1.2rem;
+    padding: 0 1rem;
+    height: 68px;
+  }
+  
+  .nav-logo {
+    gap: 10px;
+  }
+  
+  .nav-logo-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .nav-logo-text {
+    font-size: 1.2rem;
+  }
+  
+  .nav-logo-sub {
+    font-size: 0.6rem;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .nav-book-btn {
+    display: none;
+  }
+  
+  .language-select-wrap {
+    display: none;
+  }
+  
+  .hamburger {
+    display: flex;
+    gap: 4px;
+  }
+  
+  .hamburger span {
+    width: 24px;
+    height: 2px;
+  }
+  
+  .mobile-nav {
+    top: 68px;
+    max-height: calc(100vh - 68px - 72px);
+    padding: 0.8rem 1rem;
+  }
+  
+  .mobile-nav a {
+    padding: 0.7rem 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .mobile-book-btn {
+    margin-top: 1rem;
+    font-size: 0.95rem !important;
+  }
+  
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #4A0D1A;
+    border-top: 1.5px solid rgba(200, 134, 12, 0.4);
+    z-index: 2000;
+    height: 72px;
+    padding-bottom: env(safe-area-inset-bottom);
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.4);
+  }
+  
+  .mobile-bottom-nav a {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.12rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.62rem;
+    transition: all 0.3s;
+    text-align: center;
+    line-height: 1.2;
+  }
+  
+  .mobile-bottom-nav a.active {
+    color: #F0C040;
+  }
+  
+  .mobile-bottom-nav .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+    transition: transform 0.3s;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .mobile-bottom-nav a.active .icon {
+    transform: translateY(-2px);
+    filter: drop-shadow(0 0 4px rgba(240, 192, 64, 0.5));
+  }
+  
+  body {
+    padding-bottom: 72px;
+  }
+  
+  .chatbot-fab,
+  .scroll-top-btn {
+    margin-bottom: 78px !important;
+  }
+  
+  .nav-profile-name {
+    display: none;
+  }
+  
+  .nav-profile-btn {
+    padding: 0.32rem 0.7rem;
+    font-size: 0.75rem;
+  }
+  
+  .nav-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 0.62rem;
+  }
+  
+  .nav-chevron {
+    font-size: 0.55rem;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════ */
+/* DESKTOP: 1025px and above */
+/* ════════════════════════════════════════════════════════════════ */
+@media (min-width: 1025px) {
+  .navbar {
+    padding: 0 2.5rem;
+    height: 70px;
+  }
+  
+  .nav-logo {
+    gap: 12px;
+  }
+  
+  .nav-logo-icon {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .nav-logo-text {
+    font-size: 1.5rem;
+  }
+  
+  .nav-logo-sub {
+    font-size: 0.65rem;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 0.1rem;
+  }
+  
+  .nav-book-btn {
+    display: inline-block;
+  }
+  
+  .language-select-wrap {
+    display: flex;
+    min-width: 100px;
+  }
+  
+  .hamburger {
+    display: none;
+  }
+  
+  .mobile-nav {
+    display: none;
+  }
+  
+  .mobile-bottom-nav {
+    display: none;
+  }
+  
+  body {
+    padding-bottom: 0;
+  }
+  
+  .chatbot-fab,
+  .scroll-top-btn {
+    margin-bottom: 0 !important;
+  }
+  
+  .nav-profile-name {
+    display: inline;
+  }
+  
+  .nav-profile-btn {
+    padding: 0.35rem 0.9rem 0.35rem 0.45rem;
+    font-size: 0.82rem;
+  }
+  
+  .nav-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 0.7rem;
+  }
+  
+  .nav-chevron {
+    font-size: 0.6rem;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════ */
+/* LANDSCAPE ORIENTATION */
+/* ════════════════════════════════════════════════════════════════ */
+@media (max-height: 500px) and (orientation: landscape) {
+  .navbar {
+    height: 50px;
+  }
+  
+  .nav-logo-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .nav-logo-text {
+    font-size: 0.9rem;
+  }
+  
+  .nav-logo-sub {
+    font-size: 0.5rem;
+  }
+  
+  .nav-links a {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  
+  .nav-book-btn {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.75rem;
+  }
+  
+  .mobile-nav {
+    top: 50px;
+    max-height: calc(100vh - 50px);
+  }
+  
+  .mobile-bottom-nav {
+    display: none !important;
+  }
+  
+  body {
+    padding-bottom: 0 !important;
   }
 }

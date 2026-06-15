@@ -1,0 +1,322 @@
+/* ReviewsPage.css — Dharma Sankalpam Theme */
+
+/* Page */
+.rp-page {
+  min-height: 100vh;
+  background: #FFF8E8;
+  font-family: "Segoe UI", sans-serif;
+  color: #333;
+}
+
+/* Hero */
+.rp-hero {
+  background: var(--ds-maroon-dark, #4A0D1A);
+  padding: 5rem 1rem 4.5rem;
+  text-align: center;
+  color: #fff;
+}
+.rp-hero-inner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+.rp-hero-logo {
+  width: 86px;
+  height: 86px;
+  object-fit: contain;
+  margin-bottom: 0.8rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+}
+.rp-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.4px;
+}
+.rp-subtitle {
+  font-size: 1rem;
+  opacity: 0.88;
+  margin: 0 0 1.5rem;
+}
+.rp-submit-btn {
+  display: inline-block;
+  padding: 0.7rem 1.75rem;
+  background: #fff;
+  color: var(--ds-maroon-dark, #4A0D1A);
+  border: none;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.rp-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.16);
+}
+.rp-submit-btn--outline {
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.6);
+  box-shadow: none;
+}
+.rp-submit-btn--outline:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Body */
+.rp-body {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 4rem;
+}
+
+/* Summary block */
+.rp-summary {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 4px 24px rgba(255,153,51,0.1);
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.rp-avg-block {
+  text-align: center;
+  min-width: 100px;
+}
+.rp-avg-number {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #FF9933;
+  margin: 0 0 4px;
+  line-height: 1;
+}
+.rp-avg-label {
+  font-size: 0.8rem;
+  color: #888;
+  margin: 6px 0 0;
+}
+.rp-breakdown {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 180px;
+}
+.rp-breakdown-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.rp-breakdown-label {
+  font-size: 0.8rem;
+  color: #555;
+  min-width: 24px;
+}
+.rp-breakdown-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: #f0e8d5;
+  border-radius: 99px;
+  overflow: hidden;
+}
+.rp-breakdown-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF9933, #E67E22);
+  border-radius: 99px;
+  transition: width 0.6s ease;
+}
+.rp-breakdown-count {
+  font-size: 0.78rem;
+  color: #aaa;
+  min-width: 20px;
+  text-align: right;
+}
+
+@media (max-width: 640px) {
+  .rp-hero {
+    padding: 4rem 1rem 3.5rem;
+  }
+}
+
+/* Star display */
+.rp-star-display { display: flex; gap: 2px; }
+.rp-star-display--sm .rp-star--filled,
+.rp-star-display--sm .rp-star--empty { font-size: 1rem; }
+.rp-star-display--lg .rp-star--filled,
+.rp-star-display--lg .rp-star--empty { font-size: 1.5rem; }
+.rp-star--filled { color: #FF9933; }
+.rp-star--empty  { color: #ddd; }
+
+/* Controls */
+.rp-controls {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.75rem;
+}
+.rp-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rp-control-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.rp-select {
+  padding: 0.55rem 2.25rem 0.55rem 0.85rem;
+  border: 1.5px solid #e0d5c0;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  color: #333;
+  background: #fff;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23888' d='M5 6L0 0h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.rp-select:focus { border-color: #FF9933; }
+.rp-result-count {
+  font-size: 0.82rem;
+  color: #aaa;
+  margin-left: auto;
+  align-self: flex-end;
+  padding-bottom: 0.1rem;
+}
+
+/* Review grid */
+.rp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Review card */
+.rp-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.4rem 1.5rem;
+  box-shadow: 0 4px 20px rgba(255,153,51,0.08);
+  border: 1px solid #f5e8cc;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.rp-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(255,153,51,0.16);
+}
+
+/* Card header */
+.rp-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.rp-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.rp-card-meta { flex: 1; min-width: 0; }
+.rp-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rp-location {
+  font-size: 0.78rem;
+  color: #aaa;
+  margin: 2px 0 0;
+}
+.rp-card-rating { flex-shrink: 0; }
+
+/* Service tag */
+.rp-service-tag {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.rp-service-tag span:first-child {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #E67E22;
+  background: #FFF1D6;
+  padding: 3px 10px;
+  border-radius: 50px;
+}
+.rp-date {
+  font-size: 0.75rem;
+  color: #bbb;
+  background: transparent !important;
+  padding: 0 !important;
+  font-weight: 400;
+}
+
+/* Review text */
+.rp-review-text {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Empty state */
+.rp-empty {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+.rp-empty-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+.rp-empty-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 0.5rem;
+}
+.rp-empty-sub {
+  font-size: 0.95rem;
+  color: #888;
+  margin: 0 0 1.75rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .rp-summary { flex-direction: column; gap: 1.25rem; padding: 1.5rem; }
+  .rp-avg-block { width: 100%; }
+  .rp-controls { gap: 0.75rem; }
+  .rp-result-count { margin-left: 0; }
+  .rp-title { font-size: 1.6rem; }
+  .rp-grid { grid-template-columns: 1fr; }
+}
