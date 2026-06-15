@@ -1,0 +1,199 @@
+.home-services-preview {
+  background: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+.home-services-preview::before {
+  content: 'Om';
+  position: absolute;
+  right: 4%;
+  top: 1rem;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(5rem, 14vw, 12rem);
+  color: rgba(123, 28, 46, 0.035);
+  pointer-events: none;
+}
+
+.home-service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.home-service-card,
+.home-review-card {
+  background: var(--cream);
+  border: 1px solid rgba(200, 150, 12, 0.24);
+  border-radius: 6px;
+  padding: 2rem;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+
+.home-service-card:hover,
+.home-review-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--gold);
+  box-shadow: 0 14px 34px var(--shadow);
+}
+
+.home-card-kicker {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+}
+
+.home-service-card h3,
+.home-review-card h3 {
+  font-family: 'Cinzel', serif;
+  color: var(--maroon-dark);
+  font-size: 1rem;
+  margin-bottom: 0.65rem;
+}
+
+.home-service-card p:last-child,
+.home-about-copy p,
+.home-review-text {
+  color: var(--text-mid);
+  line-height: 1.8;
+  font-size: 0.92rem;
+}
+
+.home-preview-action {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+
+.home-about-preview {
+  background:
+    radial-gradient(circle at 8% 20%, rgba(200, 150, 12, 0.09), transparent 30%),
+    linear-gradient(160deg, var(--cream) 0%, #fff8e8 100%);
+}
+
+.home-about-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.3fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.home-about-panel {
+  min-height: 330px;
+  background: linear-gradient(160deg, var(--maroon-dark), #6B1224);
+  border-radius: 8px;
+  border: 1px solid rgba(200, 150, 12, 0.35);
+  color: var(--cream);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2.5rem;
+  box-shadow: 0 16px 42px var(--shadow);
+}
+
+.home-about-symbol {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 4rem;
+  color: var(--gold-light);
+  margin-bottom: 1.5rem;
+}
+
+.home-about-panel strong {
+  display: block;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 3rem;
+  color: var(--gold-light);
+  line-height: 1;
+  margin-bottom: 0.7rem;
+}
+
+.home-about-panel p {
+  color: var(--cream-dark);
+  line-height: 1.8;
+}
+
+.home-about-copy .section-title {
+  margin-bottom: 1rem;
+}
+
+.home-about-copy > p {
+  margin-bottom: 1.5rem;
+}
+
+.home-about-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.home-about-points span {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--maroon-dark);
+  background: var(--white);
+  border: 1px solid rgba(200, 150, 12, 0.3);
+  border-radius: 4px;
+  padding: 0.65rem 0.8rem;
+}
+
+.home-reviews-preview {
+  background: var(--cream);
+  position: relative;
+}
+
+.home-review-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.home-review-card {
+  background: var(--white);
+}
+
+.home-review-stars {
+  color: var(--gold);
+  letter-spacing: 0.14em;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+}
+
+.home-review-text {
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+.home-review-card span {
+  color: var(--text-mid);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 900px) {
+  .home-service-grid,
+  .home-about-grid,
+  .home-review-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-about-grid {
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .home-service-card,
+  .home-review-card,
+  .home-about-panel {
+    padding: 1.5rem;
+  }
+}

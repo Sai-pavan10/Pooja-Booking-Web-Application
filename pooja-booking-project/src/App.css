@@ -1,0 +1,8 @@
+.page-main > section:first-child {
+  padding-top: calc(var(--nav-height) + 4rem);
+  min-height: calc(100vh - var(--nav-height));
+}
+
+.home-main {
+  min-height: 100vh;
+}
