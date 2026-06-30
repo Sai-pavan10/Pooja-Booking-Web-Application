@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import './Hero.css';
 import { useLanguage } from '../i18n';
 import heroImg from '../assets/heroimg.png';

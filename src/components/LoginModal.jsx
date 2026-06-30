@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useAuth } from "../context/auth-context";
 import { showToast } from "./toast-service";
 import './loginmodal.css';
@@ -85,7 +85,7 @@ export default function LoginModal({ onClose, redirectAfterLogin }) {
 
         {/* Header */}
         <div className="lm-header">
-          <div className="lm-diya">🪔</div>
+          <div className="lm-diya"></div>
           <h2 className="lm-title">
             {showReset ? "Reset Password" : tab === "login" ? "Welcome Back" : "Create Account"}
           </h2>
@@ -109,14 +109,14 @@ export default function LoginModal({ onClose, redirectAfterLogin }) {
           </div>
         )}
 
-        {error && <div className="lm-error"><span>⚠️</span> {error}</div>}
+        {error && <div className="lm-error"><span></span> {error}</div>}
 
         {/* Reset Password Form */}
         {showReset && (
           <div className="lm-body">
             {resetSent ? (
               <div className="lm-reset-success">
-                <div className="lm-reset-icon">📧</div>
+                <div className="lm-reset-icon"></div>
                 <p>Reset link sent to <strong>{resetEmail}</strong>. Check your inbox.</p>
                 <button className="lm-btn" onClick={() => { setShowReset(false); setResetSent(false); }}>
                   Back to Login

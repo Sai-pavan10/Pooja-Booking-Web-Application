@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { LANGUAGES, useLanguage } from '../i18n';
 import { useAuth } from '../context/auth-context';
 import LoginModal from './LoginModal';
@@ -339,17 +339,17 @@ export default function Navbar() {
                   <span className="nav-dropdown-user-email">{user.email}</span>
                 </div>
                 <button className="nav-dropdown-item" onClick={() => { setDropdownOpen(false); handleNav('/my-bookings'); }}>
-                  📋 My Bookings
+                  My Bookings
                 </button>
                 <button className="nav-dropdown-item logout" onClick={handleLogout}>
-                  🚪 Logout
+                  Logout
                 </button>
               </div>
             )}
           </div>
         ) : (
           <button className="nav-login-btn" onClick={() => setShowLoginModal(true)}>
-            👤 Login
+            Login
           </button>
         )}
 
@@ -375,17 +375,17 @@ export default function Navbar() {
         {user ? (
           <>
             <a href="/my-bookings" onClick={e => { e.preventDefault(); handleNav('/my-bookings'); }}>
-              📋 My Bookings
+              My Bookings
             </a>
             <button style={{ background: 'none', border: 'none', color: '#fca5a5', padding: '0.75rem 1.5rem', textAlign: 'left', cursor: 'pointer', fontSize: '1rem' }}
               onClick={handleLogout}>
-              🚪 Logout
+              Logout
             </button>
           </>
         ) : (
           <button style={{ background: 'none', border: 'none', color: '#F0C040', padding: '0.75rem 1.5rem', textAlign: 'left', cursor: 'pointer', fontSize: '1rem' }}
             onClick={() => { setMenuOpen(false); setShowLoginModal(true); }}>
-            👤 Login / Sign Up
+            Login / Sign Up
           </button>
         )}
         <label className="mobile-language-select">

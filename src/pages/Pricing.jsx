@@ -1,40 +1,40 @@
-import { useEffect, useRef } from 'react';
+﻿import { useEffect, useRef } from 'react';
 import { useLanguage } from '../i18n';
 import './Pricing.css';
 
 const PLANS = {
   en: [
     {
-      name: '🌸 Shanti Package',
+      name: ' Shanti Package',
       price: '₹15,116',
       highlight: false,
       features: [
         'Included ✅',
         '3 Pandits',
         'Sri Sudarshana Idol',
-        'Travel Expenses 🚗 (within 50 km in Hyderabad)',
+        'Travel Expenses  (within 50 km in Hyderabad)',
         'Not Included ❌ Sudarshana Yantra Mandalam',
         'Pooja Samagri',
-        'Flowers & Garlands 💐',
-        'Fruits 🍎',
+        'Flowers & Garlands ',
+        'Fruits ',
       ],
     },
     {
-      name: '💮 Sankalpasiddhi Package',
+      name: ' Sankalpasiddhi Package',
       price: '₹25,116',
       highlight: true,
       features: [
         'Included ✅',
         '4 Pandits',
         'Sudarshana Idol + Narasimha Swami Idol',
-        'Sudarshana Yantra Mandalam 🔱',
+        'Sudarshana Yantra Mandalam ',
         'Pooja Samagri',
-        'Flowers, Garlands 💐 & Fruits 🍎',
-        'Travel Expenses 🚗 (within 50 km in Hyderabad)',
+        'Flowers, Garlands  & Fruits ',
+        'Travel Expenses  (within 50 km in Hyderabad)',
       ],
     },
     {
-      name: '🔥 Maha Raksha Package',
+      name: ' Maha Raksha Package',
       price: '₹50,116',
       highlight: false,
       badge: 'Valid for one year',
@@ -50,7 +50,7 @@ const PLANS = {
   ],
   te: [
     {
-      name: '🌸 శాంతి ప్యాకేజీ',
+      name: ' శాంతి ప్యాకేజీ',
       nameEn: 'Shanti Package',
       price: '₹15,116',
       highlight: false,
@@ -58,15 +58,15 @@ const PLANS = {
         'ఇంక్లూడ్డ్ ✅',
         'పూజారులు 3',
         'శ్రీ సుదర్శన విగ్రహం',
-        'ప్రయాణ ఖర్చులు 🚗 (హైదరాబాద్ 50 km పరిధిలో మాత్రమే)',
+        'ప్రయాణ ఖర్చులు  (హైదరాబాద్ 50 km పరిధిలో మాత్రమే)',
         'నాట్ ఇంక్లూడింగ్ ❌ సుదర్శన యంత్ర మండలం',
         'పూజా సామాగ్రి',
-        'పూలు అండ్ పూలమాలలు 💐',
-        'పండ్లు 🍎',
+        'పూలు అండ్ పూలమాలలు ',
+        'పండ్లు ',
       ],
     },
     {
-      name: '💮 సంకల్పసిద్ధి ప్యాకేజీ',
+      name: ' సంకల్పసిద్ధి ప్యాకేజీ',
       nameEn: 'Sankalpasiddhi Package',
       price: '₹25,116',
       highlight: true,
@@ -74,14 +74,14 @@ const PLANS = {
         'ఇంక్లూడ్డ్ ✅',
         'పూజారులు 4',
         'సుదర్శన విగ్రహం + నరసింహా స్వామి విగ్రహం',
-        'సుదర్శన యంత్ర మండలం 🔱',
+        'సుదర్శన యంత్ర మండలం ',
         'పూజా సామాగ్రి',
-        'పూలు,పూలమాలలు 💐 పండ్లు 🍎',
-        'ప్రయాణ ఖర్చులు 🚗 (హైదరాబాద్ పరిధిలో 50 km లోపల మాత్రమే)',
+        'పూలు,పూలమాలలు  పండ్లు ',
+        'ప్రయాణ ఖర్చులు  (హైదరాబాద్ పరిధిలో 50 km లోపల మాత్రమే)',
       ],
     },
     {
-      name: '🔥 మహా రక్ష ప్యాకేజీ',
+      name: ' మహా రక్ష ప్యాకేజీ',
       nameEn: 'Maha Raksha Package',
       price: '₹50,116',
       highlight: false,
@@ -98,7 +98,7 @@ const PLANS = {
   ],
   hi: [
     {
-      name: '🌸 शांति पैकेज',
+      name: ' शांति पैकेज',
       nameEn: 'Shanti Package',
       price: '₹15,116',
       highlight: false,
@@ -106,15 +106,15 @@ const PLANS = {
         'शामिल ✅',
         '3 पंडित',
         'श्री सुदर्शन मूर्ति',
-        'यात्रा खर्च 🚗 (हैदराबाद 50 km के भीतर)',
+        'यात्रा खर्च  (हैदराबाद 50 km के भीतर)',
         'शामिल नहीं ❌ सुदर्शन यंत्र मंडल',
         'पूजा सामग्री',
-        'फूल और मालाएं 💐',
-        'फल 🍎',
+        'फूल और मालाएं ',
+        'फल ',
       ],
     },
     {
-      name: '💮 संकल्पसिद्धि पैकेज',
+      name: ' संकल्पसिद्धि पैकेज',
       nameEn: 'Sankalpasiddhi Package',
       price: '₹25,116',
       highlight: true,
@@ -122,14 +122,14 @@ const PLANS = {
         'शामिल ✅',
         '4 पंडित',
         'सुदर्शन मूर्ति + नरसिम्हा स्वामी मूर्ति',
-        'सुदर्शन यंत्र मंडल 🔱',
+        'सुदर्शन यंत्र मंडल ',
         'पूजा सामग्री',
-        'फूल, मालाएं 💐 और फल 🍎',
-        'यात्रा खर्च 🚗 (हैदराबाद 50 km के भीतर)',
+        'फूल, मालाएं  और फल ',
+        'यात्रा खर्च  (हैदराबाद 50 km के भीतर)',
       ],
     },
     {
-      name: '🔥 महा रक्षा पैकेज',
+      name: ' महा रक्षा पैकेज',
       nameEn: 'Maha Raksha Package',
       price: '₹50,116',
       highlight: false,
@@ -154,7 +154,7 @@ const TEXT = {
     popular: "⭐ Most Popular",
     estimated: "Estimated Price",
     book: "Select & Book →",
-    customNote: "🕉 Contact us if you need a custom package",
+    customNote: " Contact us if you need a custom package",
     requestCustom: "Request Custom Package"
   },
   te: {
@@ -164,7 +164,7 @@ const TEXT = {
     popular: "⭐ Most Popular",
     estimated: "సంభావన (Estimated Price)",
     book: "Select & Book →",
-    customNote: "🕉 కస్టమ్ ప్యాకేజీ కావాలంటే మాతో సంప్రదించండి",
+    customNote: " కస్టమ్ ప్యాకేజీ కావాలంటే మాతో సంప్రదించండి",
     requestCustom: "Request Custom Package"
   },
   hi: {
@@ -174,7 +174,7 @@ const TEXT = {
     popular: "⭐ Most Popular",
     estimated: "अनुमानित मूल्य (Estimated Price)",
     book: "Select & Book →",
-    customNote: "🕉 यदि आपको कस्टम पैकेज की आवश्यकता है तो हमसे संपर्क करें",
+    customNote: " यदि आपको कस्टम पैकेज की आवश्यकता है तो हमसे संपर्क करें",
     requestCustom: "Request Custom Package"
   }
 };
@@ -209,7 +209,7 @@ export default function Pricing() {
           <h2 className="section-title">{currentText.title}</h2>
           <div className="divider">
             <span className="divider-line" />
-            <span className="divider-lotus">🪷</span>
+            <span className="divider-lotus"></span>
             <span className="divider-line right" />
           </div>
           <p className="section-intro">{currentText.intro}</p>

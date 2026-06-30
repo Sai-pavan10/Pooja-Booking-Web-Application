@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import './Footer.css';
 import { getServiceItems, useLanguage } from '../i18n';
 import logo from '../assets/logo.PNG';

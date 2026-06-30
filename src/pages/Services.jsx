@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+﻿import { useEffect, useState, useRef, useCallback } from 'react';
 import { useLanguage } from '../i18n';
 import { useAuth } from '../context/auth-context';
 import LoginModal from '../components/LoginModal';
@@ -389,10 +389,10 @@ function createRipple(e) {
 // ─── MODE BADGE ───────────────────────────────────────────────────────────────
 function ModeBadge({ mode, ui }) {
   const map = {
-    both: { label: ui.bothAvail, color: '#117A65', bg: 'rgba(17,122,101,0.12)', icon: '📡' },
-    offline: { label: ui.offlineAvail, color: '#C8860C', bg: 'rgba(200,134,12,0.12)', icon: '🏠' },
-    temple: { label: ui.templePooja, color: '#784212', bg: 'rgba(120,66,18,0.12)', icon: '🛕' },
-    online: { label: ui.onlineAvail, color: '#1A5276', bg: 'rgba(26,82,118,0.12)', icon: '📡' },
+    both: { label: ui.bothAvail, color: '#117A65', bg: 'rgba(17,122,101,0.12)', icon: '' },
+    offline: { label: ui.offlineAvail, color: '#C8860C', bg: 'rgba(200,134,12,0.12)', icon: '' },
+    temple: { label: ui.templePooja, color: '#784212', bg: 'rgba(120,66,18,0.12)', icon: '' },
+    online: { label: ui.onlineAvail, color: '#1A5276', bg: 'rgba(26,82,118,0.12)', icon: '' },
   };
   const cfg = map[mode] || map.offline;
   return (
@@ -470,13 +470,13 @@ function BookingModal({ onClose, poojaName = "", language = "en" }) {
     <div className="ds-modal-backdrop" onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="ds-modal">
         <div className="ds-modal-head">
-          <span>🪔 {ui.bookPooja}{poojaName ? ` — ${poojaName}` : ''}</span>
+          <span> {ui.bookPooja}{poojaName ? ` — ${poojaName}` : ''}</span>
           <button className="ds-modal-close" onClick={onClose}>✕</button>
         </div>
         <div className="ds-modal-body">
           {submitted ? (
             <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🙏</div>
+              <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}></div>
               <p style={{ fontWeight: 700, color: 'var(--ds-maroon)', marginBottom: '0.5rem' }}>{ui.jaiSrimannarayana}</p>
               <p style={{ color: 'var(--ds-text)', lineHeight: 1.6 }}>Your booking request has been received. Sri Daruri Vishnuvardhana Charyulu will contact you shortly at <strong>{form.phone}</strong>.</p>
             </div>
@@ -487,7 +487,7 @@ function BookingModal({ onClose, poojaName = "", language = "en" }) {
                 <div style={{ display: 'flex', gap: '0.75rem' }}>
                   {['offline', 'online'].map(ty => (
                     <button key={ty} onClick={() => setForm(f => ({ ...f, type: ty }))} style={{ flex: 1, padding: '0.5rem', border: `2px solid ${form.type === ty ? 'var(--ds-gold)' : 'var(--ds-border)'}`, borderRadius: 6, background: form.type === ty ? 'var(--ds-gold-pale)' : '#fff', color: 'var(--ds-maroon)', fontWeight: 600, cursor: 'pointer', fontSize: '0.82rem', transition: 'all 0.2s' }}>
-                      {ty === 'offline' ? '🏠 Home Visit' : '📡 Online Video'}
+                      {ty === 'offline' ? ' Home Visit' : ' Online Video'}
                     </button>
                   ))}
                 </div>
@@ -514,10 +514,10 @@ function BookingModal({ onClose, poojaName = "", language = "en" }) {
 // ─── ONLINE STEPS SECTION ─────────────────────────────────────────────────────
 function OnlineStepsSection({ ui }) {
   const steps = [
-    { n: '01', label: ui.step1, icon: '🙏' },
-    { n: '02', label: ui.step2, icon: '📅' },
-    { n: '03', label: ui.step3, icon: '🔗' },
-    { n: '04', label: ui.step4, icon: '📡' },
+    { n: '01', label: ui.step1, icon: '' },
+    { n: '02', label: ui.step2, icon: '' },
+    { n: '03', label: ui.step3, icon: '' },
+    { n: '04', label: ui.step4, icon: '' },
     { n: '05', label: ui.step5, icon: '✨' },
   ];
   return (
@@ -544,9 +544,9 @@ function OnlineStepsSection({ ui }) {
 // ─── SERVICE MODES SECTION ────────────────────────────────────────────────────
 function ServiceModesSection({ ui }) {
   const modes = [
-    { icon: '🏠', title: ui.homePooja, desc: ui.homePoojaDesc, color: '#C8860C' },
-    { icon: '🛕', title: ui.templePooja, desc: ui.templePoojaDesc, color: '#117A65' },
-    { icon: '📡', title: ui.onlinePooja, desc: ui.onlinePoojaDesc, color: '#1A5276' },
+    { icon: '', title: ui.homePooja, desc: ui.homePoojaDesc, color: '#C8860C' },
+    { icon: '', title: ui.templePooja, desc: ui.templePoojaDesc, color: '#117A65' },
+    { icon: '', title: ui.onlinePooja, desc: ui.onlinePoojaDesc, color: '#1A5276' },
     { icon: '✨', title: ui.personalizedPooja, desc: ui.personalizedDesc, color: '#784212' },
   ];
   return (
@@ -572,12 +572,12 @@ function ServiceModesSection({ ui }) {
 // ─── TRUST SECTION ────────────────────────────────────────────────────────────
 function TrustSection({ ui }) {
   const stats = [
-    { icon: '👨‍💼', value: '50+', label: ui.verifiedPriests },
-    { icon: '🔒', value: '100%', label: ui.securePay },
-    { icon: '💬', value: '24/7', label: ui.support247 },
-    { icon: '🙏', value: '5000+', label: ui.successPoojas },
+    { icon: '‍', value: '50+', label: ui.verifiedPriests },
+    { icon: '', value: '100%', label: ui.securePay },
+    { icon: '', value: '24/7', label: ui.support247 },
+    { icon: '', value: '5000+', label: ui.successPoojas },
     { icon: '⭐', value: '4.9/5', label: ui.satisfaction },
-    { icon: '📡', value: 'Global', label: ui.onlineOffline },
+    { icon: '', value: 'Global', label: ui.onlineOffline },
   ];
   return (
     <section className="ds-trust-section">
@@ -627,7 +627,7 @@ function Level1({ onSelectCategory, onBook, initialSearch = "" }) {
       <section className="ds-hero">
         <div className="ds-hero-content-side">
           <div className="ds-hero-content">
-            <div className="ds-hero-tag">🕉 {ui.heroTag}</div>
+            <div className="ds-hero-tag"> {ui.heroTag}</div>
             <h1 className="ds-hero-title">
               {ui.heroTitleMain}<span className="ds-hero-em">{ui.heroTitleEm}</span>{ui.heroTitleSuffix}
             </h1>
@@ -635,10 +635,10 @@ function Level1({ onSelectCategory, onBook, initialSearch = "" }) {
             <p className="ds-hero-subdesc">{ui.heroSubDesc}</p>
             <div className="ds-hero-ctas">
               <button className="ds-btn-gold" onClick={onBook} onMouseDown={createRipple}>
-                <span>🏠</span> {ui.bookOffline}
+                <span></span> {ui.bookOffline}
               </button>
               <button className="ds-btn-outline" onClick={onBook} onMouseDown={createRipple}>
-                <span>📡</span> {ui.joinOnline}
+                <span></span> {ui.joinOnline}
               </button>
             </div>
             <div className="ds-hero-stats">
@@ -658,7 +658,7 @@ function Level1({ onSelectCategory, onBook, initialSearch = "" }) {
         <div className="ds-section-label">Sacred Ceremonies</div>
         <h2 className="ds-section-title">{ui.allServices}</h2>
         <div className="ds-search-bar">
-          <span className="ds-search-icon">🔍</span>
+          <span className="ds-search-icon"></span>
           <input className="ds-search-input" placeholder={ui.searchPlaceholder} value={search} onChange={e => setSearch(e.target.value)} />
         </div>
         <div className="ds-cats-grid">
@@ -739,7 +739,7 @@ function Level2({ category, onBack, onSelectPooja }) {
         </div>
       </div>
       <div className="ds-search-bar" style={{ margin: '0 2rem 0.5rem' }}>
-        <span className="ds-search-icon">🔍</span>
+        <span className="ds-search-icon"></span>
         <input className="ds-search-input" placeholder={`${ui.searchWithin} ${t(category.title, language)}...`} value={search} onChange={e => setSearch(e.target.value)} />
       </div>
       <div className="ds-sub-grid">
@@ -814,7 +814,7 @@ function Level3({ category, pooja, onBackToL1, onBackToL2, onBook }) {
         <div className="ds-l3-main">
           {/* About */}
           <div className="ds-section-card">
-            <div className="ds-section-card-head">🕉 {ui.aboutPooja}</div>
+            <div className="ds-section-card-head"> {ui.aboutPooja}</div>
             <div className="ds-section-card-body"><p>{t(details.about, language)}</p></div>
           </div>
           {/* Importance */}
@@ -829,12 +829,12 @@ function Level3({ category, pooja, onBackToL1, onBackToL2, onBook }) {
           </div>
           {/* Best Time */}
           <div className="ds-section-card">
-            <div className="ds-section-card-head">🌅 {ui.bestTime}</div>
+            <div className="ds-section-card-head"> {ui.bestTime}</div>
             <div className="ds-section-card-body"><p>{t(details.bestTime, language)}</p></div>
           </div>
           {/* Samagri */}
           <div className="ds-section-card">
-            <div className="ds-section-card-head">📦 {ui.samagri}</div>
+            <div className="ds-section-card-head"> {ui.samagri}</div>
             <div className="ds-section-card-body">
               <p style={{ marginBottom: '1rem', fontSize: '0.88rem', color: 'var(--ds-text-light)' }}>{ui.samagriNote}</p>
               <div className="ds-samagri-grid">
@@ -846,7 +846,7 @@ function Level3({ category, pooja, onBackToL1, onBackToL2, onBook }) {
           </div>
           {/* Process */}
           <div className="ds-section-card">
-            <div className="ds-section-card-head">📋 {ui.process}</div>
+            <div className="ds-section-card-head"> {ui.process}</div>
             <div className="ds-section-card-body">
               <div className="ds-process-steps">
                 {details.process.map(step => (
@@ -863,7 +863,7 @@ function Level3({ category, pooja, onBackToL1, onBackToL2, onBook }) {
           </div>
           {/* Packages */}
           <div className="ds-section-card">
-            <div className="ds-section-card-head">💎 {ui.pricingPackages}</div>
+            <div className="ds-section-card-head"> {ui.pricingPackages}</div>
             <div className="ds-section-card-body">
               <div className="ds-packages-grid">
                 {details.packages.map((pkg, i) => (
@@ -883,7 +883,7 @@ function Level3({ category, pooja, onBackToL1, onBackToL2, onBook }) {
           </div>
           {/* Testimonials */}
           <div className="ds-section-card">
-            <div className="ds-section-card-head">💬 {ui.testimonials}</div>
+            <div className="ds-section-card-head"> {ui.testimonials}</div>
             <div className="ds-section-card-body">
               <div className="ds-testi-grid">
                 {details.testimonials.map((testi, i) => (
@@ -906,14 +906,14 @@ function Level3({ category, pooja, onBackToL1, onBackToL2, onBook }) {
           </div>
           {/* Priest */}
           <div className="ds-section-card">
-            <div className="ds-section-card-head">👨‍⚕️ {ui.yourPriest}</div>
+            <div className="ds-section-card-head">‍⚕️ {ui.yourPriest}</div>
             <div className="ds-section-card-body">
               <div className="ds-priest-card">
-                <div className="ds-priest-avatar">🙏</div>
+                <div className="ds-priest-avatar"></div>
                 <div>
                   <div style={{ fontWeight: 700, color: 'var(--ds-maroon)', marginBottom: '0.25rem' }}>{details.priest.name}</div>
-                  <div style={{ fontSize: '0.85rem', color: 'var(--ds-text)' }}>📞 {details.priest.phone}</div>
-                  <div style={{ fontSize: '0.85rem', color: 'var(--ds-text)' }}>📷 {details.priest.instagram}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--ds-text)' }}> {details.priest.phone}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--ds-text)' }}> {details.priest.instagram}</div>
                   <div style={{ fontSize: '0.85rem', color: 'var(--ds-text)' }}>⏳ {details.priest.exp} experience</div>
                   <div style={{ fontSize: '0.82rem', color: 'var(--ds-text-light)', fontStyle: 'italic', marginTop: '0.25rem' }}>{details.priest.specialization}</div>
                 </div>
@@ -922,7 +922,7 @@ function Level3({ category, pooja, onBackToL1, onBackToL2, onBook }) {
           </div>
           {/* Related */}
           <div className="ds-section-card">
-            <div className="ds-section-card-head">🔗 {ui.relatedPoojas}</div>
+            <div className="ds-section-card-head"> {ui.relatedPoojas}</div>
             <div className="ds-section-card-body">
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 {(SUB_POOJAS[category.id] || []).filter(p => p.id !== pooja.id).slice(0, 4).map(rel => (
@@ -936,7 +936,7 @@ function Level3({ category, pooja, onBackToL1, onBackToL2, onBook }) {
         {/* SIDEBAR */}
         <aside className="ds-l3-sidebar">
           <div className="ds-sidebar-card">
-            <div className="ds-sidebar-head">🪔 {ui.quickBooking}</div>
+            <div className="ds-sidebar-head"> {ui.quickBooking}</div>
             <div className="ds-sidebar-body">
               <div className="ds-sidebar-price">
                 <div className="ds-sidebar-price-lbl">{ui.startingFrom}</div>
@@ -958,13 +958,13 @@ function Level3({ category, pooja, onBackToL1, onBackToL2, onBook }) {
               </div>
               <div className="ds-sidebar-divider" />
               <button className="ds-sidebar-btn ds-sidebar-btn-gold" onClick={onBook} onMouseDown={createRipple}>{ui.bookNow}</button>
-              <a className="ds-sidebar-btn ds-sidebar-btn-wa" href="https://wa.me/918179960741" target="_blank" rel="noreferrer">💬 {ui.whatsappEnquiry}</a>
-              <a className="ds-sidebar-btn ds-sidebar-btn-call" href="tel:8179960741">📞 {ui.callUs}</a>
+              <a className="ds-sidebar-btn ds-sidebar-btn-wa" href="https://wa.me/918179960741" target="_blank" rel="noreferrer"> {ui.whatsappEnquiry}</a>
+              <a className="ds-sidebar-btn ds-sidebar-btn-call" href="tel:8179960741"> {ui.callUs}</a>
               <p className="ds-sidebar-note">{ui.jaiSrimannarayana}<br />{ui.comingSoon}</p>
             </div>
           </div>
           <div className="ds-sidebar-travel">
-            <div style={{ fontWeight: 700, color: 'var(--ds-maroon)', marginBottom: '0.5rem', fontSize: '0.82rem' }}>🚗 {ui.travelNoteTitle}</div>
+            <div style={{ fontWeight: 700, color: 'var(--ds-maroon)', marginBottom: '0.5rem', fontSize: '0.82rem' }}> {ui.travelNoteTitle}</div>
             <p style={{ fontSize: '0.82rem', color: 'var(--ds-text)', lineHeight: 1.7, whiteSpace: 'pre-line' }}>{ui.travelNoteText}</p>
           </div>
         </aside>

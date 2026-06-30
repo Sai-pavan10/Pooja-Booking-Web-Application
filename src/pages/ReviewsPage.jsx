@@ -1,4 +1,4 @@
-// ReviewsPage.jsx
+﻿// ReviewsPage.jsx
 // Page: /reviews
 // Displays all submitted reviews with filter, sort, and average rating.
 
@@ -126,7 +126,7 @@ function ReviewCard({ review }) {
         <div className="rp-card-meta">
           <p className="rp-name">{review.name}</p>
           <p className="rp-location">
-            {review.city ? `📍 ${review.city}` : ""}
+            {review.city ? ` ${review.city}` : ""}
           </p>
         </div>
         <div className="rp-card-rating">
@@ -135,7 +135,7 @@ function ReviewCard({ review }) {
       </div>
 
       <div className="rp-service-tag">
-        <span>🪔 {review.service}</span>
+        <span> {review.service}</span>
         <span className="rp-date">{formatDate(review.date)}</span>
       </div>
 
@@ -261,7 +261,7 @@ export default function ReviewsPage() {
           </div>
         ) : (
           <div className="rp-empty">
-            <div className="rp-empty-icon">🪔</div>
+            <div className="rp-empty-icon"></div>
             <p className="rp-empty-title">
               {totalCount === 0
                 ? ui.noReviews
