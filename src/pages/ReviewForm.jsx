@@ -1,4 +1,4 @@
-// ReviewForm.jsx
+﻿// ReviewForm.jsx
 // Page: /submit-review
 // Allows devotees to submit a review with star rating, service name, and message.
 
@@ -42,7 +42,7 @@ const UI_TEXT = {
     submitBtn: "Submit Review",
     submitting: "Submitting...",
     viewAll: "View all reviews →",
-    successMsg: "🙏 Your review has been submitted successfully!",
+    successMsg: " Your review has been submitted successfully!",
     errorMsg: "Something went wrong. Please try again.",
     valName: "Full name is required.",
     valService: "Please select a pooja service.",
@@ -66,7 +66,7 @@ const UI_TEXT = {
     submitBtn: "సమీక్షను సమర్పించండి",
     submitting: "సమర్పిస్తున్నాము...",
     viewAll: "అన్ని సమీక్షలను చూడండి →",
-    successMsg: "🙏 మీ సమీక్ష విజయవంతంగా సమర్పించబడింది!",
+    successMsg: " మీ సమీక్ష విజయవంతంగా సమర్పించబడింది!",
     errorMsg: "ఏదో తప్పు జరిగింది. దయచేసి మళ్ళీ ప్రయత్నించండి.",
     valName: "పూర్తి పేరు అవసరం.",
     valService: "దయచేసి పూజా సేవను ఎంచుకోండి.",
@@ -90,7 +90,7 @@ const UI_TEXT = {
     submitBtn: "समीक्षा सबमिट करें",
     submitting: "सबमिट हो रहा है...",
     viewAll: "सभी समीक्षाएं देखें →",
-    successMsg: "🙏 आपकी समीक्षा सफलतापूर्वक सबमिट कर दी गई है!",
+    successMsg: " आपकी समीक्षा सफलतापूर्वक सबमिट कर दी गई है!",
     errorMsg: "कुछ गलत हो गया। कृपया पुनः प्रयास करें।",
     valName: "पूरा नाम आवश्यक है।",
     valService: "कृपया पूजा सेवा चुनें।",
@@ -327,7 +327,7 @@ export default function ReviewForm() {
                 {ui.submitting}
               </>
             ) : (
-              <>🙏 {ui.submitBtn}</>
+              <> {ui.submitBtn}</>
             )}
           </button>
 

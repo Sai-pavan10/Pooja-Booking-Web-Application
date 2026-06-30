@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../context/auth-context";
@@ -191,17 +191,17 @@ export default function Booking() {
     if (Object.keys(errs).length) { setErrors(errs); return; }
     const msg = encodeURIComponent(
       `*Muhurtham / Pooja Booking Request*\n\n` +
-      `👤 Name: ${form.name}\n` +
-      `📍 Address: ${form.address || 'N/A'}\n` +
-      `⭐ Nakshatram: ${form.nakshatram || 'N/A'}\n` +
-      `🔱 Gotram: ${form.gotram || 'N/A'}\n` +
-      `🪔 Pooja / Event: ${form.poojaType}\n` +
-      `📅 Preferred Date: ${form.muhurthamFrom || form.date} to ${form.muhurthamTo || form.date}\n` +
-      `📞 Phone: ${form.phone}\n` +
-      `📧 Email: ${form.email}\n` +
-      `🏙 City: ${form.city}\n` +
-      (form.dob ? `🎂 DOB / Time / Place: ${form.dob}\n` : '') +
-      (form.message ? `📝 Note: ${form.message}` : '')
+      ` Name: ${form.name}\n` +
+      ` Address: ${form.address || 'N/A'}\n` +
+      ` Nakshatram: ${form.nakshatram || 'N/A'}\n` +
+      ` Gotram: ${form.gotram || 'N/A'}\n` +
+      ` Pooja / Event: ${form.poojaType}\n` +
+      ` Preferred Date: ${form.muhurthamFrom || form.date} to ${form.muhurthamTo || form.date}\n` +
+      ` Phone: ${form.phone}\n` +
+      ` Email: ${form.email}\n` +
+      ` City: ${form.city}\n` +
+      (form.dob ? ` DOB / Time / Place: ${form.dob}\n` : '') +
+      (form.message ? ` Note: ${form.message}` : '')
     );
     window.open(`https://wa.me/919876543210?text=${msg}`, '_blank');
   };
@@ -216,7 +216,7 @@ export default function Booking() {
       <section id="booking" className="booking-section">
         <div className="container">
           <div className="booking-success reveal visible">
-            <div className="success-icon">🙏</div>
+            <div className="success-icon"></div>
             <h3 className="success-title">Booking Confirmed & Payment Received!</h3>
             <p className="success-msg">
               Thank you <strong>{form.name || 'Devotee'}</strong>. Your advance payment has been
@@ -252,7 +252,7 @@ export default function Booking() {
         <div className="container">
           <div className="payment-confirm-card reveal visible">
             <div className="payment-confirm-header">
-              <span className="payment-lock-icon">🔒</span>
+              <span className="payment-lock-icon"></span>
               <h3>Review & Pay Advance</h3>
               <p className="payment-secure-label">Secured by Stripe</p>
             </div>
@@ -272,7 +272,7 @@ export default function Booking() {
 
             <div className="payment-amount-box">
               <div className="amount-label">Advance Amount to Pay Now</div>
-              <div className="amount-value">₹{advance.toLocaleString('en-IN')}</div>
+              <div className="amount-value">Rs.{advance.toLocaleString('en-IN')}</div>
               <div className="amount-note">Balance due on the day of the pooja</div>
             </div>
 
@@ -283,7 +283,7 @@ export default function Booking() {
                 alt="Stripe"
                 className="stripe-logo"
               />
-              <span className="payment-method-icons">💳 UPI · Cards · Net Banking · Wallets</span>
+              <span className="payment-method-icons"> UPI · Cards · Net Banking · Wallets</span>
             </div>
 
             {errors.submit && <p className="booking-error">{errors.submit}</p>}
@@ -303,7 +303,7 @@ export default function Booking() {
               >
                 {step === STEP.PAYING
                   ? '⏳ Redirecting to Stripe...'
-                  : `Pay ₹${advance.toLocaleString('en-IN')} Now →`}
+                  : `Pay Rs.${advance.toLocaleString('en-IN')} Now ->`}
               </button>
             </div>
 
@@ -339,7 +339,7 @@ export default function Booking() {
           </div>
 
           <div className="payment-info-banner reveal" ref={(el) => (refs.current[98] = el)}>
-            <span className="banner-icon">🔒</span>
+            <span className="banner-icon"></span>
             <span>
               Secure advance payment via <strong>Stripe</strong> — UPI, Cards, Net Banking accepted
             </span>
@@ -522,8 +522,8 @@ export default function Booking() {
 
             {form.poojaType && (
               <div className="advance-preview">
-                <span>💳 Advance to pay:</span>
-                <strong>₹{getAdvanceAmount(form.poojaType).toLocaleString('en-IN')}</strong>
+                <span>Advance to pay:</span>
+                <strong>Rs.{getAdvanceAmount(form.poojaType).toLocaleString('en-IN')}</strong>
                 <span className="advance-note">(Balance on the day)</span>
               </div>
             )}
@@ -532,10 +532,10 @@ export default function Booking() {
               <p className="form-note">{text.note}</p>
               <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                 <button type="button" className="btn-whatsapp" onClick={handleWhatsApp}>
-                  📱 WhatsApp ద్వారా పంపించండి
+                  WhatsApp ద్వారా పంపించండి
                 </button>
                 <button type="submit" className="btn-primary booking-submit">
-                  {user ? '🔒 Proceed to Payment →' : 'Login to Book'}
+                  {user ? 'Proceed to Payment ->' : 'Login to Book'}
                 </button>
               </div>
             </div>
@@ -545,3 +545,5 @@ export default function Booking() {
     </>
   );
 }
+
+

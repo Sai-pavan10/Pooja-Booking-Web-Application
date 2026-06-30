@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+﻿﻿import { useState, useEffect, useRef, useCallback } from 'react';
 import './AIChatBot.css';
 import logo from '../assets/logo.PNG';
 
@@ -8,28 +8,28 @@ const SERVICES = {
   bhoomi_pooja: {
     name: 'Bhoomi Pooja',
     subtitle: 'Sacred Land Worship',
-    emoji: '🌍',
+    emoji: '',
     description: 'Sacred ground-breaking ceremony before construction, seeking Mother Earth\'s blessings to remove Vastu doshas and ensure structural stability.',
     keywords: ['bhoomi', 'bhoomi pooja', 'land', 'construction', 'ground breaking', 'bhumi'],
   },
   vastu_shanti: {
     name: 'Vastu Shanti',
     subtitle: 'Harmony & Energy Cleansing',
-    emoji: '🏠',
+    emoji: '',
     description: 'Harmonize the five elements in your home and eliminate all directional doshas for peace, harmony, and positive energy flow.',
     keywords: ['vastu', 'vastu shanti', 'energy', 'negative', 'harmony', 'home', 'cleanse', 'house'],
   },
   gruha_pravesham: {
     name: 'Gruha Pravesham',
     subtitle: 'House Warming Ceremony',
-    emoji: '🏡',
+    emoji: '',
     description: 'Auspicious home entry ceremony with Vedic mantras, Ganapathi pooja and Vastu rituals for family prosperity.',
     keywords: ['gruha pravesham', 'griha pravesh', 'house warming', 'new house', 'home entry'],
   },
   shanku_sthapana: {
     name: 'Shanku Sthapana',
     subtitle: 'Sacred Foundation-Laying',
-    emoji: '🐚',
+    emoji: '',
     description: 'A traditional ritual performed before construction begins to invoke divine blessings for stability, success, and harmony.',
     keywords: ['shanku', 'sthapana', 'foundation', 'foundation laying', 'divine', 'stability'],
   },
@@ -38,42 +38,42 @@ const SERVICES = {
   garbhadhana: {
     name: 'Garbhadhana',
     subtitle: 'Sacred Conception Ritual',
-    emoji: '🌸',
+    emoji: '',
     description: 'Sacred conception samskara seeking divine blessings for a healthy and virtuous child.',
     keywords: ['garbhadhana', 'conception', 'child', 'conception ritual', 'parenthood'],
   },
   pumsavana: {
     name: 'Pumsavana',
     subtitle: 'Prenatal Blessing Ceremony',
-    emoji: '🤱',
+    emoji: '',
     description: 'Prenatal samskara performed for the well-being and healthy development of the baby.',
     keywords: ['pumsavana', 'pregnancy', 'blessing', 'unborn', 'prenatal'],
   },
   seemantham: {
     name: 'Seemantham',
     subtitle: 'Traditional Baby Shower',
-    emoji: '🎀',
+    emoji: '',
     description: 'Traditional ceremony for expecting mothers, invoking blessings for safe delivery.',
     keywords: ['seemantham', 'baby shower', 'pregnant', 'delivery', 'baby', 'expecting'],
   },
   jatakarma: {
     name: 'Jatakarma',
     subtitle: 'Birth Ceremony',
-    emoji: '🍼',
+    emoji: '',
     description: 'Birth ceremony welcoming the newborn with Vedic mantras and blessings.',
     keywords: ['jatakarma', 'birth', 'newborn', 'welcome baby'],
   },
   namakarana: {
     name: 'Namakarana',
     subtitle: 'Naming Ceremony',
-    emoji: '📛',
+    emoji: '',
     description: 'Naming ceremony for the child with horoscope-based blessings and family rituals.',
     keywords: ['namakarana', 'namkaran', 'naming', 'name', 'baby name'],
   },
   annaprashana: {
     name: 'Annaprashana',
     subtitle: 'First-Rice Feeding',
-    emoji: '🍚',
+    emoji: '',
     description: 'First-rice feeding ceremony blessing the child\'s nourishment, health, and growth.',
     keywords: ['annaprashana', 'annaprashan', 'first rice', 'feeding', 'solid food'],
   },
@@ -87,14 +87,14 @@ const SERVICES = {
   aksharabhyasam: {
     name: 'Aksharabhyasam',
     subtitle: 'Initiation into Learning',
-    emoji: '📚',
+    emoji: '',
     description: 'Initiation into learning, invoking Saraswati Devi for knowledge and wisdom.',
     keywords: ['aksharabhyasam', 'learning', 'education', 'saraswati', 'vidyarambham'],
   },
   upanayanam: {
     name: 'Upanayanam',
     subtitle: 'Sacred Thread Ceremony',
-    emoji: '🧵',
+    emoji: '',
     description: 'Sacred thread ceremony marking spiritual initiation and Vedic learning.',
     keywords: ['upanayanam', 'thread ceremony', 'sacred thread', 'janeu', 'yajnopavitam'],
   },
@@ -103,49 +103,49 @@ const SERVICES = {
   sudarshana_homam: {
     name: 'Sudarshana Narasimha Homam',
     subtitle: 'Protective Fire Ritual',
-    emoji: '🔥',
+    emoji: '',
     description: 'Powerful protective homam invoking Lord Sudarshana and Narasimha to destroy evil forces and black magic.',
     keywords: ['sudarshana', 'narasimha', 'homam', 'havan', 'protection', 'evil eye', 'black magic'],
   },
   chandi_homam: {
     name: 'Chandi Homam',
     subtitle: 'Supreme Goddess Ritual',
-    emoji: '🔱',
+    emoji: '',
     description: 'Supreme goddess ritual invoking Devi Chandi for ultimate protection, power, and removing enemies.',
     keywords: ['chandi', 'chandi homam', 'devi', 'goddess', 'ultimate protection'],
   },
   ganapathi_homam: {
     name: 'Ganapathi Homam',
     subtitle: 'Obstacle Removal',
-    emoji: '🐘',
+    emoji: '',
     description: 'Invocation of Lord Ganesha to remove obstacles and ensure success in all endeavors.',
     keywords: ['ganapathi', 'ganesh', 'ganapati', 'homam', 'obstacles', 'success'],
   },
   navagraha_homam: {
     name: 'Navagraha Homam',
     subtitle: 'Nine-Planet Pacification',
-    emoji: '🪐',
+    emoji: '',
     description: 'Nine-planet fire ceremony to balance planetary influences, bring harmony, and career growth.',
     keywords: ['navagraha', 'nine planets', 'planets', 'homam', 'astrology', 'dosha'],
   },
   lakshmi_homam: {
     name: 'Lakshmi Homam',
     subtitle: 'Wealth & Prosperity',
-    emoji: '💰',
+    emoji: '',
     description: 'Sacred fire ritual to invoke Goddess Lakshmi for wealth, prosperity, and abundance.',
     keywords: ['lakshmi', 'homam', 'wealth', 'prosperity', 'money', 'business'],
   },
   mrityunjaya_homam: {
     name: 'Mrityunjaya Homam',
     subtitle: 'Life-Saving Ritual',
-    emoji: '🕉️',
+    emoji: '️',
     description: 'Invoking Lord Shiva to conquer illness, fear, and death — a life-saving ritual for health recovery.',
     keywords: ['mrityunjaya', 'maha mrityunjaya', 'shiva', 'health', 'healing', 'homam', 'life saving'],
   },
   putrakameshti_homam: {
     name: 'Putrakameshti Homam',
     subtitle: 'Progeny Blessings',
-    emoji: '👶',
+    emoji: '',
     description: 'Ancient Vedic ritual for childless couples seeking divine blessings for progeny.',
     keywords: ['putrakameshti', 'homam', 'childless', 'progeny', 'children'],
   },
@@ -159,7 +159,7 @@ const SERVICES = {
   rahu_ketu_shanti: {
     name: 'Rahu-Ketu Shanti',
     subtitle: 'Shadow Planet Remedy',
-    emoji: '🌑',
+    emoji: '',
     description: 'Remedy for the shadow planets Rahu and Ketu causing delay, confusion, and obstacles.',
     keywords: ['rahu', 'ketu', 'shanti', 'shadow planets', 'delays', 'confusion'],
   },
@@ -168,21 +168,21 @@ const SERVICES = {
   kala_sarpa_dosha: {
     name: 'Kala Sarpa Dosha Nivarana',
     subtitle: 'Snake Curse Remedy',
-    emoji: '🐍',
+    emoji: '',
     description: 'Relief from Kala Sarpa Dosha causing repeated failures and misfortune.',
     keywords: ['kala sarpa', 'sarpa', 'dosha', 'nivarana', 'snake curse'],
   },
   pitru_dosha: {
     name: 'Pitru Dosha Nivarana',
     subtitle: 'Ancestral Debt Removal',
-    emoji: '🕊️',
+    emoji: '️',
     description: 'Ancestral debt removal through Pinda Pradhanam and Tarpanam rituals for family harmony.',
     keywords: ['pitru', 'dosha', 'ancestor', 'debt', 'curse', 'nivarana'],
   },
   mangalik_dosha: {
     name: 'Mangalik Dosha Nivarana',
     subtitle: 'Mars Affliction Remedy',
-    emoji: '🔴',
+    emoji: '',
     description: 'Mars affliction remedies for harmonious marital life and relationship peace.',
     keywords: ['mangalik', 'mangal', 'kuja', 'dosha', 'marriage delay', 'nivarana'],
   },
@@ -198,21 +198,21 @@ const SERVICES = {
   nischitartham: {
     name: 'Nischitartham (Engagement)',
     subtitle: 'Sacred Engagement',
-    emoji: '💍',
+    emoji: '',
     description: 'Sacred engagement ceremony with Vedic rituals, ring exchange, and family blessings.',
     keywords: ['nischitartham', 'engagement', 'ring', 'ceremony', 'pre wedding'],
   },
   vivaha_pooja: {
     name: 'Vivaha Pooja / Marriage',
     subtitle: 'Complete Vedic Wedding',
-    emoji: '💒',
+    emoji: '',
     description: 'Complete traditional Vedic wedding with Saptapadi, Kanyadaanam, and all rituals.',
     keywords: ['vivaha', 'marriage', 'wedding', 'saptapadi', 'kanyadaan', 'pooja'],
   },
   srinivasa_kalyanam: {
     name: 'Srinivasa Kalyanam',
     subtitle: 'Celestial Wedding',
-    emoji: '🛕',
+    emoji: '',
     description: 'Celestial wedding of Lord Venkateswara — performed to seek divine grace and family prosperity.',
     keywords: ['srinivasa', 'kalyanam', 'venkateswara', 'balaji', 'celestial wedding'],
   },
@@ -221,21 +221,21 @@ const SERVICES = {
   devalaya_pratishta: {
     name: 'Devalaya Pratishta',
     subtitle: 'Temple Consecration',
-    emoji: '🏛️',
+    emoji: '️',
     description: 'Sacred temple consecration ceremony with Prana Pratishtha of all deities.',
     keywords: ['devalaya', 'pratishta', 'temple', 'consecration'],
   },
   vigraha_pratishta: {
     name: 'Vigraha Pratishta',
     subtitle: 'Idol Installation',
-    emoji: '🗿',
+    emoji: '',
     description: 'Installation of divine idol with life-breathing (Prana Pratishtha) rituals.',
     keywords: ['vigraha', 'pratishta', 'idol', 'installation', 'murti'],
   },
   kumbhabhishekam: {
     name: 'Kumbhabhishekam',
     subtitle: 'Temple Re-consecration',
-    emoji: '🏺',
+    emoji: '',
     description: 'Grand temple re-consecration ceremony with sacred water pot abhishekam.',
     keywords: ['kumbhabhishekam', 'abhishekam', 'temple renewal'],
   },
@@ -244,21 +244,21 @@ const SERVICES = {
   satyanarayana_vratham: {
     name: 'Satyanarayana Vratham',
     subtitle: 'Wish Fulfillment',
-    emoji: '🌕',
+    emoji: '',
     description: 'Monthly and festival-occasion Satyanarayana pooja for wish fulfillment and peace.',
     keywords: ['satyanarayana', 'vratham', 'katha', 'vishnu', 'full moon', 'poornima'],
   },
   varalakshmi_vratham: {
     name: 'Varalakshmi Vratham',
     subtitle: 'Auspicious Lakshmi Ritual',
-    emoji: '🪷',
+    emoji: '',
     description: 'Auspicious Lakshmi ritual performed by married women for family welfare and prosperity.',
     keywords: ['varalakshmi', 'vratham', 'lakshmi', 'women', 'welfare'],
   },
   karthika_deeparadhana: {
     name: 'Karthika Deeparadhana',
     subtitle: 'Festival of Lights',
-    emoji: '🪔',
+    emoji: '',
     description: 'Festival of lights Shiva worship during the sacred month of Karthika.',
     keywords: ['karthika', 'deeparadhana', 'deepam', 'shiva', 'karthik month'],
   },
@@ -267,28 +267,28 @@ const SERVICES = {
   pinda_pradhanam: {
     name: 'Pinda Pradhanam',
     subtitle: 'Offering Ritual for Ancestors',
-    emoji: '🍚',
+    emoji: '',
     description: 'A ritual where sacred rice offerings are made for peace and liberation of departed souls.',
     keywords: ['pinda', 'pradhanam', 'ancestor', 'offering', 'departed', 'souls', 'rice'],
   },
   masikam: {
     name: 'Masikam',
     subtitle: 'Monthly Memorial Ceremony',
-    emoji: '📅',
+    emoji: '',
     description: 'Monthly rites conducted after death to honor and pray for departed souls.',
     keywords: ['masikam', 'monthly', 'memorial', 'death', 'honor'],
   },
   thaddinam: {
     name: 'Thaddinam',
     subtitle: 'Annual Remembrance Ritual',
-    emoji: '🏵️',
+    emoji: '️',
     description: 'Traditional ceremony performed on the exact tithi of the departed ancestor.',
     keywords: ['thaddinam', 'death anniversary', 'remembrance', 'tithi'],
   },
   annual_shraddham: {
     name: 'Annual Shraddham',
     subtitle: 'Yearly Ancestor Offering',
-    emoji: '🙏',
+    emoji: '',
     description: 'Performed annually to seek blessings and spiritual peace for ancestors.',
     keywords: ['shraddham', 'shraddha', 'yearly', 'ancestor', 'peace', 'annual shraddham'],
   },
@@ -297,21 +297,21 @@ const SERVICES = {
   lakshmi_kubera_pooja: {
     name: 'Lakshmi Kubera Pooja',
     subtitle: 'Wealth & Business Growth',
-    emoji: '💎',
+    emoji: '',
     description: 'Dual invocation of Wealth Goddess and Lord of Treasures for business prosperity and debt freedom.',
     keywords: ['lakshmi kubera', 'kubera', 'lakshmi', 'business', 'wealth', 'debt'],
   },
   udyoga_aradhana: {
     name: 'Udyoga Aradhana',
     subtitle: 'Office / Shop Inauguration',
-    emoji: '🏢',
+    emoji: '',
     description: 'Office or shop inauguration pooja with Ganapathi and Lakshmi invocation for success.',
     keywords: ['udyoga', 'aradhana', 'office', 'shop', 'inauguration', 'business opening'],
   },
   vyapara_vriddhi: {
     name: 'Vyapara Vriddhi Pooja',
     subtitle: 'Business Expansion',
-    emoji: '📈',
+    emoji: '',
     description: 'Business expansion ritual to accelerate growth, attract abundance, and increase sales.',
     keywords: ['vyapara', 'vriddhi', 'business expansion', 'growth', 'sales'],
   },
@@ -322,22 +322,22 @@ const FAQS = [
   {
     keywords: ['muhurtham', 'muhurta', "today's muhurtham", 'auspicious time', 'auspicious date'],
     answer:
-      "🕐 Today's auspicious Muhurtham timings are curated by our learned pandits based on the Panchang. Please contact our priests directly or visit the Contact page for personalized Muhurtham guidance tailored to your ceremony.",
+      "Today's auspicious Muhurtham timings are curated by our learned pandits based on the Panchang. Please contact our priests directly or visit the Contact page for personalized Muhurtham guidance tailored to your ceremony.",
   },
   {
     keywords: ['contact', 'priest', 'pandit', 'phone', 'call', 'reach', 'contact priest'],
     answer:
-      '📞 You can connect with our experienced Pandits through the Contact page. Our priests are available to guide you on all pooja arrangements, timings, and spiritual preparations.',
+      'You can connect with our experienced Pandits through the Contact page. Our priests are available to guide you on all pooja arrangements, timings, and spiritual preparations.',
   },
   {
     keywords: ['price', 'cost', 'fee', 'charges', 'how much', 'pricing'],
     answer:
-      '💰 Our pooja service pricing varies based on the ceremony type, duration, and requirements. Please visit the Pricing page or contact our team for a personalized quote. We ensure transparent and reasonable charges.',
+      'Our pooja service pricing varies based on the ceremony type, duration, and requirements. Please visit the Pricing page or contact our team for a personalized quote. We ensure transparent and reasonable charges.',
   },
   {
     keywords: ['view services', 'services', 'all services', 'what services', 'what poojas'],
     answer:
-      '📿 We offer a wide range of sacred pooja services including life ceremonies (Samskaras), ancestral rites, griha pravesh rituals, and more. Visit our Services page to explore all offerings.',
+      'We offer a wide range of sacred pooja services including life ceremonies (Samskaras), ancestral rites, griha pravesh rituals, and more. Visit our Services page to explore all offerings.',
   },
 ];
 
@@ -351,22 +351,22 @@ const BOOKING_KEYWORDS = [
 const WELCOME_MESSAGE = {
   id: 'welcome',
   sender: 'bot',
-  text: '🙏 Namaskaram! Welcome to Dharma Sankalpam. How may I help you with your pooja services today?',
+  text: 'Namaskaram! Welcome to Dharma Sankalpam. How may I help you with your pooja services today?',
   timestamp: new Date(),
 };
 
 const QUICK_ACTIONS = [
-  { label: '📿 View Services', value: 'view services' },
-  { label: '📅 Book Pooja', value: 'book pooja' },
-  { label: '🧘 Contact Priest', value: 'contact priest' },
-  { label: "🕐 Today's Muhurtham", value: "today's muhurtham" },
+  { label: 'View Services', value: 'view services' },
+  { label: 'Book Pooja', value: 'book pooja' },
+  { label: 'Contact Priest', value: 'contact priest' },
+  { label: "Today's Muhurtham", value: "today's muhurtham" },
 ];
 
 const QUICK_REPLIES = [
-  { label: '🌍 Bhoomi Pooja', value: 'Tell me about Bhoomi Pooja' },
-  { label: '🏠 Vastu Shanti', value: 'What is Vastu Shanti?' },
-  { label: '🎀 Seemantham', value: 'Tell me about Seemantham' },
-  { label: '🐚 Shanku Sthapana', value: 'What is Shanku Sthapana?' },
+  { label: 'Bhoomi Pooja', value: 'Tell me about Bhoomi Pooja' },
+  { label: 'Vastu Shanti', value: 'What is Vastu Shanti?' },
+  { label: 'Seemantham', value: 'Tell me about Seemantham' },
+  { label: 'Shanku Sthapana', value: 'What is Shanku Sthapana?' },
 ];
 
 // ── Bot Logic ────────────────────────────────────────────────────────────────
@@ -410,7 +410,7 @@ function getBotResponse(input) {
     return {
       type: 'greeting',
       answer:
-        '🙏 Namaskaram! I am your Dharma Sankalpam Assistant. I can help you explore our sacred pooja services, guide you through booking, or connect you with our learned Pandits. How may I serve you today?',
+        'Namaskaram! I am your Dharma Sankalpam Assistant. I can help you explore our sacred pooja services, guide you through booking, or connect you with our learned Pandits. How may I serve you today?',
     };
   }
 
@@ -419,7 +419,7 @@ function getBotResponse(input) {
     return {
       type: 'help',
       answer:
-        '🪔 I can assist you with:\n\n• 📿 Pooja service information & descriptions\n• 📅 Guiding you to book a service\n• 🧘 Connecting you with our Pandits\n• 🕐 Muhurtham & auspicious timing queries\n• 💰 Pricing information\n\nFeel free to ask about any of our sacred services!',
+        'I can assist you with:\n\n• Pooja service information & descriptions\n• Guiding you to book a service\n• Connecting you with our Pandits\n• Muhurtham & auspicious timing queries\n• Pricing information\n\nFeel free to ask about any of our sacred services!',
     };
   }
 
@@ -427,7 +427,7 @@ function getBotResponse(input) {
   return {
     type: 'fallback',
     answer:
-      "🙏 Namaskaram! I seek your forgiveness — I couldn't quite understand your query. You may ask me about specific pooja services like Bhoomi Pooja, Vastu Shanti, or Seemantham, or type 'Book' to schedule a ceremony. I am here to serve you 🪔",
+      "Namaskaram! I seek your forgiveness — I couldn't quite understand your query. You may ask me about specific pooja services like Bhoomi Pooja, Vastu Shanti, or Seemantham, or type 'Book' to schedule a ceremony. I am here to serve you.",
   };
 }
 
@@ -488,14 +488,14 @@ export default function AIChatBot() {
         case 'service': {
           const { service: svc } = response;
           addBotMessage(
-            `${svc.emoji} **${svc.name}**\n_${svc.subtitle}_\n\n${svc.description}\n\n✨ Would you like to book this service?`,
+            `${svc.emoji} **${svc.name}**\n_${svc.subtitle}_\n\n${svc.description}\n\nWould you like to book this service?`,
             { serviceCard: svc }
           );
           break;
         }
         case 'booking': {
           addBotMessage(
-            '🙏 You can now proceed to book your pooja service.\n\nOur team will guide you through selecting the date, ceremony details, and pandit preference.',
+            'You can now proceed to book your pooja service.\n\nOur team will guide you through selecting the date, ceremony details, and pandit preference.',
             { isBooking: true }
           );
           setTimeout(() => navigate('/booking'), 1800);
@@ -504,7 +504,7 @@ export default function AIChatBot() {
         case 'booking_with_service': {
           const { service: svc } = response;
           addBotMessage(
-            `🙏 You can now proceed to book **${svc.name}** — _${svc.subtitle}_.\n\nOur Pandits will guide you through the ceremony arrangements.`,
+            `You can now proceed to book **${svc.name}** — _${svc.subtitle}_.\n\nOur Pandits will guide you through the ceremony arrangements.`,
             { isBooking: true }
           );
           setTimeout(() => navigate('/booking'), 1800);
@@ -518,7 +518,7 @@ export default function AIChatBot() {
           break;
         }
         default:
-          addBotMessage(response.answer || '🙏 How else may I assist you?');
+          addBotMessage(response.answer || 'How else may I assist you?');
       }
     },
     [addBotMessage, navigate]
@@ -597,7 +597,7 @@ export default function AIChatBot() {
             <span className="chatbot-fab__ripple" />
             {hasNewMessage && <span className="chatbot-fab__badge" />}
             <div className="chatbot-fab__popup">
-              🙏 Namaskaram!
+              Namaskaram!
             </div>
           </>
         )}
@@ -644,7 +644,7 @@ export default function AIChatBot() {
             <div className="chatbot-messages">
               {/* Decorative top motif */}
               <div className="chatbot-messages__motif">
-                <span>✦</span> श्री गणेशाय नमः <span>✦</span>
+                <span></span> Shri Ganeshaya Namah <span></span>
               </div>
 
               {messages.map((msg, idx) => (
@@ -654,7 +654,7 @@ export default function AIChatBot() {
                   style={{ animationDelay: `${idx === messages.length - 1 ? 0 : 0}ms` }}
                 >
                   {msg.sender === 'bot' && (
-                    <div className="chatbot-msg__avatar">🛕</div>
+                    <div className="chatbot-msg__avatar"></div>
                   )}
                   <div className="chatbot-msg__bubble-wrap">
                     <div className="chatbot-msg__bubble">
@@ -664,19 +664,19 @@ export default function AIChatBot() {
                           className="chatbot-msg__book-btn"
                           onClick={() => sendMessage(`Book ${msg.serviceCard.name}`)}
                         >
-                          📅 Book {msg.serviceCard.name}
+                           Book {msg.serviceCard.name}
                         </button>
                       )}
                       {msg.isBooking && (
                         <div className="chatbot-msg__booking-chip">
-                          <span>🧭 Navigating to Booking…</span>
+                          <span>Navigating to Booking...</span>
                         </div>
                       )}
                     </div>
                     <span className="chatbot-msg__time">{formatTimestamp(msg.timestamp)}</span>
                   </div>
                   {msg.sender === 'user' && (
-                    <div className="chatbot-msg__avatar chatbot-msg__avatar--user">🙏</div>
+                    <div className="chatbot-msg__avatar chatbot-msg__avatar--user"></div>
                   )}
                 </div>
               ))}
@@ -684,7 +684,7 @@ export default function AIChatBot() {
               {/* Typing indicator */}
               {isTyping && (
                 <div className="chatbot-msg chatbot-msg--bot">
-                  <div className="chatbot-msg__avatar">🛕</div>
+                  <div className="chatbot-msg__avatar"></div>
                   <div className="chatbot-msg__bubble-wrap">
                     <div className="chatbot-msg__bubble chatbot-msg__bubble--typing">
                       <span className="typing-dot" />
@@ -751,7 +751,7 @@ export default function AIChatBot() {
                 </button>
               </div>
               <p className="chatbot-input-area__footer">
-                🪔 Dharma Sankalpam · Spiritual Services
+                Dharma Sankalpam · Spiritual Services
               </p>
             </div>
           </>
@@ -760,3 +760,6 @@ export default function AIChatBot() {
     </>
   );
 }
+
+
+

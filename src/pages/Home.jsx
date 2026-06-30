@@ -67,7 +67,7 @@ export default function Home() {
           </div>
 
           <div className="home-service-grid">
-            {servicePreviews.map(([title, subtitle, text, image], i) => (
+            {servicePreviews.map(([title, , text, image], i) => (
               <article
                 className="home-service-card reveal"
                 key={title}
@@ -90,8 +90,6 @@ export default function Home() {
                   )}
                   {/* Animated gold overlay on image */}
                   <div className="svc-image-overlay" />
-                  {/* Kicker badge sits at bottom of image */}
-                  <p className="home-card-kicker">{subtitle}</p>
                 </div>
 
                 {/* ── Content Panel ── */}

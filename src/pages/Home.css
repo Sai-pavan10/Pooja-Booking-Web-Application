@@ -193,41 +193,6 @@
   pointer-events: none;
 }
 
-/* Kicker badge: sits on top of image (bottom-left) */
-.home-card-kicker {
-  position: absolute;
-  bottom: 0.9rem;
-  left: 0.9rem;
-  z-index: 3;
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.58rem, 1.1vw, 0.68rem);
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-weight: 700;
-  color: #fff8e1;
-  background: linear-gradient(
-    90deg,
-    rgba(160, 100, 0, 0.88),
-    rgba(200, 150, 12, 0.92),
-    rgba(230, 175, 30, 0.88)
-  );
-  background-size: 200% 100%;
-  padding: 0.35rem 0.75rem;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 215, 80, 0.4);
-  backdrop-filter: blur(4px);
-  margin: 0;
-  width: fit-content;
-  transition: background-position 0.5s ease, box-shadow 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-
-.home-service-card:hover .home-card-kicker {
-  background-position: 100% 0;
-  box-shadow: 0 3px 14px rgba(200, 150, 12, 0.45);
-  transform: translateY(-2px);
-}
-
 /* ─── CONTENT BODY ─── */
 .svc-body {
   display: flex;
@@ -479,7 +444,6 @@
   .home-service-grid { gap: 1.4rem; }
 
   .home-service-card h3  { font-size: 1.02rem; }
-  .home-card-kicker      { font-size: 0.63rem; }
   .home-service-card p   { font-size: 0.88rem; }
 
   .home-about-logo {
@@ -498,7 +462,6 @@
   .svc-body { padding: 1.2rem 1.3rem 1.4rem; }
 
   .home-service-card h3  { font-size: 0.97rem; }
-  .home-card-kicker      { font-size: 0.6rem; letter-spacing: 0.14em; }
   .home-service-card p   { font-size: 0.85rem; line-height: 1.72; }
 
   .home-review-card { padding: 1.4rem; }
@@ -523,7 +486,6 @@
   .home-services-preview::before,
   .home-service-card::before,
   .svc-image-overlay,
-  .home-card-kicker,
   .home-about-logo {
     animation: none !important;
     transition: none !important;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/auth-context';
@@ -56,11 +56,11 @@ export default function MyBookings() {
       <section className="mybookings-section">
         {showLogin && <LoginModal onClose={() => setShowLogin(false)} redirectAfterLogin="/my-bookings" />}
         <div className="mybookings-empty">
-          <div className="mybookings-empty-icon">🔒</div>
+          <div className="mybookings-empty-icon"></div>
           <h2>Login to View Your Bookings</h2>
           <p>Please login to see your pooja booking history and status updates.</p>
           <button className="mb-login-btn" onClick={() => setShowLogin(true)}>
-            👤 Login / Sign Up
+            Login / Sign Up
           </button>
         </div>
       </section>
@@ -73,11 +73,11 @@ export default function MyBookings() {
 
       <div className="mybookings-header">
         <div className="mybookings-mandala" aria-hidden="true" />
-        <p className="mb-tag">🪔 My Account</p>
+        <p className="mb-tag">My Account</p>
         <h1 className="mb-title">My Bookings</h1>
         <div className="mb-divider">
           <span className="mb-line" />
-          <span className="mb-lotus">✿</span>
+          <span className="mb-lotus"></span>
           <span className="mb-line" />
         </div>
         <p className="mb-welcome">Namaste, <strong>{displayName}</strong> — here are all your sacred pooja bookings.</p>
@@ -108,11 +108,11 @@ export default function MyBookings() {
           </div>
         )}
 
-        {error && <div className="mb-error">⚠️ {error}</div>}
+        {error && <div className="mb-error">{error}</div>}
 
         {!loading && !error && bookings.length === 0 && (
           <div className="mybookings-empty">
-            <div className="mybookings-empty-icon">🪔</div>
+            <div className="mybookings-empty-icon"></div>
             <h2>No Bookings Yet</h2>
             <p>You haven't booked any pooja services yet. Browse our services and make your first booking!</p>
             <button className="mb-login-btn" onClick={() => navigateTo('/services')}>
@@ -148,7 +148,7 @@ function BookingCard({ booking: b, onViewDetails }) {
     <div className="mb-card">
       <div className="mb-card-top">
         <div className="mb-card-pooja">
-          <span className="mb-card-icon">🪔</span>
+          <span className="mb-card-icon"></span>
           <div>
             <h3 className="mb-card-name">{b.poojaName || b.poojaType || 'Pooja Booking'}</h3>
             <span className="mb-card-id">ID: {b.id.slice(0, 8).toUpperCase()}</span>
@@ -161,10 +161,10 @@ function BookingCard({ booking: b, onViewDetails }) {
       </div>
 
       <div className="mb-card-details">
-        <div className="mb-detail"><span>📅</span> {dateStr}</div>
-        {b.time && <div className="mb-detail"><span>🕐</span> {b.time}</div>}
-        {b.city && <div className="mb-detail"><span>📍</span> {b.city}</div>}
-        {b.pandit && <div className="mb-detail"><span>🧑‍🦳</span> {b.pandit}</div>}
+        <div className="mb-detail"><span></span> {dateStr}</div>
+        {b.time && <div className="mb-detail"><span></span> {b.time}</div>}
+        {b.city && <div className="mb-detail"><span></span> {b.city}</div>}
+        {b.pandit && <div className="mb-detail"><span></span> {b.pandit}</div>}
       </div>
 
       <button className="mb-view-btn" onClick={onViewDetails}>

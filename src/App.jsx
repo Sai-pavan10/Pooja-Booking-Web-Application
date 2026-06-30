@@ -65,7 +65,7 @@ function App() {
         :lang(te), :lang(te) * { font-family: 'Mallanna', sans-serif !important; }
         :lang(te) .section-tag, :lang(te) .cat-card-sub, :lang(te) .sub-card-sub,
         :lang(te) .tag, :lang(te) .l1-hero-tag, :lang(te) .l3-hero-subtitle,
-        :lang(te) .welcome-subtitle, :lang(te) .home-card-kicker, :lang(te) .gallery-sub,
+        :lang(te) .welcome-subtitle, :lang(te) .gallery-sub,
         :lang(te) .gallery-overlay-sub, :lang(te) .lightbox-sub, :lang(te) .pandit-title-label,
         :lang(te) .testi-meta, :lang(te) .mini-pooja, :lang(te) .contact-sub-title,
         :lang(te) .plan-note, :lang(te) .sidebar-price-label, :lang(te) .sidebar-info-label,
