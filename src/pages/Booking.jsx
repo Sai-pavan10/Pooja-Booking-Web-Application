@@ -187,21 +187,16 @@ export default function Booking() {
   };
 
   const handleWhatsApp = () => {
-    const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
     const msg = encodeURIComponent(
       `*Muhurtham / Pooja Booking Request*\n\n` +
-      ` Name: ${form.name}\n` +
-      ` Address: ${form.address || 'N/A'}\n` +
-      ` Nakshatram: ${form.nakshatram || 'N/A'}\n` +
-      ` Gotram: ${form.gotram || 'N/A'}\n` +
-      ` Pooja / Event: ${form.poojaType}\n` +
-      ` Preferred Date: ${form.muhurthamFrom || form.date} to ${form.muhurthamTo || form.date}\n` +
-      ` Phone: ${form.phone}\n` +
-      ` Email: ${form.email}\n` +
-      ` City: ${form.city}\n` +
-      (form.dob ? ` DOB / Time / Place: ${form.dob}\n` : '') +
-      (form.message ? ` Note: ${form.message}` : '')
+      (form.name     ? `Name: ${form.name}\n` : '') +
+      (form.phone    ? `Phone: ${form.phone}\n` : '') +
+      (form.email    ? `Email: ${form.email}\n` : '') +
+      (form.address  ? `Address: ${form.address}\n` : '') +
+      (form.poojaType ? `Pooja / Event: ${form.poojaType}\n` : '') +
+      (form.date     ? `Date: ${form.muhurthamFrom || form.date} to ${form.muhurthamTo || form.date}\n` : '') +
+      (form.city     ? `City: ${form.city}\n` : '') +
+      (form.message  ? `Note: ${form.message}` : '')
     );
     window.open(`https://wa.me/919876543210?text=${msg}`, '_blank');
   };
@@ -545,5 +540,3 @@ export default function Booking() {
     </>
   );
 }
-
-

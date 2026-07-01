@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+﻿import { useEffect, useRef } from 'react';
 import { useLanguage } from '../i18n';
 import aboutPagePic from '../assets/About page pic.jpeg';
 import './About.css'; // Assuming this is the correct path
@@ -11,7 +11,10 @@ const mustKnowContent = {
       'After collecting those amounts, they often arrange qualified Vedic Brahmins for only a small honorarium, such as Rs. 2,000 or Rs. 3,000 per ritual. Because priestly service is the livelihood of those scholars, they are sometimes forced by circumstance to accept it.',
       'The intention of performing griha praveshams, weddings, vrathams, homams, yagnas and other sacred Hindu rituals is deeply noble. Families do these ceremonies with devotion so that obstacles are removed and auspiciousness enters their lives. But the result of a pooja depends on the qualification, learning and sincerity of the Brahmin performing it.',
       'This is supported by shastra. Our humble appeal is that the sambhavana given after a pooja should reach the learned Brahmins who perform the ritual.',
-      'With devotion, Agama Shastra Pandit Daruri Vishnuvardhana Charyulu. Jai Srimannarayana.',
+      ['With devotion', 
+        'Agama Shastra Pandit Daruri Vishnuvardhana Charyulu', 
+        'Jai Srimannarayana.',
+      ],
       'Practicing dharma has been a radiant truth in the Indian way of life for ages.',
     ],
   },
@@ -22,7 +25,11 @@ const mustKnowContent = {
       'ఆ తరువాత ఆ పూజలకు అర్హులైన వేద బ్రాహ్మణులను తక్కువ సంభావనతో పిలుస్తున్నారు. పౌరోహిత్యమే జీవనాధారంగా ఉన్న పండితులు కొన్ని సందర్భాల్లో పరిస్థితులవల్ల అంగీకరించవలసి వస్తుంది.',
       'గృహప్రవేశాలు, వివాహాలు, వ్రతాలు, హోమాలు, యాగాలు వంటి పవిత్ర హిందూ సంప్రదాయ పూజలు భక్తితో చేయించుకోవడం ఎంతో శుభకరం. అయితే పూజా ఫలితం ఆ పూజను నిర్వహించే బ్రాహ్మణుని విద్య, అర్హత మరియు నిష్ఠపై ఆధారపడి ఉంటుంది.',
       'ఇది శాస్త్రప్రమాణం. పూజ అనంతరం ఇచ్చే సంభావన పూజను నిర్వహించిన అర్హులైన బ్రాహ్మణులకే చేరాలి అనేది మా వినమ్ర అభ్యర్థన.',
-      'ఇట్లు, ఆగమ శాస్త్ర పండితులు దరూరి విష్ణు వర్ధనాచార్యులు. జై శ్రీమన్నారాయణ.',
+      [
+        'ఇట్లు',
+        'ఆగమ శాస్త్ర పండితులు దరూరి విష్ణు వర్ధనాచార్యులు',
+        'జై శ్రీమన్నారాయణ',
+      ],
       'ధర్మాన్ని ఆచరించడం అనేది యుగాలుగా భారతీయ జీవన విధానంలో ఒక కాంతిమంతమైన సత్యం.',
     ],
   },
@@ -150,8 +157,15 @@ export default function About() {
             <div className="content-block reveal visible" ref={(el) => (refs.current[4] = el)}>
               <h3 className="content-block-title">{mustKnow.heading}</h3>
               {mustKnow.paragraphs.map((paragraph) => (
-                <p className="about-para" key={paragraph}>
-                  {paragraph}
+                <p className="about-para" key={Array.isArray(paragraph) ? paragraph.join(' ') : paragraph}>
+                  {Array.isArray(paragraph)
+                    ? paragraph.map((line, lineIndex) => (
+                        <span key={line}>
+                          {line}
+                          {lineIndex < paragraph.length - 1 && <br />}
+                        </span>
+                      ))
+                    : paragraph}
                 </p>
               ))}
             </div>
