@@ -422,7 +422,6 @@ function SubCard({ pooja, language, ui, onSelect }) {
     <div className="ds-sub-card" ref={cardRef} onClick={() => onSelect(pooja)} role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && onSelect(pooja)}>
       <div className="ds-sub-card-imgwrap">
         <img className="ds-sub-card-img" src={pooja.image} alt={t(pooja.title, language)} loading="lazy" />
-        <div className="ds-sub-card-imgoverlay" />
         <div style={{ position: 'absolute', top: 10, right: 10 }}><ModeBadge mode={pooja.mode || 'offline'} ui={ui} /></div>
         <div className="ds-sub-card-rating-pill"><Stars rating={pooja.rating} /></div>
       </div>
@@ -514,11 +513,11 @@ function BookingModal({ onClose, poojaName = "", language = "en" }) {
 // ─── ONLINE STEPS SECTION ─────────────────────────────────────────────────────
 function OnlineStepsSection({ ui }) {
   const steps = [
-    { n: '01', label: ui.step1, icon: '' },
-    { n: '02', label: ui.step2, icon: '' },
-    { n: '03', label: ui.step3, icon: '' },
-    { n: '04', label: ui.step4, icon: '' },
-    { n: '05', label: ui.step5, icon: '✨' },
+    { n: '01', label: ui.step1, icon: '1' },
+    { n: '02', label: ui.step2, icon: '2' },
+    { n: '03', label: ui.step3, icon: '3' },
+    { n: '04', label: ui.step4, icon: '4' },
+    { n: '05', label: ui.step5, icon: '5' },
   ];
   return (
     <section className="ds-online-section">
@@ -530,7 +529,7 @@ function OnlineStepsSection({ ui }) {
           {steps.map((s, i) => (
             <div className="ds-step" key={s.n} style={{ animationDelay: `${i * 0.12}s` }}>
               <div className="ds-step-icon">{s.icon}</div>
-              <div className="ds-step-num">{s.n}</div>
+              
               <div className="ds-step-label">{s.label}</div>
               {i < steps.length - 1 && <div className="ds-step-connector" />}
             </div>
@@ -544,10 +543,10 @@ function OnlineStepsSection({ ui }) {
 // ─── SERVICE MODES SECTION ────────────────────────────────────────────────────
 function ServiceModesSection({ ui }) {
   const modes = [
-    { icon: '', title: ui.homePooja, desc: ui.homePoojaDesc, color: '#C8860C' },
-    { icon: '', title: ui.templePooja, desc: ui.templePoojaDesc, color: '#117A65' },
-    { icon: '', title: ui.onlinePooja, desc: ui.onlinePoojaDesc, color: '#1A5276' },
-    { icon: '✨', title: ui.personalizedPooja, desc: ui.personalizedDesc, color: '#784212' },
+    { number: '1', title: ui.homePooja, desc: ui.homePoojaDesc, color: '#C8860C' },
+    { number: '2', title: ui.templePooja, desc: ui.templePoojaDesc, color: '#117A65' },
+    { number: '3', title: ui.onlinePooja, desc: ui.onlinePoojaDesc, color: '#1A5276' },
+    { number: '4', title: ui.personalizedPooja, desc: ui.personalizedDesc, color: '#784212' },
   ];
   return (
     <section className="ds-modes-section">
@@ -556,7 +555,7 @@ function ServiceModesSection({ ui }) {
       <div className="ds-modes-grid">
         {modes.map((m, i) => (
           <div className="ds-mode-card" key={m.title} style={{ animationDelay: `${i * 0.1}s` }}>
-            <div className="ds-mode-icon" style={{ background: `${m.color}15`, color: m.color }}>{m.icon}</div>
+            <div className="ds-mode-icon" style={{ background: `${m.color}15`, color: m.color }}>{m.number}</div>
             <h3 className="ds-mode-title">{m.title}</h3>
             <p className="ds-mode-desc">{m.desc}</p>
             <button className="ds-mode-btn" onClick={() => createRipple({ currentTarget: document.activeElement })}>
@@ -667,8 +666,6 @@ function Level1({ onSelectCategory, onBook, initialSearch = "" }) {
               <div className="ds-cat-img-wrap">
                 <img className="ds-cat-img" src={cat.image} alt={t(cat.title, language)} loading="lazy" />
                 <div className="ds-cat-overlay" />
-                <div className="ds-cat-count-badge">{cat.count} Rituals</div>
-                <div className="ds-cat-mode-badge"><ModeBadge mode={cat.mode} ui={ui} /></div>
                 <div className="ds-cat-icon-overlay">{cat.icon}</div>
               </div>
               <div className="ds-cat-body">
