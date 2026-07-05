@@ -1,0 +1,158 @@
+.hero-slider {
+  position: relative;
+  width: min(100%, 420px);
+  aspect-ratio: 4 / 3;
+  margin: 0 auto 1.8rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  outline: none;
+  box-shadow: 0 10px 24px rgba(126, 51, 0, 0.22);
+  background: #dc8a19;
+}
+
+.hero-slider-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 0.9s ease, transform 6s ease;
+  pointer-events: none;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.hero-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-slide-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.6rem 0.9rem 0.7rem;
+  background: linear-gradient(to top, rgba(75, 19, 8, 0.82), rgba(75, 19, 8, 0));
+  color: #fff5d8;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.75rem, 3vw, 0.95rem);
+  text-align: left;
+}
+
+/* ── Arrows ── */
+.hero-slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(75, 19, 8, 0.55);
+  color: #fff5d8;
+  font-size: 1.3rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.hero-slider-arrow:hover {
+  background: rgba(75, 19, 8, 0.85);
+}
+
+.hero-slider-arrow.prev {
+  left: 0.5rem;
+}
+
+.hero-slider-arrow.next {
+  right: 0.5rem;
+}
+
+/* ── Dots ── */
+.hero-slider-dots {
+  position: absolute;
+  bottom: 0.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.hero-slider-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 245, 216, 0.85);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.hero-slider-dot.active {
+  background: #ffd37a;
+  transform: scale(1.25);
+}
+
+/* ── Progress bar (fills up until next auto-transition) ── */
+.hero-slider-progress-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(75, 19, 8, 0.25);
+  z-index: 3;
+}
+
+.hero-slider-progress {
+  height: 100%;
+  width: 0%;
+  background: #ffd37a;
+  animation-name: hero-slider-fill;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes hero-slider-fill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/* ── Mobile tweaks ── */
+@media (max-width: 380px) {
+  .hero-slider {
+    width: min(100%, 280px);
+    border-radius: 0.8rem;
+  }
+
+  .hero-slider-arrow {
+    width: 1.6rem;
+    height: 1.6rem;
+    font-size: 1.05rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-slider {
+    width: min(100%, 460px);
+  }
+}
