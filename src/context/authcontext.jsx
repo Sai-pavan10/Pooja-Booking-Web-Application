@@ -17,19 +17,21 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (u) => {
+    const unsubscribe = onAuthStateChanged(auth, (u) => {
       setUser(u);
-      if (u) {
-        try {
-          const snap = await getDoc(doc(db, "users", u.uid));
-          if (snap.exists()) setUserProfile(snap.data());
-        } catch {
-          setUserProfile(null);
-        }
-      } else {
+      if (!u) {
         setUserProfile(null);
+        setLoading(false);
+        return;
       }
+
       setLoading(false);
+      getDoc(doc(db, "users", u.uid))
+        .then((snap) => {
+          if (snap.exists()) setUserProfile(snap.data());
+          else setUserProfile(null);
+        })
+        .catch(() => setUserProfile(null));
     });
     return unsubscribe;
   }, []);
@@ -44,17 +46,22 @@ export function AuthProvider({ children }) {
       mobile,
       createdAt: serverTimestamp()
     };
-    await setDoc(doc(db, "users", result.user.uid), profile);
     setUserProfile(profile);
+    setDoc(doc(db, "users", result.user.uid), profile).catch(error => {
+      console.error("Failed to save user profile:", error);
+    });
     return result;
   }
 
   async function login(email, password) {
     const result = await signInWithEmailAndPassword(auth, email, password);
-    try {
-      const snap = await getDoc(doc(db, "users", result.user.uid));
-      if (snap.exists()) setUserProfile(snap.data());
-    } catch { /* profile fetch non-critical */ }
+    getDoc(doc(db, "users", result.user.uid))
+      .then((snap) => {
+        if (snap.exists()) setUserProfile(snap.data());
+      })
+      .catch(() => {
+        /* profile fetch non-critical */
+      });
     return result;
   }
 

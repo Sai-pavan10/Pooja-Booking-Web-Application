@@ -49,7 +49,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 580px;
+  min-height: 640px;
+  padding: 3rem 0 2rem;
   overflow: hidden;
   background: var(--ds-maroon-dark);
 }
@@ -78,7 +79,7 @@
   align-items: center;
   justify-content: center;
   background: transparent;
-  padding: 3rem 2rem;
+  padding: 4rem 2.5rem;
   width: 100%;
   max-width: 900px;
 }
@@ -466,6 +467,7 @@
   font-size: 2.2rem; width: 64px; height: 64px;
   background: rgba(232,105,10,0.18); border: 2px solid rgba(232,105,10,0.45);
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  color: var(--ds-gold-light);
   transition: transform 0.3s var(--ds-spring), background 0.3s ease;
 }
 .ds-step:hover .ds-step-icon { transform: scale(1.15); background: rgba(232,105,10,0.30); }
@@ -832,7 +834,7 @@
   .ds-hero-content { padding: 2rem 1.5rem; }
   .ds-step-connector { display: none; }
   .ds-l2-hero { flex-direction: column; gap: 0.75rem; padding: 2rem 1.5rem; }
-  .ds-hero { min-height: auto; }
+  .ds-hero { min-height: auto; padding: 2rem 0 1.5rem; }
   .ds-hero-content-side { padding: 2.5rem 1.5rem; }
 }
 @media (max-width: 640px) {

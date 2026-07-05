@@ -37,14 +37,12 @@ export default function LoginModal({ onClose, redirectAfterLogin }) {
     try {
       await login(loginForm.email, loginForm.password);
       showToast("Welcome back! You're now logged in.", "success");
-      setTimeout(() => {
-        setLoading(false);
-        onClose();
-        if (redirectAfterLogin) {
-          window.history.pushState({}, '', redirectAfterLogin);
-          window.dispatchEvent(new Event('app:navigate'));
-        }
-      }, 800);
+      setLoading(false);
+      onClose();
+      if (redirectAfterLogin) {
+        window.history.pushState({}, '', redirectAfterLogin);
+        window.dispatchEvent(new Event('app:navigate'));
+      }
     } catch (err) {
       setError(err.message || "Invalid email or password. Please try again.");
       setLoading(false);
@@ -60,10 +58,11 @@ export default function LoginModal({ onClose, redirectAfterLogin }) {
     try {
       await register(signupForm.fullName, signupForm.email, signupForm.mobile, signupForm.password);
       showToast(`Welcome, ${signupForm.fullName}! Account created.`, "success");
+      setLoading(false);
       onClose();
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') setError("This email is already registered.");
-      else setError(err.message);
+      else setError(err.message || "Unable to create account. Please try again.");
     } finally { setLoading(false); }
   }
 
