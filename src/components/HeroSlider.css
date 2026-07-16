@@ -151,8 +151,24 @@
   }
 }
 
+/* ── Large Desktop (1024px+): full-width wide banner, matches .hero-poster's 1200px column ── */
 @media (min-width: 1024px) {
   .hero-slider {
-    width: min(100%, 460px);
+    width: 100%;
+    max-width: 1200px;
+    aspect-ratio: 21 / 9;
+    margin: 0 auto 1.8rem;
+    border-radius: 1.25rem;
+  }
+
+  .hero-slider-arrow {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.6rem;
+  }
+
+  .hero-slide-caption {
+    padding: 1rem 1.5rem 1.2rem;
+    font-size: clamp(0.9rem, 1.4vw, 1.15rem);
   }
 }

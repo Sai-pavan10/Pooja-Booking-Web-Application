@@ -330,8 +330,9 @@
     border-top: 1.5px solid rgba(200, 134, 12, 0.4);
     z-index: 2000;
     height: 68px;
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: 0;
     box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.4);
+    overflow: visible;
   }
   
   .mobile-bottom-nav a {
@@ -367,13 +368,90 @@
     transform: translateY(-2px);
     filter: drop-shadow(0 0 4px rgba(240, 192, 64, 0.5));
   }
-  
-  body {
-    padding-bottom: 68px;
+
+  /* ── BOOK NOW — round, raised, premium FAB-style button ──
+     Center item (3rd) of the mobile bottom nav. If your JSX
+     gives the Book Now <a> a className="nav-fab-link", swap
+     the selectors below from :nth-child(3) to .nav-fab-link
+     for a more robust match. */
+  .mobile-bottom-nav a:nth-child(3) {
+    position: relative;
+    justify-content: flex-end;
+    padding-bottom: 6px;
+  }
+
+  .mobile-bottom-nav a:nth-child(3) .icon {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 56px;
+    height: 56px;
+    margin-bottom: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, #FFE9A8 0%, #F2C94C 45%, #C8960C 100%);
+    box-shadow:
+      0 6px 16px rgba(200, 150, 12, 0.55),
+      0 0 0 4px #4A0D1A,
+      0 0 0 5px rgba(240, 192, 64, 0.35);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease;
+    animation: fabPulse 2.6s ease-in-out infinite;
+  }
+
+  .mobile-bottom-nav a:nth-child(3) .icon svg,
+  .mobile-bottom-nav a:nth-child(3) .icon img {
+    width: 24px;
+    height: 24px;
+    filter: none;
+    color: #4E0F1C;
+  }
+
+  .mobile-bottom-nav a:nth-child(3) span:not(.icon) {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  .mobile-bottom-nav a:nth-child(3).active .icon,
+  .mobile-bottom-nav a:nth-child(3):active .icon {
+    transform: translateX(-50%) scale(0.92);
+    box-shadow:
+      0 4px 10px rgba(200, 150, 12, 0.6),
+      0 0 0 4px #4A0D1A,
+      0 0 0 5px rgba(240, 192, 64, 0.5);
+  }
+
+  .mobile-bottom-nav a:nth-child(3).active span:not(.icon) {
+    color: #F0C040;
+  }
+
+  @keyframes fabPulse {
+    0%, 100% {
+      box-shadow:
+        0 6px 16px rgba(200, 150, 12, 0.45),
+        0 0 0 4px #4A0D1A,
+        0 0 0 5px rgba(240, 192, 64, 0.3);
+    }
+    50% {
+      box-shadow:
+        0 8px 22px rgba(200, 150, 12, 0.65),
+        0 0 0 4px #4A0D1A,
+        0 0 0 6px rgba(240, 192, 64, 0.45);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-bottom-nav a:nth-child(3) .icon {
+      animation: none;
+    }
   }
   
-  .chatbot-fab,
-  .scroll-top-btn {
+  body {
+    padding-bottom: 0;
+  }
+  
+  .chatbot-fab {
     margin-bottom: 75px !important;
   }
   
@@ -471,8 +549,9 @@
     border-top: 1.5px solid rgba(200, 134, 12, 0.4);
     z-index: 2000;
     height: 72px;
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: 0;
     box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.4);
+    overflow: visible;
   }
   
   .mobile-bottom-nav a {
@@ -508,9 +587,62 @@
     transform: translateY(-2px);
     filter: drop-shadow(0 0 4px rgba(240, 192, 64, 0.5));
   }
+
+  /* ── BOOK NOW — round, raised, premium FAB-style button ── */
+  .mobile-bottom-nav a:nth-child(3) {
+    position: relative;
+    justify-content: flex-end;
+    padding-bottom: 8px;
+  }
+
+  .mobile-bottom-nav a:nth-child(3) .icon {
+    position: absolute;
+    top: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, #FFE9A8 0%, #F2C94C 45%, #C8960C 100%);
+    box-shadow:
+      0 6px 16px rgba(200, 150, 12, 0.55),
+      0 0 0 4px #4A0D1A,
+      0 0 0 5px rgba(240, 192, 64, 0.35);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease;
+    animation: fabPulse 2.6s ease-in-out infinite;
+  }
+
+  .mobile-bottom-nav a:nth-child(3) .icon svg,
+  .mobile-bottom-nav a:nth-child(3) .icon img {
+    width: 26px;
+    height: 26px;
+    filter: none;
+    color: #4E0F1C;
+  }
+
+  .mobile-bottom-nav a:nth-child(3) span:not(.icon) {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  .mobile-bottom-nav a:nth-child(3).active .icon,
+  .mobile-bottom-nav a:nth-child(3):active .icon {
+    transform: translateX(-50%) scale(0.92);
+    box-shadow:
+      0 4px 10px rgba(200, 150, 12, 0.6),
+      0 0 0 4px #4A0D1A,
+      0 0 0 5px rgba(240, 192, 64, 0.5);
+  }
+
+  .mobile-bottom-nav a:nth-child(3).active span:not(.icon) {
+    color: #F0C040;
+  }
   
   body {
-    padding-bottom: 72px;
+    padding-bottom: 0;
   }
   
   .chatbot-fab,

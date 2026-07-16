@@ -3,7 +3,14 @@ import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/auth-context';
 import LoginModal from '../components/LoginModal';
+import { useLanguage } from '../i18n';
 import './MyBookings.css';
+
+const COPY = {
+  en: { loginTitle: 'Login to View Your Bookings', loginBody: 'Please login to see your pooja booking history and status updates.', login: 'Login / Sign Up', account: 'My Account', title: 'My Bookings', welcome: 'Namaste, {name} — here are all your sacred pooja bookings.', loading: 'Loading your bookings...', empty: 'No Bookings Yet', emptyBody: "You haven't booked any pooja services yet. Browse our services and make your first booking!", browse: 'Browse Poojas →', another: '+ Book Another Pooja', view: 'View Details →', details: 'Booking Details', close: 'Close' },
+  te: { loginTitle: 'మీ బుకింగ్‌లను చూడటానికి లాగిన్ చేయండి', loginBody: 'మీ పూజ బుకింగ్ చరిత్ర, స్థితి నవీకరణలను చూడటానికి లాగిన్ చేయండి.', login: 'లాగిన్ / నమోదు', account: 'నా ఖాతా', title: 'నా బుకింగ్‌లు', welcome: 'నమస్తే, {name} — మీ పూజ బుకింగ్‌లు ఇక్కడ ఉన్నాయి.', loading: 'మీ బుకింగ్‌లు లోడ్ అవుతున్నాయి...', empty: 'ఇంకా బుకింగ్‌లు లేవు', emptyBody: 'మీరు ఇంకా పూజ సేవలను బుక్ చేయలేదు. సేవలను చూసి మీ మొదటి బుకింగ్ చేయండి!', browse: 'పూజలను చూడండి →', another: '+ మరో పూజ బుక్ చేయండి', view: 'వివరాలు చూడండి →', details: 'బుకింగ్ వివరాలు', close: 'మూసివేయండి' },
+  hi: { loginTitle: 'अपनी बुकिंग देखने के लिए लॉग इन करें', loginBody: 'अपनी पूजा बुकिंग का इतिहास और स्थिति अपडेट देखने के लिए लॉग इन करें।', login: 'लॉग इन / साइन अप', account: 'मेरा खाता', title: 'मेरी बुकिंग', welcome: 'नमस्ते, {name} — आपकी सभी पूजा बुकिंग यहां हैं।', loading: 'आपकी बुकिंग लोड हो रही हैं...', empty: 'अभी कोई बुकिंग नहीं', emptyBody: 'आपने अभी तक कोई पूजा सेवा बुक नहीं की है। सेवाएं देखें और अपनी पहली बुकिंग करें!', browse: 'पूजाएं देखें →', another: '+ एक और पूजा बुक करें', view: 'विवरण देखें →', details: 'बुकिंग विवरण', close: 'बंद करें' },
+};
 
 const STATUS_COLORS = {
   'Pending':          { bg: '#7c2d12', color: '#fed7aa', dot: '#f97316' },
@@ -20,6 +27,8 @@ const navigateTo = (href) => {
 
 export default function MyBookings() {
   const { user, userProfile } = useAuth();
+  const { language } = useLanguage();
+  const copy = COPY[language] || COPY.en;
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -57,10 +66,10 @@ export default function MyBookings() {
         {showLogin && <LoginModal onClose={() => setShowLogin(false)} redirectAfterLogin="/my-bookings" />}
         <div className="mybookings-empty">
           <div className="mybookings-empty-icon"></div>
-          <h2>Login to View Your Bookings</h2>
-          <p>Please login to see your pooja booking history and status updates.</p>
+          <h2>{copy.loginTitle}</h2>
+          <p>{copy.loginBody}</p>
           <button className="mb-login-btn" onClick={() => setShowLogin(true)}>
-            Login / Sign Up
+            {copy.login}
           </button>
         </div>
       </section>
@@ -69,18 +78,18 @@ export default function MyBookings() {
 
   return (
     <section className="mybookings-section">
-      {selected && <BookingDetailModal booking={selected} onClose={() => setSelected(null)} />}
+      {selected && <BookingDetailModal booking={selected} copy={copy} onClose={() => setSelected(null)} />}
 
       <div className="mybookings-header">
         <div className="mybookings-mandala" aria-hidden="true" />
-        <p className="mb-tag">My Account</p>
-        <h1 className="mb-title">My Bookings</h1>
+        <p className="mb-tag">{copy.account}</p>
+        <h1 className="mb-title">{copy.title}</h1>
         <div className="mb-divider">
           <span className="mb-line" />
           <span className="mb-lotus"></span>
           <span className="mb-line" />
         </div>
-        <p className="mb-welcome">Namaste, <strong>{displayName}</strong> — here are all your sacred pooja bookings.</p>
+        <p className="mb-welcome">{copy.welcome.replace('{name}', displayName)}</p>
       </div>
 
       <div className="mybookings-container">
@@ -104,7 +113,7 @@ export default function MyBookings() {
         {loading && (
           <div className="mb-loading">
             <div className="mb-spinner" />
-            <p>Loading your bookings...</p>
+            <p>{copy.loading}</p>
           </div>
         )}
 
@@ -113,10 +122,10 @@ export default function MyBookings() {
         {!loading && !error && bookings.length === 0 && (
           <div className="mybookings-empty">
             <div className="mybookings-empty-icon"></div>
-            <h2>No Bookings Yet</h2>
-            <p>You haven't booked any pooja services yet. Browse our services and make your first booking!</p>
+            <h2>{copy.empty}</h2>
+            <p>{copy.emptyBody}</p>
             <button className="mb-login-btn" onClick={() => navigateTo('/services')}>
-              Browse Poojas →
+              {copy.browse}
             </button>
           </div>
         )}
@@ -124,14 +133,14 @@ export default function MyBookings() {
         {!loading && bookings.length > 0 && (
           <div className="mb-grid">
             {bookings.map(b => (
-              <BookingCard key={b.id} booking={b} onViewDetails={() => setSelected(b)} />
+              <BookingCard key={b.id} booking={b} copy={copy} onViewDetails={() => setSelected(b)} />
             ))}
           </div>
         )}
 
         <div className="mb-actions">
           <button className="mb-book-btn" onClick={() => navigateTo('/services')}>
-            + Book Another Pooja
+            {copy.another}
           </button>
         </div>
       </div>
@@ -139,7 +148,7 @@ export default function MyBookings() {
   );
 }
 
-function BookingCard({ booking: b, onViewDetails }) {
+function BookingCard({ booking: b, copy, onViewDetails }) {
   const status = b.status || 'Pending';
   const c = STATUS_COLORS[status] || STATUS_COLORS.Pending;
   const dateStr = b.date || (b.createdAt?.toDate ? b.createdAt.toDate().toLocaleDateString('en-IN') : '—');
@@ -168,13 +177,13 @@ function BookingCard({ booking: b, onViewDetails }) {
       </div>
 
       <button className="mb-view-btn" onClick={onViewDetails}>
-        View Details →
+        {copy.view}
       </button>
     </div>
   );
 }
 
-function BookingDetailModal({ booking: b, onClose }) {
+function BookingDetailModal({ booking: b, copy, onClose }) {
   const status = b.status || 'Pending';
   const c = STATUS_COLORS[status] || STATUS_COLORS.Pending;
 
@@ -200,7 +209,7 @@ function BookingDetailModal({ booking: b, onClose }) {
       <div className="bd-card">
         <div className="bd-header">
           <div className="bd-title-row">
-            <h2>Booking Details</h2>
+            <h2>{copy.details}</h2>
             <div className="mb-status-badge" style={{ background: c.bg, color: c.color, border: `1px solid ${c.dot}66` }}>
               <span className="mb-status-dot" style={{ background: c.dot }} />
               {status}
@@ -217,7 +226,7 @@ function BookingDetailModal({ booking: b, onClose }) {
           ))}
         </div>
         <div className="bd-footer">
-          <button className="mb-book-btn" onClick={onClose}>Close</button>
+          <button className="mb-book-btn" onClick={onClose}>{copy.close}</button>
         </div>
       </div>
     </div>

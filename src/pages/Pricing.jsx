@@ -51,7 +51,6 @@ const PLANS = {
   te: [
     {
       name: ' శాంతి ప్యాకేజీ',
-      nameEn: 'Shanti Package',
       price: '₹15,116',
       highlight: false,
       features: [
@@ -67,7 +66,6 @@ const PLANS = {
     },
     {
       name: ' సంకల్పసిద్ధి ప్యాకేజీ',
-      nameEn: 'Sankalpasiddhi Package',
       price: '₹25,116',
       highlight: true,
       features: [
@@ -82,10 +80,9 @@ const PLANS = {
     },
     {
       name: ' మహా రక్ష ప్యాకేజీ',
-      nameEn: 'Maha Raksha Package',
       price: '₹50,116',
       highlight: false,
-      badge: 'Valid for one year',
+      badge: 'ఒక సంవత్సరం పాటు చెల్లుబాటు అవుతుంది',
       features: [
         'సంకల్పసిద్ధి ప్యాకేజీలో అన్నీ ✅',
         'అదనపు సేవలు మరియు ఆశీర్వాదాలు',
@@ -158,24 +155,24 @@ const TEXT = {
     requestCustom: "Request Custom Package"
   },
   te: {
-    tag: "Plans & Pricing",
-    title: "పూజా ప్యాకేజీలు (Pooja Packages)",
+    tag: "ప్రణాళికలు & ధరలు",
+    title: "పూజా ప్యాకేజీలు",
     intro: "మీ అవసరాలకు అనుగుణంగా ప్యాకేజీని ఎంచుకోండి — ప్రతి ప్యాకేజీలో పూర్తి వేద కర్మలు, అనుభవజ్ఞులైన పండితులు మరియు అన్ని పూజా సామాగ్రి ఉంటాయి.",
-    popular: "⭐ Most Popular",
-    estimated: "సంభావన (Estimated Price)",
-    book: "Select & Book →",
+    popular: "⭐ అత్యంత ప్రజాదరణ పొందినది",
+    estimated: "అంచనా ధర",
+    book: "ఎంచుకుని బుక్ చేయండి →",
     customNote: " కస్టమ్ ప్యాకేజీ కావాలంటే మాతో సంప్రదించండి",
-    requestCustom: "Request Custom Package"
+    requestCustom: "కస్టమ్ ప్యాకేజీని అభ్యర్థించండి"
   },
   hi: {
-    tag: "Plans & Pricing",
-    title: "पूजा पैकेज (Pooja Packages)",
+    tag: "योजनाएं और मूल्य",
+    title: "पूजा पैकेज",
     intro: "अपनी आवश्यकताओं के अनुसार एक पैकेज चुनें — प्रत्येक पैकेज में संपूर्ण वैदिक अनुष्ठान, अनुभवी पंडित और सभी पूजा सामग्री शामिल हैं।",
-    popular: "⭐ Most Popular",
-    estimated: "अनुमानित मूल्य (Estimated Price)",
-    book: "Select & Book →",
+    popular: "⭐ सबसे लोकप्रिय",
+    estimated: "अनुमानित मूल्य",
+    book: "चुनें और बुक करें →",
     customNote: " यदि आपको कस्टम पैकेज की आवश्यकता है तो हमसे संपर्क करें",
-    requestCustom: "Request Custom Package"
+    requestCustom: "कस्टम पैकेज का अनुरोध करें"
   }
 };
 

@@ -60,9 +60,10 @@ function App() {
   return (
     <AuthProvider>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Mallanna&family=Montserrat:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&family=Ponnala&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Mallanna&family=Montserrat:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Oswald:wght@400;500;600;700&family=Ponnala&display=swap');
         :lang(en), :lang(en) * { font-family: 'Montserrat', 'Oswald', sans-serif !important; }
         :lang(te), :lang(te) * { font-family: 'Mallanna', sans-serif !important; }
+        :lang(hi), :lang(hi) * { font-family: 'Noto Sans Devanagari', sans-serif !important; }
         :lang(te) .section-tag, :lang(te) .cat-card-sub, :lang(te) .sub-card-sub,
         :lang(te) .tag, :lang(te) .l1-hero-tag, :lang(te) .l3-hero-subtitle,
         :lang(te) .welcome-subtitle, :lang(te) .gallery-sub,

@@ -1,10 +1,13 @@
 ﻿import { useState } from "react";
 import { useAuth } from "../context/auth-context";
 import { showToast } from "./toast-service";
+import { useLanguage } from "../i18n";
 import './loginmodal.css';
 
 export default function LoginModal({ onClose, redirectAfterLogin }) {
   const { login, register, resetPassword } = useAuth();
+  const { content } = useLanguage();
+  const auth = content.auth;
   const [tab, setTab] = useState("login");
   const [showReset, setShowReset] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -22,11 +25,11 @@ export default function LoginModal({ onClose, redirectAfterLogin }) {
 
   function validateSignup() {
     const { fullName, email, mobile, password, confirm } = signupForm;
-    if (!fullName.trim()) return "Full name is required.";
-    if (!/\S+@\S+\.\S+/.test(email)) return "Enter a valid email address.";
-    if (!/^\d{10}$/.test(mobile)) return "Enter a valid 10-digit mobile number.";
-    if (password.length < 8) return "Password must be at least 8 characters.";
-    if (password !== confirm) return "Passwords do not match.";
+    if (!fullName.trim()) return auth.fullNameRequired || 'Full name is required.';
+    if (!/\S+@\S+\.\S+/.test(email)) return auth.invalidEmail;
+    if (!/^\d{10}$/.test(mobile)) return auth.mobileInvalid || 'Enter a valid 10-digit mobile number.';
+    if (password.length < 8) return auth.passwordMin;
+    if (password !== confirm) return auth.passwordMismatch;
     return null;
   }
 
@@ -36,7 +39,7 @@ export default function LoginModal({ onClose, redirectAfterLogin }) {
     setLoading(true);
     try {
       await login(loginForm.email, loginForm.password);
-      showToast("Welcome back! You're now logged in.", "success");
+      showToast(auth.welcomeBack, "success");
       setLoading(false);
       onClose();
       if (redirectAfterLogin) {
@@ -57,12 +60,12 @@ export default function LoginModal({ onClose, redirectAfterLogin }) {
     setLoading(true);
     try {
       await register(signupForm.fullName, signupForm.email, signupForm.mobile, signupForm.password);
-      showToast(`Welcome, ${signupForm.fullName}! Account created.`, "success");
+      showToast(auth.welcomeCreated.replace('{name}', signupForm.fullName), "success");
       setLoading(false);
       onClose();
     } catch (err) {
-      if (err.code === 'auth/email-already-in-use') setError("This email is already registered.");
-      else setError(err.message || "Unable to create account. Please try again.");
+      if (err.code === 'auth/email-already-in-use') setError(auth.emailInUse);
+      else setError(err.message || auth.invalidCredentials);
     } finally { setLoading(false); }
   }
 
@@ -72,9 +75,9 @@ export default function LoginModal({ onClose, redirectAfterLogin }) {
     try {
       await resetPassword(resetEmail);
       setResetSent(true);
-      showToast("Password reset email sent!", "info");
+      showToast(auth.resetEmailSent, "info");
     } catch {
-      setError("Could not send reset email. Check the address.");
+      setError(auth.resetError);
     } finally { setLoading(false); }
   }
 
@@ -86,12 +89,10 @@ export default function LoginModal({ onClose, redirectAfterLogin }) {
         <div className="lm-header">
           <div className="lm-diya"></div>
           <h2 className="lm-title">
-            {showReset ? "Reset Password" : tab === "login" ? "Welcome Back" : "Create Account"}
+            {showReset ? auth.resetPassword : tab === "login" ? auth.welcomeBack : auth.createAccount}
           </h2>
           <p className="lm-sub">
-            {showReset ? "Enter your email to receive a reset link"
-              : tab === "login" ? "Login to manage your pooja bookings"
-              : "Join us to book sacred pooja services"}
+            {showReset ? auth.resetSubtitle : tab === "login" ? auth.loginSubtitle : auth.signupSubtitle}
           </p>
           <button className="lm-close" onClick={onClose} aria-label="Close">✕</button>
         </div>
@@ -100,10 +101,10 @@ export default function LoginModal({ onClose, redirectAfterLogin }) {
         {!showReset && (
           <div className="lm-tabs">
             <button className={tab === "login" ? "active" : ""} onClick={() => { setTab("login"); setError(""); }}>
-              Login
+              {auth.loginBtn}
             </button>
             <button className={tab === "signup" ? "active" : ""} onClick={() => { setTab("signup"); setError(""); }}>
-              Sign Up
+              {auth.createAccount}
             </button>
           </div>
         )}
@@ -116,23 +117,23 @@ export default function LoginModal({ onClose, redirectAfterLogin }) {
             {resetSent ? (
               <div className="lm-reset-success">
                 <div className="lm-reset-icon"></div>
-                <p>Reset link sent to <strong>{resetEmail}</strong>. Check your inbox.</p>
+                <p>{auth.resetSentNotice.replace('{email}', resetEmail)}</p>
                 <button className="lm-btn" onClick={() => { setShowReset(false); setResetSent(false); }}>
-                  Back to Login
+                  {auth.backToLogin}
                 </button>
               </div>
             ) : (
               <form onSubmit={handleReset}>
                 <div className="lm-field">
-                  <label>Email Address</label>
+                  <label>{auth.emailLabel}</label>
                   <input type="email" placeholder="your@email.com" value={resetEmail}
                     onChange={e => setResetEmail(e.target.value)} required />
                 </div>
                 <button type="submit" className="lm-btn" disabled={loading}>
-                  {loading ? <span className="lm-spinner" /> : "Send Reset Link"}
+                  {loading ? <span className="lm-spinner" /> : auth.sendResetLink}
                 </button>
                 <button type="button" className="lm-link-btn" onClick={() => setShowReset(false)}>
-                  ← Back to Login
+                  ← {auth.backToLogin}
                 </button>
               </form>
             )}
@@ -144,25 +145,25 @@ export default function LoginModal({ onClose, redirectAfterLogin }) {
           <div className="lm-body">
             <form onSubmit={handleLogin}>
               <div className="lm-field">
-                <label>Email Address</label>
+                <label>{auth.emailLabel}</label>
                 <input type="email" placeholder="your@email.com" onChange={setL("email")}
                   value={loginForm.email} required />
               </div>
               <div className="lm-field">
-                <label>Password</label>
+                <label>{auth.passwordLabel}</label>
                 <input type="password" placeholder="Enter your password" onChange={setL("password")}
                   value={loginForm.password} required />
               </div>
               <button type="button" className="lm-forgot" onClick={() => { setShowReset(true); setError(""); }}>
-                Forgot Password?
+                {auth.forgotPassword}
               </button>
               <button type="submit" className="lm-btn" disabled={loading}>
-                {loading ? <span className="lm-spinner" /> : "Login"}
+                {loading ? <span className="lm-spinner" /> : auth.loginBtn}
               </button>
             </form>
             <p className="lm-switch">
-              Don't have an account?{" "}
-              <button onClick={() => { setTab("signup"); setError(""); }}>Create Account</button>
+              {auth.noAccount}{" "}
+              <button onClick={() => { setTab("signup"); setError(""); }}>{auth.createAccount}</button>
             </p>
           </div>
         )}
@@ -172,37 +173,37 @@ export default function LoginModal({ onClose, redirectAfterLogin }) {
           <div className="lm-body">
             <form onSubmit={handleSignup}>
               <div className="lm-field">
-                <label>Full Name <span>*</span></label>
+                <label>{auth.fullNameLabel} <span>*</span></label>
                 <input type="text" placeholder="Your full name" onChange={setS("fullName")}
                   value={signupForm.fullName} required />
               </div>
               <div className="lm-field">
-                <label>Email Address <span>*</span></label>
+                <label>{auth.emailLabel} <span>*</span></label>
                 <input type="email" placeholder="your@email.com" onChange={setS("email")}
                   value={signupForm.email} required />
               </div>
               <div className="lm-field">
-                <label>Mobile Number <span>*</span></label>
+                <label>{auth.mobileLabel} <span>*</span></label>
                 <input type="tel" placeholder="10-digit mobile" onChange={setS("mobile")}
                   value={signupForm.mobile} maxLength={10} required />
               </div>
               <div className="lm-field">
-                <label>Password <span>*</span></label>
+                <label>{auth.passwordLabel} <span>*</span></label>
                 <input type="password" placeholder="Min 8 characters" onChange={setS("password")}
                   value={signupForm.password} required />
               </div>
               <div className="lm-field">
-                <label>Confirm Password <span>*</span></label>
+                <label>{auth.confirmPasswordLabel} <span>*</span></label>
                 <input type="password" placeholder="Repeat your password" onChange={setS("confirm")}
                   value={signupForm.confirm} required />
               </div>
               <button type="submit" className="lm-btn" disabled={loading}>
-                {loading ? <span className="lm-spinner" /> : "Create Account"}
+                {loading ? <span className="lm-spinner" /> : auth.signupBtn}
               </button>
             </form>
             <p className="lm-switch">
-              Already have an account?{" "}
-              <button onClick={() => { setTab("login"); setError(""); }}>Login</button>
+              {auth.alreadyHaveAccount}{" "}
+              <button onClick={() => { setTab("login"); setError(""); }}>{auth.loginBtn}</button>
             </p>
           </div>
         )}

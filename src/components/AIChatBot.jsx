@@ -596,9 +596,6 @@ export default function AIChatBot() {
             <img src={logo} alt="Assistant Logo" className="chatbot-fab__icon-img" />
             <span className="chatbot-fab__ripple" />
             {hasNewMessage && <span className="chatbot-fab__badge" />}
-            <div className="chatbot-fab__popup">
-              Namaskaram!
-            </div>
           </>
         )}
       </button>

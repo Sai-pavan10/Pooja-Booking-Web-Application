@@ -20,6 +20,11 @@ export default function Home() {
   const refs = useRef([]);
   const [showLogin, setShowLogin] = useState(false);
 
+  // ── Carousel state/refs for services slider ──
+  const sliderRef = useRef(null);
+  const cardRefs = useRef([]);
+  const [activeSlide, setActiveSlide] = useState(0);
+
   // Show login popup after 5 seconds if not logged in
   useEffect(() => {
     if (user) return;
@@ -38,6 +43,45 @@ export default function Home() {
     refs.current.forEach((el) => el && obs.observe(el));
     return () => obs.disconnect();
   }, [language]);
+
+  // Track which slide is active while the user swipes/scrolls the services carousel
+  useEffect(() => {
+    const el = sliderRef.current;
+    if (!el) return;
+
+    let raf = null;
+    const handleScroll = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const { scrollLeft, clientWidth } = el;
+        let closestIndex = 0;
+        let closestDist = Infinity;
+        cardRefs.current.forEach((card, i) => {
+          if (!card) return;
+          const center = Math.abs((card.offsetLeft - scrollLeft) - clientWidth * 0.05);
+          if (center < closestDist) {
+            closestDist = center;
+            closestIndex = i;
+          }
+        });
+        setActiveSlide(closestIndex);
+      });
+    };
+
+    el.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      el.removeEventListener('scroll', handleScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [servicePreviews.length]);
+
+  const scrollToSlide = (i) => {
+    const card = cardRefs.current[i];
+    const el = sliderRef.current;
+    if (!card || !el) return;
+    el.scrollTo({ left: card.offsetLeft - 12, behavior: 'smooth' });
+    setActiveSlide(i);
+  };
 
   // Use this before any booking action
   function handleBookNow() {
@@ -66,12 +110,16 @@ export default function Home() {
             <p className="section-intro">{home.servicesIntro}</p>
           </div>
 
-          <div className="home-service-grid">
+          {/* ── Sliding carousel ── */}
+          <div className="home-service-grid" ref={sliderRef}>
             {servicePreviews.map(([title, , text, image], i) => (
               <article
                 className="home-service-card reveal"
                 key={title}
-                ref={(el) => (refs.current[i + 1] = el)}
+                ref={(el) => {
+                  refs.current[i + 1] = el;
+                  cardRefs.current[i] = el;
+                }}
                 style={{ transitionDelay: `${i * 0.12}s`, animationDelay: `${i * 0.12}s` }}
               >
                 {/* ── Image Panel ── */}
@@ -104,6 +152,20 @@ export default function Home() {
             ))}
           </div>
 
+          {/* ── Dot pagination ── */}
+          <div className="home-service-dots" role="tablist" aria-label="Service slides">
+            {servicePreviews.map((_, i) => (
+              <button
+                key={i}
+                className={`home-service-dot ${activeSlide === i ? 'active' : ''}`}
+                onClick={() => scrollToSlide(i)}
+                aria-label={`Go to slide ${i + 1}`}
+                aria-selected={activeSlide === i}
+                role="tab"
+              />
+            ))}
+          </div>
+
           <div className="home-preview-action reveal" ref={(el) => (refs.current[5] = el)}>
             <button className="btn-primary" onClick={() => navigateTo('/services')}>
               {home.viewServices}
@@ -113,7 +175,7 @@ export default function Home() {
       </section>
 
       <section className="home-about-preview">
-        <div className="container home-about-grid">
+        <div className="container container--align-right home-about-grid">
 
           {/* ── Floating Logo (no box) ── */}
           <div className="home-about-logo-wrap reveal" ref={(el) => (refs.current[6] = el)}>
