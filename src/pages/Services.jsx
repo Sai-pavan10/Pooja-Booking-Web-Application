@@ -522,7 +522,6 @@ function OnlineStepsSection({ ui }) {
   return (
     <section className="ds-online-section">
       <div className="ds-online-inner">
-        <div className="ds-section-label">Online Pooja Experience</div>
         <h2 className="ds-section-title">{ui.howOnlineWorks}</h2>
         <p className="ds-section-desc">{ui.onlineDesc}</p>
         <div className="ds-steps-row">
@@ -540,34 +539,6 @@ function OnlineStepsSection({ ui }) {
   );
 }
 
-// ─── SERVICE MODES SECTION ────────────────────────────────────────────────────
-function ServiceModesSection({ ui }) {
-  const modes = [
-    { number: '1', title: ui.homePooja, desc: ui.homePoojaDesc, color: '#C8860C' },
-    { number: '2', title: ui.templePooja, desc: ui.templePoojaDesc, color: '#117A65' },
-    { number: '3', title: ui.onlinePooja, desc: ui.onlinePoojaDesc, color: '#1A5276' },
-    { number: '4', title: ui.personalizedPooja, desc: ui.personalizedDesc, color: '#784212' },
-  ];
-  return (
-    <section className="ds-modes-section">
-      <div className="ds-section-label">Service Offerings</div>
-      <h2 className="ds-section-title">{ui.serviceModes}</h2>
-      <div className="ds-modes-grid">
-        {modes.map((m, i) => (
-          <div className="ds-mode-card" key={m.title} style={{ animationDelay: `${i * 0.1}s` }}>
-            <div className="ds-mode-icon" style={{ background: `${m.color}15`, color: m.color }}>{m.number}</div>
-            <h3 className="ds-mode-title">{m.title}</h3>
-            <p className="ds-mode-desc">{m.desc}</p>
-            <button className="ds-mode-btn" onClick={() => createRipple({ currentTarget: document.activeElement })}>
-              {ui.bookNow} →
-            </button>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 // ─── TRUST SECTION ────────────────────────────────────────────────────────────
 function TrustSection({ ui }) {
   const stats = [
@@ -580,7 +551,6 @@ function TrustSection({ ui }) {
   ];
   return (
     <section className="ds-trust-section">
-      <div className="ds-section-label">Why Choose Us</div>
       <h2 className="ds-section-title" style={{ color: '#fff' }}>{ui.trustTitle}</h2>
       <div className="ds-trust-grid">
         {stats.map((s, i) => (
@@ -649,12 +619,9 @@ function Level1({ onSelectCategory, onBook, initialSearch = "" }) {
         </div>
       </section>
 
-      {/* SERVICE MODES */}
-      <ServiceModesSection ui={ui} onBook={onBook} />
-
       {/* SEARCH + CATEGORIES */}
       <section className="ds-cats-section">
-        <div className="ds-section-label">Sacred Ceremonies</div>
+       
         <h2 className="ds-section-title">{ui.allServices}</h2>
         <div className="ds-search-bar">
           <span className="ds-search-icon"></span>
@@ -669,7 +636,6 @@ function Level1({ onSelectCategory, onBook, initialSearch = "" }) {
                 <div className="ds-cat-icon-overlay">{cat.icon}</div>
               </div>
               <div className="ds-cat-body">
-                <div className="ds-cat-sub">{t(cat.subtitle, language)}</div>
                 <h3 className="ds-cat-title">{t(cat.title, language)}</h3>
                 <p className="ds-cat-desc">{t(cat.description, language)}</p>
                 <button className="ds-cat-btn">{ui.viewDetails}</button>
@@ -687,7 +653,7 @@ function Level1({ onSelectCategory, onBook, initialSearch = "" }) {
 
       {/* FAQ */}
       <section className="ds-faq-section">
-        <div className="ds-section-label">Got Questions?</div>
+        
         <h2 className="ds-section-title">{ui.faqs}</h2>
         <div className="ds-faq-list">
           {[
@@ -703,7 +669,6 @@ function Level1({ onSelectCategory, onBook, initialSearch = "" }) {
       {/* CUSTOM POOJA CTA */}
       <div className="ds-cta-banner">
         <div className="ds-cta-content">
-          <div className="ds-section-label" style={{ marginBottom: '0.5rem' }}>{ui.needCustom}</div>
           <p style={{ color: 'rgba(255,255,255,0.88)', marginBottom: '1.5rem', fontSize: '1.05rem' }}>{ui.notFinding}</p>
           <button className="ds-btn-gold" onClick={onBook} onMouseDown={createRipple}>{ui.callUs}</button>
         </div>
@@ -730,7 +695,7 @@ function Level2({ category, onBack, onSelectPooja }) {
       <div className="ds-l2-hero" style={{ background: `linear-gradient(135deg, ${category.color}22 0%, var(--ds-cream) 100%)` }}>
         <div className="ds-l2-hero-icon">{category.icon}</div>
         <div>
-          <div className="ds-section-label" style={{ marginBottom: '0.3rem' }}>{t(category.subtitle, language)}</div>
+          
           <h1 className="ds-l2-title">{t(category.title, language)}</h1>
           <p className="ds-l2-desc">{t(category.description, language)}</p>
         </div>

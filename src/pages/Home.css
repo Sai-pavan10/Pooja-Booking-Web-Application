@@ -352,8 +352,8 @@
 
 .home-preview-action button {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
-  padding: 0.9rem 2.2rem;
-  font-size: 0.8rem;
+  padding: 0.95rem 2.4rem;
+  font-size: 1.2rem;
 }
 
 .home-preview-action button:hover {
@@ -419,20 +419,20 @@
 .home-about-points {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.9rem;
   margin-bottom: 1.2rem;
 }
 
 .home-about-points span {
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--maroon-dark, #5a0f1e);
   background: var(--white, #fff);
   border: 1px solid rgba(200, 150, 12, 0.3);
   border-radius: 4px;
-  padding: 0.65rem 0.8rem;
+  padding: 0.75rem 1rem;
 }
 
 /* ════════════════════════════════════════
@@ -504,6 +504,10 @@
   color: var(--text-mid, #555);
   line-height: 1.8;
   font-size: 0.92rem;
+}
+
+.home-about-copy button {
+  font-size: 1.3rem;
 }
 
 /* ════════════════════════════════════════

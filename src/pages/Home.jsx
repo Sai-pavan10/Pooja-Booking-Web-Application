@@ -75,6 +75,41 @@ export default function Home() {
     };
   }, [servicePreviews.length]);
 
+  // Automatically advance the horizontal service carousel. Interaction pauses the
+  // animation so visitors can read a card or use its booking button comfortably.
+  useEffect(() => {
+    const el = sliderRef.current;
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+
+    let paused = false;
+    const pause = () => { paused = true; };
+    const resume = () => { paused = false; };
+    const advance = () => {
+      if (paused) return;
+      const nextIndex = activeSlide >= servicePreviews.length - 1 ? 0 : activeSlide + 1;
+      const nextCard = cardRefs.current[nextIndex];
+      if (nextCard) el.scrollTo({ left: nextCard.offsetLeft - 12, behavior: 'smooth' });
+    };
+
+    const timer = window.setInterval(advance, 3500);
+    el.addEventListener('mouseenter', pause);
+    el.addEventListener('mouseleave', resume);
+    el.addEventListener('focusin', pause);
+    el.addEventListener('focusout', resume);
+    el.addEventListener('touchstart', pause, { passive: true });
+    el.addEventListener('touchend', resume, { passive: true });
+
+    return () => {
+      window.clearInterval(timer);
+      el.removeEventListener('mouseenter', pause);
+      el.removeEventListener('mouseleave', resume);
+      el.removeEventListener('focusin', pause);
+      el.removeEventListener('focusout', resume);
+      el.removeEventListener('touchstart', pause);
+      el.removeEventListener('touchend', resume);
+    };
+  }, [activeSlide, language, servicePreviews.length]);
+
   const scrollToSlide = (i) => {
     const card = cardRefs.current[i];
     const el = sliderRef.current;
