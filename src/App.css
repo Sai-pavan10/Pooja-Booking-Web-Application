@@ -6,3 +6,16 @@
 .home-main {
   min-height: 100vh;
 }
+
+/* Ensure fixed bottom nav does not hide page content */
+.page-main,
+.home-main {
+  padding-bottom: 72px;
+}
+
+@media (max-width: 480px) {
+  .page-main,
+  .home-main {
+    padding-bottom: 68px;
+  }
+}

@@ -52,7 +52,7 @@ section {
 }
 
 .section-header {
-  text-align: center;
+  text-align: left;
   margin-bottom: 3.5rem;
 }
 
@@ -75,9 +75,9 @@ section {
 .divider {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 12px;
-  margin: 0 auto 1rem;
+  margin: 0 0 1rem 0;
 }
 
 .divider-line {
@@ -97,10 +97,23 @@ section {
 
 .section-intro {
   max-width: 620px;
-  margin: 0 auto;
+  margin: 0 0 0 0;
   color: var(--text-mid);
   line-height: 1.8;
-  text-align: center;
+  text-align: left;
+}
+
+/* Utility alignment classes for selective overrides */
+.align-left { text-align: left !important; }
+.align-right { text-align: right !important; }
+.container--align-right .section-intro,
+.container--align-right .section-header { text-align: right; }
+
+/* Keep centered layout on large screens */
+@media (min-width: 1200px) {
+  .section-header { text-align: center; }
+  .section-intro { margin: 0 auto; text-align: center; }
+  .divider { justify-content: center; margin: 0 auto 1rem; }
 }
 
 /* ── BUTTONS ── */

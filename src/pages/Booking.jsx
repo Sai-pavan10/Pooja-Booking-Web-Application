@@ -336,7 +336,7 @@ export default function Booking() {
           <div className="payment-info-banner reveal" ref={(el) => (refs.current[98] = el)}>
             <span className="banner-icon"></span>
             <span>
-              Secure advance payment via <strong>Stripe</strong> — UPI, Cards, Net Banking accepted
+              {text.securePaymentBanner}
             </span>
           </div>
 
@@ -527,10 +527,10 @@ export default function Booking() {
               <p className="form-note">{text.note}</p>
               <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                 <button type="button" className="btn-whatsapp" onClick={handleWhatsApp}>
-                  WhatsApp ద్వారా పంపించండి
+                  {text.whatsappButton}
                 </button>
                 <button type="submit" className="btn-primary booking-submit">
-                  {user ? 'Proceed to Payment ->' : 'Login to Book'}
+                  {user ? text.proceedToPayment : text.loginToBook}
                 </button>
               </div>
             </div>

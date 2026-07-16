@@ -34,6 +34,11 @@ export default function Footer() {
       { label: 'Pune', href: '/contact' },
     ],
   };
+  const policyLinks = {
+    en: ['Privacy Policy', 'Terms of Service', 'Refund Policy'],
+    te: ['గోప్యతా విధానం', 'సేవా నిబంధనలు', 'వాపసు విధానం'],
+    hi: ['गोपनीयता नीति', 'सेवा की शर्तें', 'धनवापसी नीति'],
+  }[language];
   const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
@@ -87,9 +92,9 @@ export default function Footer() {
             Copyright {new Date().getFullYear()} Dharma Sankalpam. {footer.copy}
           </p>
           <div className="footer-bottom-links">
-            <a href="/privacy">Privacy Policy</a>
-            <a href="/terms">Terms of Service</a>
-            <a href="/refund">Refund Policy</a>
+            <a href="/privacy">{policyLinks[0]}</a>
+            <a href="/terms">{policyLinks[1]}</a>
+            <a href="/refund">{policyLinks[2]}</a>
           </div>
           <button className="scroll-top-btn" onClick={scrollTop} aria-label="Scroll to top">
             &uarr;

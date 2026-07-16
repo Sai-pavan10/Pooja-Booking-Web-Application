@@ -45,7 +45,7 @@ const UI_TEXT = {
     notFinding: "Not finding the ceremony you need? Contact us for a custom arrangement.",
     callUs: "Call 8179960741",
     searchWithin: "Search within", poojasFound: "poojas", poojaFound: "pooja",
-    readMore: "Read More", bookNow: "Book Now",
+    readMore: "Read More", bookNow: "Book Now", poojas: "Poojas", priests: "Priests", rating: "Rating",
     callPriest: "Call Priest", whatsapp: "WhatsApp",
     aboutPooja: "About This Pooja", importance: "Importance & Spiritual Benefits",
     bestTime: "Best Time to Perform", samagri: "Required Pooja Samagri",
@@ -107,7 +107,7 @@ const UI_TEXT = {
     notFinding: "కావాల్సిన పూజ దొరకలేదా? కస్టమ్ ఏర్పాటు కోసం మమ్మల్ని సంప్రదించండి.",
     callUs: "కాల్ 8179960741",
     searchWithin: "ఇందులో వెతకండి", poojasFound: "పూజలు", poojaFound: "పూజ",
-    readMore: "మరింత చదవండి", bookNow: "ఇప్పుడే బుక్ చేయండి",
+    readMore: "మరింత చదవండి", bookNow: "ఇప్పుడే బుక్ చేయండి", poojas: "పూజలు", priests: "పండితులు", rating: "రేటింగ్",
     callPriest: "పండితుడికి కాల్ చేయండి", whatsapp: "వాట్సాప్",
     aboutPooja: "ఈ పూజ గురించి", importance: "ప్రాముఖ్యత & ఆధ్యాత్మిక ప్రయోజనాలు",
     bestTime: "నిర్వహించడానికి ఉత్తమ సమయం", samagri: "అవసరమైన పూజా సామాగ్రి",
@@ -168,7 +168,7 @@ const UI_TEXT = {
     notFinding: "अपनी आवश्यक पूजा नहीं मिल रही? कस्टम व्यवस्था के लिए संपर्क करें।",
     callUs: "कॉल 8179960741",
     searchWithin: "में खोजें", poojasFound: "पूजाएं", poojaFound: "पूजा",
-    readMore: "और पढ़ें", bookNow: "अभी बुक करें",
+    readMore: "और पढ़ें", bookNow: "अभी बुक करें", poojas: "पूजाएं", priests: "पंडित", rating: "रेटिंग",
     callPriest: "पंडित जी को कॉल करें", whatsapp: "व्हाट्सएप",
     aboutPooja: "इस पूजा के बारे में", importance: "महत्व और आध्यात्मिक लाभ",
     bestTime: "करने का सबसे अच्छा समय", samagri: "आवश्यक पूजा सामग्री",
@@ -559,7 +559,7 @@ function ServiceModesSection({ ui }) {
             <h3 className="ds-mode-title">{m.title}</h3>
             <p className="ds-mode-desc">{m.desc}</p>
             <button className="ds-mode-btn" onClick={() => createRipple({ currentTarget: document.activeElement })}>
-              Book Now →
+              {ui.bookNow} →
             </button>
           </div>
         ))}
@@ -641,7 +641,7 @@ function Level1({ onSelectCategory, onBook, initialSearch = "" }) {
               </button>
             </div>
             <div className="ds-hero-stats">
-              {[['5000+', 'Poojas'], ['50+', 'Priests'], ['4.9★', 'Rating'], ['Global', 'Online']].map(([v, l]) => (
+              {[['5000+', ui.poojas], ['50+', ui.priests], ['4.9★', ui.rating]].map(([v, l]) => (
                 <div className="ds-hero-stat" key={l}><span className="ds-hero-stat-val">{v}</span><span className="ds-hero-stat-lbl">{l}</span></div>
               ))}
             </div>

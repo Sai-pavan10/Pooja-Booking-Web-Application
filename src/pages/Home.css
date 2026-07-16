@@ -1,13 +1,51 @@
 /* ════════════════════════════════════════════
    SERVICES PREVIEW  –  image-top / content-below
-   2-column grid with gold UX animations
+   Sliding carousel with gold UX animations
 ════════════════════════════════════════════ */
+
+.home-services-preview,
+.home-about-preview,
+.home-reviews-preview {
+  position: relative;
+  overflow: hidden;
+  padding: 1.4rem 0 1.6rem;
+}
 
 .home-services-preview {
   background: #FF9933;
-  position: relative;
-  overflow: hidden;
-  padding: 0;
+}
+
+.home-services-preview > .container,
+.home-about-preview > .container,
+.home-reviews-preview > .container {
+  padding: 0 1rem;
+}
+
+.home-services-preview .section-header .divider,
+.home-about-preview .section-header .divider,
+.home-reviews-preview .section-header .divider {
+  display: none;
+}
+
+.home-services-preview .section-tag,
+.home-about-preview .section-tag,
+.home-reviews-preview .section-tag {
+  color: var(--maroon-dark, #4E0F1C);
+  font-size: clamp(1.6rem, 1.6vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+
+.home-services-preview .section-intro,
+.home-about-preview .section-intro,
+.home-reviews-preview .section-intro {
+  color: #fff;
+  font-size: clamp(1.05rem, 1.95vw, 1.25rem);
+  line-height: 1.9;
+}
+
+.home-services-preview .section-intro {
+  color: var(--maroon-dark, #4E0F1C);
 }
 
 /* Slow diagonal gold shimmer across the whole section */
@@ -38,11 +76,64 @@
   100% { background-position: 0% 50%; }
 }
 
-/* ── 2-column grid ── */
+/* ── Horizontal sliding carousel ── */
 .home-service-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  display: flex;
+  gap: 0.95rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 0.1rem 0 0.35rem;
+  scrollbar-width: none; /* Firefox */
+}
+
+.home-service-grid::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.home-service-card {
+  scroll-snap-align: start;
+  flex: 0 0 78%;
+  max-width: 300px;
+}
+
+/* Show a peek of more cards on wider screens */
+@media (min-width: 640px) {
+  .home-service-card { flex: 0 0 46%; max-width: 340px; }
+}
+
+@media (min-width: 900px) {
+  .home-service-card { flex: 0 0 24%; max-width: none; }
+}
+
+/* ── Dot pagination ── */
+.home-service-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.home-service-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(200, 150, 12, 0.35);
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease, width 0.25s ease;
+}
+
+.home-service-dot.active {
+  background: var(--gold, #C8960C);
+  width: 22px;
+  border-radius: 5px;
+}
+
+.home-service-dot:hover {
+  background: rgba(200, 150, 12, 0.6);
 }
 
 /* ══════════════════════════════════════
@@ -198,7 +289,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 1.6rem 1.8rem 1.8rem;
+  padding: 1.2rem 1.25rem 1.35rem;
   position: relative;
   transition: background 0.4s ease;
 }
@@ -254,8 +345,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 3rem;
-  padding: 2.5rem 0;
+  margin-top: 1rem;
+  padding: 0.6rem 0 0;
   width: 100%;
 }
 
@@ -280,7 +371,7 @@
 .home-about-grid {
   display: grid;
   grid-template-columns: 0.9fr 1.3fr;
-  gap: 4rem;
+  gap: 1.4rem;
   align-items: center;
 }
 
@@ -322,14 +413,14 @@
   margin: 0;
 }
 
-.home-about-copy .section-title { margin-bottom: 1rem; }
-.home-about-copy > p            { margin-bottom: 1.5rem; }
+.home-about-copy .section-title { margin-bottom: 0.45rem; }
+.home-about-copy > p            { margin-bottom: 1rem; }
 
 .home-about-points {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.2rem;
 }
 
 .home-about-points span {
@@ -355,7 +446,7 @@
 .home-review-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: 1rem;
   max-width: 900px;
   margin: 0 auto;
 }
@@ -365,7 +456,7 @@
   border: 1px solid rgba(200, 150, 12, 0.24);
   border-left: 4px solid var(--maroon-dark, #5a0f1e);
   border-radius: 6px;
-  padding: 2rem;
+  padding: 1.35rem;
   position: relative;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
@@ -431,9 +522,8 @@
   }
 }
 
-/* Tablet portrait / small tablet: single column */
+/* Tablet portrait / small tablet */
 @media (max-width: 900px) {
-  .home-service-grid,
   .home-about-grid,
   .home-review-grid {
     grid-template-columns: 1fr;
@@ -457,9 +547,21 @@
 
 /* Mobile */
 @media (max-width: 560px) {
-  .home-service-grid { gap: 1.1rem; }
+  .home-services-preview,
+  .home-about-preview,
+  .home-reviews-preview {
+    padding: 2rem 0;
+  }
 
-  .svc-body { padding: 1.2rem 1.3rem 1.4rem; }
+  .home-services-preview > .container,
+  .home-about-preview > .container,
+  .home-reviews-preview > .container {
+    padding: 0 0.75rem;
+  }
+
+  .home-service-grid { gap: 0.8rem; }
+
+  .svc-body { padding: 1rem 1rem 1.15rem; }
 
   .home-service-card h3  { font-size: 0.97rem; }
   .home-service-card p   { font-size: 0.85rem; line-height: 1.72; }
@@ -473,12 +575,76 @@
   .home-about-logo-wrap strong {
     font-size: 2rem;
   }
+
+  /* ── Collapse the oversized "View All" button block ──
+     Was margin-top:3rem + padding:2.5rem 0 (~5.5rem of empty
+     space above/below the button on phones). Tightened to a
+     normal section gap. */
+  .home-preview-action {
+    margin-top: 1.25rem;
+    padding: 0.5rem 0 1.5rem;
+  }
+
+  .home-preview-action button {
+    padding: 0.75rem 1.8rem;
+  }
+
+  /* ── About section: stacked single column was inheriting the
+     4rem desktop gap, plus 2rem below the tag pills and the
+     floating-logo animation offset — all of that stacks up
+     vertically on mobile. Tighten each layer. */
+  .home-about-grid {
+    gap: 1.25rem;
+  }
+
+  .home-about-logo-wrap {
+    gap: 0.6rem;
+  }
+
+  .home-about-copy .section-title {
+    margin-bottom: 0.6rem;
+  }
+
+  .home-about-copy > p {
+    margin-bottom: 1rem;
+  }
+
+  .home-about-points {
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Section fade connectors were 60px tall on every screen size;
+     that's a big chunk of empty gradient space on a short mobile
+     viewport. Shrink them so sections meet sooner. */
+  .home-about-preview::before,
+  .home-about-preview::after,
+  .home-reviews-preview::before {
+    height: 28px;
+  }
+
+  .home-review-grid {
+    gap: 1rem;
+  }
 }
 
 @media (max-width: 380px) {
   .svc-body { padding: 1rem 1rem 1.2rem; }
   .home-service-card h3 { font-size: 0.93rem; }
   .home-service-card p  { font-size: 0.82rem; }
+
+  .home-preview-action {
+    margin-top: 1rem;
+    padding: 0.4rem 0 1.25rem;
+  }
+
+  .home-about-grid {
+    gap: 1rem;
+  }
+
+  .home-about-points {
+    margin-bottom: 1rem;
+  }
 }
 
 /* Respect reduced-motion */
