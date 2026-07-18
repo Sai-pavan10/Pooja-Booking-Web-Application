@@ -19,9 +19,9 @@
   max-width: 100vw;
 }
 
-.pricing-section .section-tag { color: var(--gold-light); }
+.pricing-section .section-tag { color: var(--gold-light); font-size: 2rem; letter-spacing: 0.16em; }
 .pricing-section .section-title { color: #fff8e7; }
-.pricing-section .section-intro { color: rgba(255, 248, 231, 0.84); }
+.pricing-section .section-intro { color: rgba(255, 248, 231, 0.84); font-size: 1.25rem; line-height: 1.85; }
 .pricing-section .divider-line { background: linear-gradient(to right, transparent, var(--gold-light)); }
 .pricing-section .divider-line.right { background: linear-gradient(to left, transparent, var(--gold-light)); }
 

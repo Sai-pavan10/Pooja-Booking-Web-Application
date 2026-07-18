@@ -9,7 +9,22 @@ import {
   sendPasswordResetEmail,
   updateProfile
 } from "firebase/auth";
-import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
+
+async function logUserActivity(userId, eventType, extraData = {}) {
+  if (!userId) return;
+
+  try {
+    await addDoc(collection(db, "login_activity"), {
+      userId,
+      eventType,
+      createdAt: serverTimestamp(),
+      ...extraData,
+    });
+  } catch (error) {
+    console.error("Failed to save login activity:", error);
+  }
+}
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -50,6 +65,11 @@ export function AuthProvider({ children }) {
     setDoc(doc(db, "users", result.user.uid), profile).catch(error => {
       console.error("Failed to save user profile:", error);
     });
+    await logUserActivity(result.user.uid, "signup", {
+      email,
+      fullName,
+      mobile,
+    });
     return result;
   }
 
@@ -62,6 +82,7 @@ export function AuthProvider({ children }) {
       .catch(() => {
         /* profile fetch non-critical */
       });
+    await logUserActivity(result.user.uid, "login", { email });
     return result;
   }
 

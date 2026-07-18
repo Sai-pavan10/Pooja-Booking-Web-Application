@@ -122,13 +122,43 @@ export default function Booking() {
     if (errors[name]) setErrors((er) => ({ ...er, [name]: '' }));
   };
 
-  const handleProceedToPayment = (e) => {
+  const handleProceedToPayment = async (e) => {
     e.preventDefault();
     if (!user) { setShowLogin(true); showToast('Please login to continue booking poojas.', 'info'); return; }
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
-    setStep(STEP.CONFIRM);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    try {
+      await addDoc(collection(db, "booking_requests"), {
+        userId: user?.uid || null,
+        userName: form.name,
+        userEmail: form.email,
+        userPhone: form.phone,
+        address: form.address,
+        nakshatram: form.nakshatram,
+        gotram: form.gotram,
+        poojaName: form.poojaType,
+        pandit: form.pandit,
+        date: form.date,
+        time: form.time,
+        location: form.location,
+        city: form.city,
+        muhurthamFrom: form.muhurthamFrom,
+        muhurthamTo: form.muhurthamTo,
+        dob: form.dob,
+        message: form.message,
+        status: "Pending Review",
+        advanceAmount: getAdvanceAmount(form.poojaType),
+        createdAt: serverTimestamp(),
+        source: "website_booking_form",
+      });
+
+      setStep(STEP.CONFIRM);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+      console.error("Booking request save failed:", error);
+      setErrors({ submit: "Your request could not be saved. Please try again." });
+    }
   };
 
   const handlePayNow = async () => {
