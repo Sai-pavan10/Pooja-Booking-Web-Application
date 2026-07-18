@@ -2,27 +2,52 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Users: only the owner can read/write their own profile
+    function isAdmin() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    match /admins/{adminUid} {
+      allow read: if request.auth != null && request.auth.uid == adminUid;
+      allow write: if false;
+    }
+
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null &&
+        (request.auth.uid == userId || isAdmin());
+      allow write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Login activity: only the logged-in user can create their own activity
     match /login_activity/{activityId} {
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.userId;
+      allow read: if request.auth != null &&
+        (request.auth.uid == resource.data.userId || isAdmin());
     }
 
-    // Booking requests: only the booking owner can create/read their own requests
     match /booking_requests/{requestId} {
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.userId;
+      allow read: if request.auth != null &&
+        (request.auth.uid == resource.data.userId || isAdmin());
+      allow update, delete: if request.auth != null &&
+        (request.auth.uid == resource.data.userId || isAdmin());
     }
 
-    // Bookings: only the booking owner can read/write
     match /bookings/{bookingId} {
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-      allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.userId;
+      allow read: if request.auth != null &&
+        (request.auth.uid == resource.data.userId || isAdmin());
+      allow update, delete: if request.auth != null &&
+        (request.auth.uid == resource.data.userId || isAdmin());
+    }
+
+    match /invoices/{invoiceId} {
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.userId;
+      allow read: if request.auth != null &&
+        (request.auth.uid == resource.data.userId || isAdmin());
     }
   }
 }
