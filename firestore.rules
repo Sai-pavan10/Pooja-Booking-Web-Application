@@ -7,6 +7,18 @@ service cloud.firestore {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
+    // Login activity: only the logged-in user can create their own activity
+    match /login_activity/{activityId} {
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
+
+    // Booking requests: only the booking owner can create/read their own requests
+    match /booking_requests/{requestId} {
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
+
     // Bookings: only the booking owner can read/write
     match /bookings/{bookingId} {
       allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
