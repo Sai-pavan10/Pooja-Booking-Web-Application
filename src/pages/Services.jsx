@@ -1,4 +1,6 @@
 ﻿import { useEffect, useState, useRef, useCallback } from 'react';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 import { useLanguage } from '../i18n';
 import { useAuth } from '../context/auth-context';
 import LoginModal from '../components/LoginModal';
@@ -459,12 +461,74 @@ function FAQItem({ q, a }) {
   );
 }
 
+// Small local copy of the advance-amount logic used on the main Booking page,
+// so this quick modal doesn't need to import across files.
+function quickAdvanceAmount(poojaType = "") {
+  const lower = poojaType.toLowerCase();
+  if (lower.includes('homam') || lower.includes('havan')) return 1000;
+  if (lower.includes('muhurtham') || lower.includes('kalyanam')) return 700;
+  return 500;
+}
+
+function newBookingId() {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+  return 'bk_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+}
+
 // ─── BOOKING MODAL ────────────────────────────────────────────────────────────
-function BookingModal({ onClose, poojaName = "", language = "en" }) {
+function BookingModal({ onClose, poojaName = "", language = "en", user }) {
   const ui = UI_TEXT[language] || UI_TEXT.en;
   const [form, setForm] = useState({ name: "", phone: "", date: "", city: "", type: "offline" });
   const [submitted, setSubmitted] = useState(false);
-  const handleSubmit = () => { if (form.name && form.phone) setSubmitted(true); };
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async () => {
+    if (!form.name || !form.phone) {
+      setError("Please enter your name and phone number.");
+      return;
+    }
+    if (!user) {
+      setError("Please login to book a pooja.");
+      return;
+    }
+    setError("");
+    setSaving(true);
+    const id = newBookingId();
+    const nowIso = new Date().toISOString();
+    try {
+      await setDoc(doc(db, "booking_requests", id), {
+        // security-rule ownership + admin panel fields
+        uid: user.uid,
+        booking_id: id,
+        customer_name: form.name,
+        customer_email: user.email || "",
+        customer_phone: form.phone,
+        service_name: poojaName || "Pooja Booking",
+        price: quickAdvanceAmount(poojaName),
+        booking_date: form.date,
+        booking_time: "",
+        booking_status: "pending",
+        payment_status: "unpaid",
+        invoice_number: "",
+        // extra site-specific fields
+        city: form.city,
+        mode: form.type, // 'offline' (home visit) or 'online'
+        source: "services_quick_booking_modal",
+        created_at: nowIso,
+        // backward-compatible fields for MyBookings.jsx
+        userId: user.uid,
+        createdAt: nowIso,
+      });
+      setSubmitted(true);
+    } catch (err) {
+      console.error("Quick booking save failed:", err);
+      setError("Something went wrong saving your request. Please try again.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="ds-modal-backdrop" onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="ds-modal">
@@ -501,7 +565,10 @@ function BookingModal({ onClose, poojaName = "", language = "en" }) {
                 <label className="ds-label">Preferred Date</label>
                 <input className="ds-input" type="date" value={form.date} onChange={e => setForm(p => ({ ...p, date: e.target.value }))} />
               </div>
-              <button className="ds-submit-btn" onClick={handleSubmit}>Submit Booking Request</button>
+              {error && <p style={{ color: '#b91c1c', fontSize: '0.85rem', marginBottom: '0.5rem' }}>{error}</p>}
+              <button className="ds-submit-btn" onClick={handleSubmit} disabled={saving}>
+                {saving ? 'Submitting...' : 'Submit Booking Request'}
+              </button>
             </>
           )}
         </div>
@@ -980,7 +1047,7 @@ export default function ServicesModule() {
         {level === 2 && selectedCategory && <Level2 category={selectedCategory} onBack={goToL1} onSelectPooja={goToL3} />}
         {level === 3 && selectedCategory && selectedPooja && <Level3 category={selectedCategory} pooja={selectedPooja} onBackToL1={goToL1} onBackToL2={() => goToL2(selectedCategory)} onBook={handleBook} />}
         {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
-        {showBooking && <BookingModal poojaName={selectedPooja ? t(selectedPooja.title, 'en') : ""} onClose={() => setShowBooking(false)} language={language} />}
+        {showBooking && <BookingModal poojaName={selectedPooja ? t(selectedPooja.title, 'en') : ""} onClose={() => setShowBooking(false)} language={language} user={user} />}
       </div>
     </>
   );

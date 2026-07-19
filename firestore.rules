@@ -2,27 +2,55 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Users: only the owner can read/write their own profile
+    function isAdmin() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    match /admins/{adminUid} {
+      allow read: if request.auth != null && request.auth.uid == adminUid;
+      allow write: if false;
+    }
+
+    // Users: doc ID = uid. Owner can read/write their own profile; admin can read any.
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if request.auth != null &&
+        (request.auth.uid == userId || isAdmin());
+      allow write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // Login activity: only the logged-in user can create their own activity
+    // Login activity: owner can create their own (uid field must match); owner or admin can read.
     match /login_activity/{activityId} {
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.uid;
+      allow read: if request.auth != null &&
+        (request.auth.uid == resource.data.uid || isAdmin());
     }
 
-    // Booking requests: only the booking owner can create/read their own requests
+    // Booking requests (legacy/optional pre-payment stage)
     match /booking_requests/{requestId} {
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.uid;
+      allow read, update, delete: if request.auth != null &&
+        (request.auth.uid == resource.data.uid || isAdmin());
     }
 
-    // Bookings: only the booking owner can read/write
+    // Bookings: owner can create/manage their own (uid field must match); admin can read/update.
     match /bookings/{bookingId} {
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-      allow read, update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.uid;
+      allow read: if request.auth != null &&
+        (request.auth.uid == resource.data.uid || isAdmin());
+      allow update, delete: if request.auth != null &&
+        (request.auth.uid == resource.data.uid || isAdmin());
+    }
+
+    // Invoices: owner can create/read their own; admin can read.
+    match /invoices/{invoiceId} {
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.uid;
+      allow read: if request.auth != null &&
+        (request.auth.uid == resource.data.uid || isAdmin());
     }
   }
 }
