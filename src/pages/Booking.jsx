@@ -1,5 +1,5 @@
 ﻿import { useEffect, useRef, useState } from 'react';
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useAuth } from "../context/auth-context";
 import { getServiceItems, useLanguage } from '../i18n';
@@ -50,6 +50,12 @@ function safeLocalStorage(key) {
   try { return localStorage.getItem(key); } catch { return null; }
 }
 
+function newBookingId() {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+  // fallback for older browsers
+  return 'bk_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+}
+
 export default function Booking() {
   const { user, userProfile } = useAuth();
   const { language, content } = useLanguage();
@@ -67,9 +73,9 @@ export default function Booking() {
 
   // ── Single form declaration — auto-filled from userProfile ────────────────
   const [form, setForm] = useState(() => Object.assign({}, EMPTY, {
-    name:  (userProfile && userProfile.fullName)  || (user && user.displayName) || '',
+    name:  (userProfile && (userProfile.fullName || userProfile.name)) || (user && user.displayName) || '',
     email: (userProfile && userProfile.email)     || (user && user.email)       || '',
-    phone: (userProfile && userProfile.mobile)    || '',
+    phone: (userProfile && (userProfile.mobile || userProfile.phone)) || '',
   }));
   // ─────────────────────────────────────────────────────────────────────────
 
@@ -104,6 +110,20 @@ export default function Booking() {
     return () => obs.disconnect();
   }, []);
 
+  // If we land back on ?payment=success, mark the booking as paid/completed.
+  // NOTE: this is a client-side stopgap since there's no payment webhook yet
+  // (STRIPE_LINKS are still placeholders). Once you wire up real Stripe
+  // Payment Links + a webhook, move this status update server-side so it
+  // can't be spoofed by someone hand-editing the URL.
+  useEffect(() => {
+    if (step === STEP.SUCCESS && bookingId) {
+      updateDoc(doc(db, "booking_requests", bookingId), {
+        booking_status: "completed",
+        payment_status: "paid",
+      }).catch((e) => console.error("Failed to update booking status after payment:", e));
+    }
+  }, [step, bookingId]);
+
   const validate = () => {
     const e = {};
     if (!form.name.trim()) e.name = text.errors[0];
@@ -122,77 +142,76 @@ export default function Booking() {
     if (errors[name]) setErrors((er) => ({ ...er, [name]: '' }));
   };
 
+  // Writes the booking straight into `bookings` as soon as the form is
+  // submitted, using the field names the admin panel's Express backend
+  // already filters/searches on (customer_name, service_name, booking_date,
+  // booking_status, price, etc.) plus a `uid` field for Firestore security
+  // rules ownership checks. This means the booking shows up in Firestore
+  // and the admin panel immediately — it no longer depends on the Stripe
+  // redirect succeeding.
   const handleProceedToPayment = async (e) => {
     e.preventDefault();
     if (!user) { setShowLogin(true); showToast('Please login to continue booking poojas.', 'info'); return; }
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
 
+    const id = newBookingId();
     try {
-      await addDoc(collection(db, "booking_requests"), {
-        userId: user?.uid || null,
-        userName: form.name,
-        userEmail: form.email,
-        userPhone: form.phone,
+      const nowIso = new Date().toISOString();
+      await setDoc(doc(db, "booking_requests", id), {
+        uid: user.uid,
+        booking_id: id,
+        customer_name: form.name,
+        customer_email: form.email,
+        customer_phone: form.phone,
+        service_name: form.poojaType,
+        price: getAdvanceAmount(form.poojaType),
+        booking_date: form.date,
+        booking_time: form.time,
+        booking_status: "pending",
+        payment_status: "unpaid",
+        invoice_number: "",
+        // extra fields the site itself still uses (booking detail modal, etc.)
         address: form.address,
         nakshatram: form.nakshatram,
         gotram: form.gotram,
-        poojaName: form.poojaType,
         pandit: form.pandit,
-        date: form.date,
-        time: form.time,
         location: form.location,
         city: form.city,
         muhurthamFrom: form.muhurthamFrom,
         muhurthamTo: form.muhurthamTo,
         dob: form.dob,
         message: form.message,
-        status: "Pending Review",
-        advanceAmount: getAdvanceAmount(form.poojaType),
-        createdAt: serverTimestamp(),
-        source: "website_booking_form",
+        created_at: nowIso,
+        // backward-compatible field names for MyBookings.jsx, which still
+        // queries where('userId','==', user.uid).orderBy('createdAt','desc')
+        userId: user.uid,
+        createdAt: nowIso,
       });
 
+      setBookingId(id);
       setStep(STEP.CONFIRM);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (error) {
-      console.error("Booking request save failed:", error);
+      console.error("Booking save failed:", error);
       setErrors({ submit: "Your request could not be saved. Please try again." });
     }
   };
 
+  // The booking doc already exists (created in handleProceedToPayment) —
+  // this just marks it "awaiting payment" and redirects to Stripe.
   const handlePayNow = async () => {
     setLoading(true);
     try {
-      const docRef = await addDoc(collection(db, "bookings"), {
-        userId: user.uid,
-        userName: form.name,
-        userEmail: form.email,
-        userPhone: form.phone,
-        address: form.address,
-        nakshatram: form.nakshatram,
-        gotram: form.gotram,
-        poojaName: form.poojaType,
-        pandit: form.pandit,
-        date: form.date,
-        time: form.time,
-        location: form.location,
-        city: form.city,
-        muhurthamFrom: form.muhurthamFrom,
-        muhurthamTo: form.muhurthamTo,
-        dob: form.dob,
-        message: form.message,
-        status: "Awaiting Payment",
-        advanceAmount: getAdvanceAmount(form.poojaType),
-        createdAt: serverTimestamp(),
+      await updateDoc(doc(db, "booking_requests", bookingId), {
+        booking_status: "awaiting_payment",
       });
 
-      localStorage.setItem('pendingBookingId', docRef.id);
-      setBookingId(docRef.id);
+      localStorage.setItem('pendingBookingId', bookingId);
 
       const stripeLink = getStripeLink(form.poojaType);
       const successUrl = encodeURIComponent(
-        `${window.location.origin}${window.location.pathname}?payment=success&bookingId=${docRef.id}`
+        `${window.location.origin}${window.location.pathname}?payment=success&bookingId=${bookingId}`
       );
       const cancelUrl = encodeURIComponent(
         `${window.location.origin}${window.location.pathname}?payment=cancelled`
@@ -201,14 +220,14 @@ export default function Booking() {
       const stripeUrl =
         `${stripeLink}` +
         `?prefilled_email=${encodeURIComponent(form.email)}` +
-        `&client_reference_id=${docRef.id}` +
+        `&client_reference_id=${bookingId}` +
         `&success_url=${successUrl}` +
         `&cancel_url=${cancelUrl}`;
 
       setStep(STEP.PAYING);
       window.location.href = stripeUrl;
     } catch (err) {
-      console.error("Booking save failed:", err);
+      console.error("Booking update failed:", err);
       setErrors({ submit: "Something went wrong. Please try again." });
       setStep(STEP.FORM);
     } finally {
@@ -346,7 +365,7 @@ export default function Booking() {
   // ── BOOKING FORM ────────────────────────────────────────────────────────────
   return (
     <>
-      {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
+      {showLogin && <LoginModal onClose={() => setShowLogin(false)} redirectAfterLogin="/booking" />}
 
       <section id="booking" className="booking-section">
         <div className="booking-bg-mandala" aria-hidden="true" />
@@ -376,7 +395,7 @@ export default function Booking() {
               <button className="auth-notice-btn" onClick={() => setShowLogin(true)}>
                 login or register
               </button>
-              <span>to save your booking to your account.</span>
+              <span>to complete payment and manage your booking.</span>
             </div>
           )}
 
