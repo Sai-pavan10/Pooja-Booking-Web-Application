@@ -1,6 +1,7 @@
 ﻿﻿import { useState, useEffect, useRef, useCallback } from 'react';
 import './AIChatBot.css';
 import logo from '../assets/logo.PNG';
+import { useLanguage } from '../i18n';
 
 // ── Service Knowledge Base ──────────────────────────────────────────────────
 const SERVICES = {
@@ -317,6 +318,76 @@ const SERVICES = {
   },
 };
 
+// ── Service Translations ────────────────────────────────────────────────────
+const SERVICE_TRANSLATIONS = {
+  te: {
+    bhoomi_pooja: {
+      name: 'భూమి పూజ',
+      subtitle: 'పవిత్ర భూమి పూజ',
+      description: 'నిర్మాణం ముందు భూమిని ఆశీర్వాదం చేసుకుంటున్న పవిత్ర పూజ, వాస్తు దోషాలను నివారించి నిర్మాణం యొక్క స్థితిస్థాపకతను నిశ్చితం చేస్తుంది.',
+    },
+    vastu_shanti: {
+      name: 'వాస్తు శాంతి',
+      subtitle: 'సామరస్య మరియు శక్తి శుద్ధీకరణ',
+      description: 'మీ ఇంటిలో ఐదు అంశాలను సమన్వయం చేయండి మరియు శాంతి, సామరస్యం, సానుకూల శక్తి ప్రవాహానికి దిశ దోషాలను తొలగించండి.',
+    },
+    gruha_pravesham: {
+      name: 'గృహ ప్రవేశం',
+      subtitle: 'ఇంటి ఆవిష్కరణ సమारోహం',
+      description: 'వేద మంత్రాలు, గణపతి పూజ మరియు వాస్తు కర్మలతో కుటుంబ సమృద్ధికి శుభ ఇంటి ప్రవేశ సమారోహం.',
+    },
+    seemantham: {
+      name: 'సీమంతం',
+      subtitle: 'సాంప్రదాయిక బేబీ షవర్',
+      description: 'ఆశీర్వాద కోసం ఆశించిన తల్లుల కోసం సాంప్రదాయిక సమారోహం, సురక్షితమైన డెలివరీ కోసం ఆశీర్వాదాలను ఆహ్వానిస్తుంది.',
+    },
+    shanku_sthapana: {
+      name: 'శాంక్ స్థాపన',
+      subtitle: 'పవిత్ర ఆధారశిల విసర్జన',
+      description: 'నిర్మాణం ప్రారంభానికి ముందు దేవ ఆశీర్వాదాలను ఆహ్వానించేందుకు ప్రదర్శించిన సాంప్రదాయిక కర్మ, స్థితిస్థాపకత, విజయం మరియు సామరస్యం కోసం.',
+    },
+  },
+  hi: {
+    bhoomi_pooja: {
+      name: 'भूमि पूजा',
+      subtitle: 'पवित्र भूमि पूजन',
+      description: 'निर्माण से पहले भूमि का आशीर्वाद लेने वाला पवित्र पूजा, वास्तु दोषों को हटाकर संरचनात्मक स्थिरता सुनिश्चित करता है।',
+    },
+    vastu_shanti: {
+      name: 'वास्तु शांति',
+      subtitle: 'सामंजस्य और ऊर्जा शुद्धिकरण',
+      description: 'आपके घर में पाँचों तत्वों को सामंजस्य करें और शांति, सुरक्षा, सकारात्मक ऊर्जा प्रवाह के लिए दिशा दोषों को समाप्त करें।',
+    },
+    gruha_pravesham: {
+      name: 'गृह प्रवेश',
+      subtitle: 'घर का उद्घाटन समारोह',
+      description: 'वैदिक मंत्र, गणपति पूजा और वास्तु कर्मों के साथ पारिवारिक समृद्धि के लिए शुभ घर प्रवेश समारोह।',
+    },
+    seemantham: {
+      name: 'सीमंतम',
+      subtitle: 'पारंपरिक बेबी शावर',
+      description: 'आशीर्वाद के लिए गर्भवती माताओं के लिए पारंपरिक समारोह, सुरक्षित प्रसव के लिए आशीर्वाद आमंत्रित करता है।',
+    },
+    shanku_sthapana: {
+      name: 'शंख स्थापना',
+      subtitle: 'पवित्र नींव रखना',
+      description: 'निर्माण शुरू होने से पहले दिव्य आशीर्वाद का आह्वान करने के लिए किया जाने वाला पारंपरिक अनुष्ठान, स्थिरता, सफलता और सामंजस्य के लिए।',
+    },
+  },
+};
+
+// Helper function to get localized service
+function getLocalizedService(service, language) {
+  if (!language || language === 'en') return service;
+  const translations = SERVICE_TRANSLATIONS[language];
+  if (!translations || !translations[Object.keys(SERVICES).find(key => SERVICES[key] === service)]) {
+    return service;
+  }
+  const serviceKey = Object.keys(SERVICES).find(key => SERVICES[key] === service);
+  const translated = translations[serviceKey];
+  return translated ? { ...service, ...translated } : service;
+}
+
 // ── FAQ Knowledge Base ───────────────────────────────────────────────────────
 const FAQS = [
   {
@@ -345,33 +416,93 @@ const FAQS = [
 const BOOKING_KEYWORDS = [
   'book', 'booking', 'book pooja', 'i want to book', 'schedule pooja',
   'schedule', 'reserve', 'appointment', 'i want to perform', 'perform',
+  'బుక్', 'బుక్ చేయండి', 'పూజ బుక్', 'పూజను బుక్', 'సెడ్యూల్', 'రిజర్వ్',
 ];
 
 // ── Greeting & Quick Actions ─────────────────────────────────────────────────
-const WELCOME_MESSAGE = {
-  id: 'welcome',
-  sender: 'bot',
-  text: 'Namaskaram! Welcome to Dharma Sankalpam. How may I help you with your pooja services today?',
-  timestamp: new Date(),
+const BOT_COPY = {
+  en: {
+    welcome: 'Namaskaram! Welcome to Dharma Sankalpam. How may I help you with your pooja services today?',
+    greeting: 'Namaskaram! I am your Dharma Sankalpam Assistant. I can help you explore our sacred pooja services, guide you through booking, or connect you with our learned Pandits. How may I serve you today?',
+    help: 'I can assist you with:\n\n• Pooja service information & descriptions\n• Guiding you to book a service\n• Connecting you with our Pandits\n• Muhurtham & auspicious timing queries\n• Pricing information\n\nFeel free to ask about any of our sacred services!',
+    fallback: "Namaskaram! I seek your forgiveness — I couldn't quite understand your query. You may ask me about specific pooja services like Bhoomi Pooja, Vastu Shanti, or Seemantham, or type 'Book' to schedule a ceremony. I am here to serve you.",
+    booking: 'You can now proceed to book your pooja service.\n\nOur team will guide you through selecting the date, ceremony details, and pandit preference.',
+    bookingWithService: 'You can now proceed to book {service} — our Pandits will guide you through the ceremony arrangements.',
+    servicePrompt: 'Would you like to book this service?',
+    bookButton: 'Book',
+    navigating: 'Navigating to Booking...',
+    quickActions: [
+      { label: 'View Services', value: 'view services' },
+      { label: 'Book Pooja', value: 'book pooja' },
+      { label: 'Contact Priest', value: 'contact priest' },
+      { label: "Today's Muhurtham", value: "today's muhurtham" },
+    ],
+    quickReplies: [
+      { label: 'Bhoomi Pooja', value: 'Tell me about Bhoomi Pooja' },
+      { label: 'Vastu Shanti', value: 'What is Vastu Shanti?' },
+      { label: 'Seemantham', value: 'Tell me about Seemantham' },
+      { label: 'Shanku Sthapana', value: 'What is Shanku Sthapana?' },
+    ],
+  },
+  te: {
+    welcome: 'నమస్కారం! ధర్మ సంకల్పమ్‌కు స్వాగతం. మీ పూజా సేవల గురించి నేను ఎలా సహాయ చేయగలను?',
+    greeting: 'నమస్కారం! నేను మీ ధర్మ సంకల్పమ్ సహాయకుడిని. పూజా సేవలను అన్వేషించడంలో, బుకింగ్ జరుపడంలో మరియు మా పండితులతో సహాయ చేయగలను. నేను మీకు ఎలా సేవ చేయవచ్చు?',
+    help: 'నేను ఈ విధంగా సహాయ చేయగలను:\n\n• పూజా సేవ సమాచారం మరియు వివరాలు\n• సేవను బుక్ చేయడంలో మార్గదర్శకత్వం\n• మా పండితులతో సంప్రదింపు\n• ముహూర్తం మరియు శుభ సమయం ప్రశ్నలు\n• ధరల సమాచారం\n\nమీకు కావలసిన ఏదైనా పవిత్ర పూజ గురించి అడగండి!',
+    fallback: 'నమస్కారం! మీ ప్రశ్నను నేను పూర్తిగా అర్థం చేసుకోలేకపోయాను. భూమి పూజ, వాస్తు శాంతి, లేదా సీమంతం వంటి ప్రత్యేక పూజల గురించి అడగండి, లేదా బుక్ అని టైప్ చేయండి. నేను మీకు సేవ చేయడానికి సిద్ధంగా ఉన్నాను.',
+    booking: 'ఇప్పుడు మీరు మీ పూజా సేవను బుక్ చేయవచ్చు.\n\nమా బృందం తేదీ, వేడుక వివరాలు మరియు పండిత ఎంపికను ఎంచుకోవడంలో మీకు మార్గదర్శనం చేస్తుంది.',
+    bookingWithService: 'ఇప్పుడు మీరు {service} పూజను బుక్ చేయవచ్చు — మా పండితులు వేడుక ఏర్పాట్లలో మీకు సహాయ చేస్తారు.',
+    servicePrompt: 'ఈ సేవను బుక్ చేయాలనుకుంటున్నారా?',
+    bookButton: 'బుక్ చేయండి',
+    navigating: 'బుకింగ్‌కు వెళ్లడం...',
+    quickActions: [
+      { label: 'సేవలను చూడండి', value: 'view services' },
+      { label: 'పూజ బుక్ చేయండి', value: 'book pooja' },
+      { label: 'పండితుడిని సంప్రదించండి', value: 'contact priest' },
+      { label: 'ఈరోజు ముహూర్తం', value: "today's muhurtham" },
+    ],
+    quickReplies: [
+      { label: 'భూమి పూజ', value: 'Tell me about Bhoomi Pooja' },
+      { label: 'వాస్తు శాంతి', value: 'What is Vastu Shanti?' },
+      { label: 'సీమంతం', value: 'Tell me about Seemantham' },
+      { label: 'శాంక్ స్థాపన', value: 'What is Shanku Sthapana?' },
+    ],
+  },
+  hi: {
+    welcome: 'नमस्ते! धर्म संकल्पम में आपका स्वागत है। आज आपकी पूजा सेवा के लिए मैं आपकी कैसे सहायता कर सकता हूँ?',
+    greeting: 'नमस्ते! मैं आपका धर्म संकल्पम सहायक हूँ। मैं आपकी पूजा सेवाओं को खोजने, बुकिंग में मार्गदर्शन करने, या हमारे पंडितों से जुड़ने में मदद कर सकता हूँ। आज मैं आपकी कैसे सेवा कर सकता हूँ?',
+    help: 'मैं आपकी इस तरह सहायता कर सकता हूँ:\n\n• पूजा सेवा की जानकारी और विवरण\n• सेवा बुक करने में मार्गदर्शन\n• हमारे पंडितों से संपर्क\n• मुहूर्त और शुभ समय के सवाल\n• कीमत की जानकारी\n\nकिसी भी पवित्र पूजा के बारे में पूछें!',
+    fallback: 'नमस्ते! मुझे क्षमा करें — मुझे आपका सवाल समझ में नहीं आया। आप मुझे भूमि पूजा, वास्तु शांति, या सीमंथम जैसे विशिष्ट पूजा सेवाओं के बारे में पूछ सकते हैं, या बुक लिखकर शेड्यूल कर सकते हैं। मैं आपकी सेवा के लिए यहाँ हूँ।',
+    booking: 'अब आप अपनी पूजा सेवा बुक करने के लिए आगे बढ़ सकते हैं।\n\nहमारी टीम आपको तिथि, प्रकार और पंडित पसंद चुनने में मार्गदर्शन करेगी।',
+    bookingWithService: 'अब आप {service} पूजा बुक कर सकते हैं — हमारे पंडित आपके पूजा आयोजन में मार्गदर्शन करेंगे।',
+    servicePrompt: 'क्या आप इस सेवा को बुक करना चाहते हैं?',
+    bookButton: 'बुक करें',
+    navigating: 'बुकिंग पर जा रहे हैं...',
+    quickActions: [
+      { label: 'सेवाएं देखें', value: 'view services' },
+      { label: 'पूजा बुक करें', value: 'book pooja' },
+      { label: 'पंडित से संपर्क करें', value: 'contact priest' },
+      { label: 'आज का मुहूर्त', value: "today's muhurtham" },
+    ],
+    quickReplies: [
+      { label: 'भूमा पूजा', value: 'Tell me about Bhoomi Pooja' },
+      { label: 'वास्तु शांति', value: 'What is Vastu Shanti?' },
+      { label: 'सीमान्तम', value: 'Tell me about Seemantham' },
+      { label: 'शंख स्थापना', value: 'What is Shanku Sthapana?' },
+    ],
+  },
 };
 
-const QUICK_ACTIONS = [
-  { label: 'View Services', value: 'view services' },
-  { label: 'Book Pooja', value: 'book pooja' },
-  { label: 'Contact Priest', value: 'contact priest' },
-  { label: "Today's Muhurtham", value: "today's muhurtham" },
-];
-
-const QUICK_REPLIES = [
-  { label: 'Bhoomi Pooja', value: 'Tell me about Bhoomi Pooja' },
-  { label: 'Vastu Shanti', value: 'What is Vastu Shanti?' },
-  { label: 'Seemantham', value: 'Tell me about Seemantham' },
-  { label: 'Shanku Sthapana', value: 'What is Shanku Sthapana?' },
-];
+const createWelcomeMessage = (language = 'en') => ({
+  id: 'welcome',
+  sender: 'bot',
+  text: BOT_COPY[language]?.welcome || BOT_COPY.en.welcome,
+  timestamp: new Date(),
+});
 
 // ── Bot Logic ────────────────────────────────────────────────────────────────
-function getBotResponse(input) {
+function getBotResponse(input, language = 'en') {
   const text = input.toLowerCase().trim();
+  const copy = BOT_COPY[language] || BOT_COPY.en;
 
   // Check booking intent first
   const isBooking = BOOKING_KEYWORDS.some((kw) => text.includes(kw));
@@ -385,10 +516,11 @@ function getBotResponse(input) {
           type: 'booking_with_service',
           service: svc,
           navigate: '/booking',
+          answer: copy.bookingWithService.replace('{service}', svc.name),
         };
       }
     }
-    return { type: 'booking', navigate: '/booking' };
+    return { type: 'booking', navigate: '/booking', answer: copy.booking };
   }
 
   // Check service queries
@@ -409,8 +541,7 @@ function getBotResponse(input) {
   if (/^(hi|hello|namaste|namaskaram|jai|hari|pranaam|greetings|hey|hola|om)\b/.test(text)) {
     return {
       type: 'greeting',
-      answer:
-        'Namaskaram! I am your Dharma Sankalpam Assistant. I can help you explore our sacred pooja services, guide you through booking, or connect you with our learned Pandits. How may I serve you today?',
+      answer: copy.greeting,
     };
   }
 
@@ -418,16 +549,14 @@ function getBotResponse(input) {
   if (text.includes('help') || text.includes('what can you do')) {
     return {
       type: 'help',
-      answer:
-        'I can assist you with:\n\n• Pooja service information & descriptions\n• Guiding you to book a service\n• Connecting you with our Pandits\n• Muhurtham & auspicious timing queries\n• Pricing information\n\nFeel free to ask about any of our sacred services!',
+      answer: copy.help,
     };
   }
 
   // Default fallback
   return {
     type: 'fallback',
-    answer:
-      "Namaskaram! I seek your forgiveness — I couldn't quite understand your query. You may ask me about specific pooja services like Bhoomi Pooja, Vastu Shanti, or Seemantham, or type 'Book' to schedule a ceremony. I am here to serve you.",
+    answer: copy.fallback,
   };
 }
 
@@ -437,13 +566,19 @@ function formatTimestamp(date) {
 
 // ── Component ────────────────────────────────────────────────────────────────
 export default function AIChatBot() {
+  const { language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([WELCOME_MESSAGE]);
+  const [messages, setMessages] = useState(() => [createWelcomeMessage('en')]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
+
+  // Reset welcome message when language changes
+  useEffect(() => {
+    setMessages([createWelcomeMessage(language)]);
+  }, [language]);
 
   // Auto-scroll
   useEffect(() => {
@@ -459,7 +594,11 @@ export default function AIChatBot() {
     }
   }, [isOpen, isMinimized]);
 
-  const hasNewMessage = !isOpen && messages.length > 1;
+  const displayedMessages = messages.length === 1 && messages[0]?.id === 'welcome'
+    ? [createWelcomeMessage(language)]
+    : messages;
+
+  const hasNewMessage = !isOpen && displayedMessages.length > 1;
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -487,24 +626,24 @@ export default function AIChatBot() {
       switch (response.type) {
         case 'service': {
           const { service: svc } = response;
+          const localizedSvc = getLocalizedService(svc, language);
+          const copy = BOT_COPY[language] || BOT_COPY.en;
           addBotMessage(
-            `${svc.emoji} **${svc.name}**\n_${svc.subtitle}_\n\n${svc.description}\n\nWould you like to book this service?`,
-            { serviceCard: svc }
+            `${localizedSvc.emoji} **${localizedSvc.name}**\n_${localizedSvc.subtitle}_\n\n${localizedSvc.description}\n\n${copy.servicePrompt}`,
+            { serviceCard: localizedSvc }
           );
           break;
         }
         case 'booking': {
-          addBotMessage(
-            'You can now proceed to book your pooja service.\n\nOur team will guide you through selecting the date, ceremony details, and pandit preference.',
-            { isBooking: true }
-          );
+          addBotMessage(response.answer || (BOT_COPY[language] || BOT_COPY.en).booking, { isBooking: true });
           setTimeout(() => navigate('/booking'), 1800);
           break;
         }
         case 'booking_with_service': {
           const { service: svc } = response;
+          const localizedSvc = getLocalizedService(svc, language);
           addBotMessage(
-            `You can now proceed to book **${svc.name}** — _${svc.subtitle}_.\n\nOur Pandits will guide you through the ceremony arrangements.`,
+            `**${localizedSvc.name}** — _${localizedSvc.subtitle}_\n\n${response.answer || (BOT_COPY[language] || BOT_COPY.en).bookingWithService.replace('{service}', localizedSvc.name)}`,
             { isBooking: true }
           );
           setTimeout(() => navigate('/booking'), 1800);
@@ -518,10 +657,10 @@ export default function AIChatBot() {
           break;
         }
         default:
-          addBotMessage(response.answer || 'How else may I assist you?');
+          addBotMessage(response.answer || (BOT_COPY[language] || BOT_COPY.en).greeting);
       }
     },
-    [addBotMessage, navigate]
+    [addBotMessage, language, navigate]
   );
 
   const sendMessage = useCallback(
@@ -546,11 +685,11 @@ export default function AIChatBot() {
       const delay = 900 + Math.random() * 700;
       setTimeout(() => {
         setIsTyping(false);
-        const response = getBotResponse(trimmed);
+        const response = getBotResponse(trimmed, language);
         processResponse(response);
       }, delay);
     },
-    [inputValue, processResponse]
+    [inputValue, language, processResponse]
   );
 
   const handleKeyDown = (e) => {
@@ -644,11 +783,11 @@ export default function AIChatBot() {
                 <span></span> Shri Ganeshaya Namah <span></span>
               </div>
 
-              {messages.map((msg, idx) => (
+              {displayedMessages.map((msg, idx) => (
                 <div
                   key={msg.id}
                   className={`chatbot-msg chatbot-msg--${msg.sender}`}
-                  style={{ animationDelay: `${idx === messages.length - 1 ? 0 : 0}ms` }}
+                  style={{ animationDelay: `${idx === displayedMessages.length - 1 ? 0 : 0}ms` }}
                 >
                   {msg.sender === 'bot' && (
                     <div className="chatbot-msg__avatar"></div>
@@ -659,14 +798,14 @@ export default function AIChatBot() {
                       {msg.serviceCard && (
                         <button
                           className="chatbot-msg__book-btn"
-                          onClick={() => sendMessage(`Book ${msg.serviceCard.name}`)}
+                          onClick={() => sendMessage(`${(BOT_COPY[language] || BOT_COPY.en).bookButton} ${msg.serviceCard.name}`)}
                         >
-                           Book {msg.serviceCard.name}
+                          {(BOT_COPY[language] || BOT_COPY.en).bookButton} {msg.serviceCard.name}
                         </button>
                       )}
                       {msg.isBooking && (
                         <div className="chatbot-msg__booking-chip">
-                          <span>Navigating to Booking...</span>
+                          <span>{(BOT_COPY[language] || BOT_COPY.en).navigating}</span>
                         </div>
                       )}
                     </div>
@@ -697,9 +836,9 @@ export default function AIChatBot() {
             {/* Quick Actions (shown when only welcome message) */}
             {messages.length === 1 && (
               <div className="chatbot-quick-actions">
-                <p className="chatbot-quick-actions__label">Quick Actions</p>
+                <p className="chatbot-quick-actions__label">{language === 'te' ? 'త్వరిత చర్యలు' : language === 'hi' ? 'त्वरित क्रियाएँ' : 'Quick Actions'}</p>
                 <div className="chatbot-quick-actions__grid">
-                  {QUICK_ACTIONS.map((action) => (
+                  {(BOT_COPY[language] || BOT_COPY.en).quickActions.map((action) => (
                     <button
                       key={action.value}
                       className="chatbot-quick-actions__btn"
@@ -714,7 +853,7 @@ export default function AIChatBot() {
 
             {/* Suggested Quick Replies */}
             <div className="chatbot-suggestions">
-              {QUICK_REPLIES.map((r) => (
+              {(BOT_COPY[language] || BOT_COPY.en).quickReplies.map((r) => (
                 <button
                   key={r.value}
                   className="chatbot-suggestions__chip"
